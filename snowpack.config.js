@@ -4,10 +4,34 @@ module.exports = {
     public: { url: '/', static: true },
     src: { url: '/dist' },
   },
-  plugins: ['@snowpack/plugin-postcss', '@snowpack/plugin-react-refresh', '@snowpack/plugin-dotenv'],
+  plugins: [
+    '@snowpack/plugin-postcss',
+    '@snowpack/plugin-react-refresh',
+    '@snowpack/plugin-dotenv',
+
+    process.env.NODE_ENV === 'develop'
+        ? 'snowpack-plugin-web-ext'
+        : [
+          'snowpack-plugin-copy',
+          {
+            patterns: [
+              {
+                source: 'manifest.json',
+                destination: 'build',
+              },
+              {
+                source: 'web-ext-config.js',
+                destination: 'build',
+              },
+            ],
+          },
+        ],
+  ],
   routes: [],
   optimize: {},
   packageOptions: {},
   devOptions: {},
-  buildOptions: {},
+  buildOptions: {
+    metaUrlPath: 'meta'
+  },
 };
