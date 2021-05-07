@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --color-yellow-default: #efb500;
+    --color-orange-default: #FB5607;
+    --color-pink-default: #FF006E;
+    --color-violet-default: #8338EC;
+    --color-blue-default: #3A86FF;
+
+    --color-background-default: #FFFFFF;
+    --color-background-accent: #f1f1f1;
+
+    --color-text-default: #000000;
+    --color-text-accent: #444444;
+}
+
+* {
+    outline: none !important;
+}

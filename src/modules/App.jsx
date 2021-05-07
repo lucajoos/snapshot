@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
+import Button from './Button';
 
 const App = () => {
-    useEffect(() => {
-
-    }, []);
-
     return (
         <div className={'p-5'}>
-            <h1>Hello world</h1>
+          <div className={''}>
+
+          </div>
+          <Button>Hello world</Button>
         </div>
     );
 };
