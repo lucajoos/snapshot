@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
 const App = () => {
-  return (
-    <div>
-      <h1>Hello world</h1>
-    </div>
-  );
-}
+    useEffect(() => {
+
+    }, []);
+
+    return (
+        <div className={'p-5'}>
+            <h1>Hello world</h1>
+        </div>
+    );
+};
 
 export default App;
