@@ -1,35 +1,39 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import ButtonList from './ButtonList';
 import Store from '../Store';
+import Button from './Button';
 
 const App = () => {
   useEffect(() => {
-    Store.buttons = [
-      {
-        title: 'hello 1',
-        meta: 'Created yesterday at 9 PM',
-        color: 'blue'
-      },
+    if(!localStorage.getItem('options')) {
+      localStorage.setItem('options', JSON.stringify({
+        buttons: []
+      }));
+    }
 
-      {
-        title: 'hello 2',
-        meta: 'Created yesterday at 9 PM',
-        color: 'violet'
-      },
+    try {
+      const options = JSON.parse(localStorage.getItem('options'));
 
-      {
-        title: 'hello 3',
-        meta: 'Created yesterday at 9 PM',
-        color: 'green'
+      if(options?.buttons) {
+        Store.buttons = options.buttons;
       }
-    ]
+    } catch(e) {
+      console.error(e);
+    }
+  }, []);
+
+  const handleOnClick = useCallback(async () => {
+    let tabs = await chrome.tabs.query({});
+    console.log(tabs)
   }, []);
 
   return (
     <div className={'p-5 h-full w-full'}>
       <ButtonList />
 
-      <h1>Some text</h1>
+      <div onClick={() => handleOnClick()}>
+        Add new
+      </div>
     </div>
   );
 };

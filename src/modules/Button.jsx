@@ -11,7 +11,7 @@ const Button = ({ children, color='random', onClick=() => {}, innerRef=null }) =
     >
       <div
         onClick={() => onClick()}
-        className={`p-5 cursor-pointer select-none w-full rounded-lg text-text-default relative bg-${theme.current}-default`}
+        className={`button p-5 cursor-pointer select-none w-full rounded-lg text-text-default relative bg-${theme.current}-default`}
         ref={innerRef}
       >
         <div className={'grid gap-1'}>

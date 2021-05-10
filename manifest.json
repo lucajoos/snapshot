@@ -3,7 +3,7 @@
   "description": "Confluence!",
   "version": "1.0.0",
   "manifest_version": 3,
-  "permissions": ["tabs"],
+  "permissions": ["tabs", "storage"],
   "action": {
     "default_popup": "index.html"
   }
