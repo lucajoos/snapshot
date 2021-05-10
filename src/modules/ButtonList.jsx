@@ -2,14 +2,12 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Button from './Button';
 import Store from '../Store';
 import { useSnapshot } from 'valtio';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 
 const ButtonList = () => {
   const snap = useSnapshot(Store);
 
   return (
-    <DndProvider backend={HTML5Backend}>
+    <>
       {
         snap.buttons.map((button, index) => {
           return (
@@ -25,7 +23,7 @@ const ButtonList = () => {
           )
         })
       }
-    </DndProvider>
+    </>
   )
 };
 

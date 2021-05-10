@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Grid } from 'react-feather';
 
 const Button = ({ children, color='random', onClick=() => {}, innerRef=null }) => {
