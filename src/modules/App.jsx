@@ -7,7 +7,15 @@ const App = () => {
           <div className={''}>
 
           </div>
-          <Button>Hello world</Button>
+          <Button color={'blue'}>
+            <span className={'text-lg font-bold'}>Hello world</span>
+            <span className={'text-xs'}>Created yesterday, 19 PM</span>
+          </Button>
+
+          <Button>
+            <span className={'text-lg font-bold'}>Hello world</span>
+            <span className={'text-xs'}>Created yesterday, 19 PM</span>
+          </Button>
         </div>
     );
 };

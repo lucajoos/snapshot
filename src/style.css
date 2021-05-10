@@ -3,17 +3,17 @@
 @tailwind utilities;
 
 :root {
-    --color-yellow-default: #efb500;
-    --color-orange-default: #FB5607;
-    --color-pink-default: #FF006E;
-    --color-violet-default: #8338EC;
-    --color-blue-default: #3A86FF;
+    --color-orange-default: #FFD6A5;
+    --color-pink-default: #FFADAD;
+    --color-green-default: #CAFFBF;
+    --color-violet-default: #BDB2FF;
+    --color-blue-default: #A0C4FF;
 
-    --color-background-default: #FFFFFF;
-    --color-background-accent: #f1f1f1;
+    --color-background-default: #FFFFFC;
+    --color-background-accent: #eae9e9;
 
-    --color-text-default: #000000;
-    --color-text-accent: #444444;
+    --color-text-default: #001F52;
+    --color-text-accent: #002766;
 }
 
 * {

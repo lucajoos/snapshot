@@ -1,13 +1,13 @@
 import React, { useRef } from 'react';
 
-const Button = ({ children, boring = true, onClick=() => {}}) => {
-  const palette = ['yellow', 'orange', 'pink', 'violet', 'blue'];
-  const color = useRef(palette[Math.floor(Math.random() * palette.length)]);
+const Button = ({ children, color='random', onClick=() => {}}) => {
+  const palette = ['orange', 'pink', 'green', 'violet', 'blue'];
+  const theme = useRef(color === 'random' ? palette[Math.floor(Math.random() * (palette.length - 1))] : color);
 
   return (
     <div
       onClick={() => onClick()}
-      className={`p-4 cursor-pointer shadow-lg w-full rounded-lg ${boring ? 'text-text-default bg-background-accent' : `text-background-default bg-${color.current}-default`}`}>
+      className={`p-5 my-4 cursor-pointer shadow-lg w-full rounded-lg text-text-default grid gap-1 bg-${theme.current}-default`}>
       {children}
     </div>
   );

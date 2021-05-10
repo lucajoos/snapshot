@@ -5,14 +5,14 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        yellow: {
-          default: 'var(--color-yellow-default)'
-        },
         orange: {
           default: 'var(--color-orange-default)'
         },
         pink: {
           default: 'var(--color-pink-default)'
+        },
+        green: {
+          default: 'var(--color-green-default)'
         },
         violet: {
           default: 'var(--color-violet-default)'
