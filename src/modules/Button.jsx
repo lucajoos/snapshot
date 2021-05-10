@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Grid } from 'react-feather';
+import { X } from 'react-feather';
 
 const Button = ({ children, color='random', onClick=() => {}, innerRef=null }) => {
   const palette = ['orange', 'pink', 'green', 'violet', 'blue'];
@@ -19,7 +19,7 @@ const Button = ({ children, color='random', onClick=() => {}, innerRef=null }) =
         </div>
 
         <div className={'absolute top-0 bottom-0 m-auto right-5 grid items-center cursor-pointer'}>
-          <Grid />
+          <X />
         </div>
       </div>
     </div>
