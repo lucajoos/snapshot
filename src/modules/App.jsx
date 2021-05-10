@@ -1,23 +1,37 @@
 import React, { useEffect } from 'react';
-import Button from './Button';
+import ButtonList from './ButtonList';
+import Store from '../Store';
 
 const App = () => {
-    return (
-        <div className={'p-5'}>
-          <div className={''}>
+  useEffect(() => {
+    Store.buttons = [
+      {
+        title: 'hello 1',
+        meta: 'Created yesterday at 9 PM',
+        color: 'blue'
+      },
 
-          </div>
-          <Button color={'blue'}>
-            <span className={'text-lg font-bold'}>Hello world</span>
-            <span className={'text-xs'}>Created yesterday, 19 PM</span>
-          </Button>
+      {
+        title: 'hello 2',
+        meta: 'Created yesterday at 9 PM',
+        color: 'violet'
+      },
 
-          <Button>
-            <span className={'text-lg font-bold'}>Hello world</span>
-            <span className={'text-xs'}>Created yesterday, 19 PM</span>
-          </Button>
-        </div>
-    );
+      {
+        title: 'hello 3',
+        meta: 'Created yesterday at 9 PM',
+        color: 'green'
+      }
+    ]
+  }, []);
+
+  return (
+    <div className={'p-5 h-full w-full'}>
+      <ButtonList />
+
+      <h1>Some text</h1>
+    </div>
+  );
 };
 
 export default App;
