@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { X } from 'react-feather';
 
-const Button = ({ children, color='random', onClick=() => {}, innerRef=null }) => {
+const Card = ({ children, color='random', onClick=() => {}, innerRef=null }) => {
   const palette = ['orange', 'pink', 'green', 'violet', 'blue'];
   const theme = useRef(color === 'random' ? palette[Math.floor(Math.random() * (palette.length - 1))] : color);
 
@@ -11,7 +11,7 @@ const Button = ({ children, color='random', onClick=() => {}, innerRef=null }) =
     >
       <div
         onClick={() => onClick()}
-        className={`button p-5 cursor-pointer select-none w-full rounded-lg text-text-default relative bg-${theme.current}-default`}
+        className={`card p-5 cursor-pointer select-none w-full rounded-lg text-text-default relative bg-${theme.current}-default`}
         ref={innerRef}
       >
         <div className={'grid gap-1'}>
@@ -26,4 +26,4 @@ const Button = ({ children, color='random', onClick=() => {}, innerRef=null }) =
   );
 };
 
-export default Button;
+export default Card;

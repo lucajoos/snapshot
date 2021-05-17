@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import ButtonList from './ButtonList';
+import CardList from './CardList';
 import Store from '../Store';
 import Modal from './Modal';
 
@@ -7,19 +7,19 @@ const App = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
-    if(!localStorage.getItem('buttons')) {
-      localStorage.setItem('buttons', JSON.stringify({
+    if(!localStorage.getItem('cards')) {
+      localStorage.setItem('cards', JSON.stringify({
         value: []
       }));
     }
 
     try {
-      const buttons = JSON.parse(localStorage.getItem('buttons'))?.value;
+      const cards = JSON.parse(localStorage.getItem('cards'))?.value;
 
-      console.log(buttons)
+      console.log(cards)
 
-      if(buttons) {
-        Store.buttons = buttons;
+      if(cards) {
+        Store.cards = cards;
       }
     } catch(e) {
       console.error(e);
@@ -42,16 +42,16 @@ const App = () => {
     setIsModalVisible(true);
 
     /*
-    const buttons = Store.buttons;
+    const cards = Store.cards;
 
-    buttons.push({
+    cards.push({
       title: 'New title',
       urls: urls
     });
 
-    localStorage.setItem('buttons', JSON.stringify({value: buttons}));
+    localStorage.setItem('cards', JSON.stringify({value: cards}));
 
-    Store.buttons = buttons;
+    Store.cards = cards;
      */
   }, []);
 
@@ -72,7 +72,7 @@ const App = () => {
       </Modal>
 
       <div className={'p-5'}>
-        <ButtonList />
+        <CardList />
 
         <div onClick={() => handleOnClick()}>
           Add new

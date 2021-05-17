@@ -21,12 +21,12 @@ body {
     min-height: 600px;
 }
 
-.button > div > svg {
+.card > div > svg {
     opacity: 0;
     transition: .15s;
 }
 
-.button:hover > div > svg {
+.card:hover > div > svg {
     opacity: 1;
 }
 
