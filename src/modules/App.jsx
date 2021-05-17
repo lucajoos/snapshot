@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ButtonList from './ButtonList';
 import Store from '../Store';
-import Button from './Button';
-import { useSnapshot } from 'valtio';
+import Modal from './Modal';
 
 const App = () => {
-  const snap = useSnapshot(Store);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     if(!localStorage.getItem('buttons')) {
@@ -40,6 +39,9 @@ const App = () => {
       urls.push(tab.url);
     });
 
+    setIsModalVisible(true);
+
+    /*
     const buttons = Store.buttons;
 
     buttons.push({
@@ -50,14 +52,31 @@ const App = () => {
     localStorage.setItem('buttons', JSON.stringify({value: buttons}));
 
     Store.buttons = buttons;
+     */
+  }, []);
+
+  const handleOnReturn = useCallback(() => {
+    setIsModalVisible(false);
   }, []);
 
   return (
-    <div className={'p-5 h-full w-full'}>
-      <ButtonList />
+    <div className={'h-full w-full'}>
+      <Modal
+        isVisible={isModalVisible}
+        buttons={
+          <div>Close me</div>
+        }
+        onReturn={() => {handleOnReturn()}}
+      >
+        <h1>This is a modal</h1>
+      </Modal>
 
-      <div onClick={() => handleOnClick()}>
-        Add new
+      <div className={'p-5'}>
+        <ButtonList />
+
+        <div onClick={() => handleOnClick()}>
+          Add new
+        </div>
       </div>
     </div>
   );
