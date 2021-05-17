@@ -1,10 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import CardList from './CardList';
 import Store from '../Store';
 import Modal from './Modal';
+import Input from './Input';
 
 const App = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [modalInputValue, setModalInputValue] = useState('');
+
+  const inputRef = useRef(null);
 
   useEffect(() => {
     if(!localStorage.getItem('cards')) {
@@ -40,12 +44,13 @@ const App = () => {
     });
 
     setIsModalVisible(true);
+    inputRef.current?.focus();
 
     /*
     const cards = Store.cards;
 
     cards.push({
-      title: 'New title',
+      name: 'New title',
       urls: urls
     });
 
@@ -59,6 +64,10 @@ const App = () => {
     setIsModalVisible(false);
   }, []);
 
+  const handleModalInputOnChange = useCallback(event => {
+    setModalInputValue(event.target.value);
+  }, []);
+
   return (
     <div className={'h-full w-full'}>
       <Modal
@@ -69,6 +78,14 @@ const App = () => {
         onReturn={() => {handleOnReturn()}}
       >
         <h1>This is a modal</h1>
+        <Input
+          value={modalInputValue}
+          placeholder={'Name'}
+
+          onChange={(event) => { handleModalInputOnChange(event) }}
+
+          nativeRef={inputRef}
+        />
       </Modal>
 
       <div className={'p-5'}>
