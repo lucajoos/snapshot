@@ -2,20 +2,25 @@ import React, { useCallback, useEffect } from 'react';
 import ButtonList from './ButtonList';
 import Store from '../Store';
 import Button from './Button';
+import { useSnapshot } from 'valtio';
 
 const App = () => {
+  const snap = useSnapshot(Store);
+
   useEffect(() => {
-    if(!localStorage.getItem('options')) {
-      localStorage.setItem('options', JSON.stringify({
-        buttons: []
+    if(!localStorage.getItem('buttons')) {
+      localStorage.setItem('buttons', JSON.stringify({
+        value: []
       }));
     }
 
     try {
-      const options = JSON.parse(localStorage.getItem('options'));
+      const buttons = JSON.parse(localStorage.getItem('buttons'))?.value;
 
-      if(options?.buttons) {
-        Store.buttons = options.buttons;
+      console.log(buttons)
+
+      if(buttons) {
+        Store.buttons = buttons;
       }
     } catch(e) {
       console.error(e);
@@ -23,8 +28,28 @@ const App = () => {
   }, []);
 
   const handleOnClick = useCallback(async () => {
-    let tabs = await chrome.tabs.query({});
-    console.log(tabs)
+    let tabs = [{
+      url: 'hello'
+    }, {
+      url: 'world'
+    }];
+
+    let urls = [];
+
+    tabs?.forEach(tab => {
+      urls.push(tab.url);
+    });
+
+    const buttons = Store.buttons;
+
+    buttons.push({
+      title: 'New title',
+      urls: urls
+    });
+
+    localStorage.setItem('buttons', JSON.stringify({value: buttons}));
+
+    Store.buttons = buttons;
   }, []);
 
   return (
