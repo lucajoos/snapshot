@@ -1,10 +1,10 @@
 import React, { useCallback } from 'react';
 
 const Modal = ({ children, buttons, isVisible, onReturn=()=>{} }) => {
-  const handleOnClickCurtain = useCallback(onReturn, []);
+  const handleOnClickCurtain = useCallback(() => onReturn(false), []);
   const handleOnKeyDown = useCallback(event => {
     if(event.keyCode === 13 || event.keyCode === 27) {
-      onReturn();
+      onReturn(event.keyCode === 13);
     }
   }, []);
 

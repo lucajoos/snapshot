@@ -3,10 +3,10 @@ import CardList from './CardList';
 import Store from '../Store';
 import Modal from './Modal';
 import Input from './Input';
+import { useSnapshot } from 'valtio';
 
 const App = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [modalInputValue, setModalInputValue] = useState('');
+  const snap = useSnapshot(Store);
 
   const inputRef = useRef(null);
 
@@ -43,7 +43,7 @@ const App = () => {
       urls.push(tab.url);
     });
 
-    setIsModalVisible(true);
+    Store.isModalVisible = true;
     inputRef.current?.focus();
 
     /*
@@ -60,29 +60,35 @@ const App = () => {
      */
   }, []);
 
-  const handleOnReturn = useCallback(() => {
-    setIsModalVisible(false);
-  }, []);
+  const handleOnReturn = useCallback(intention => {
+    Store.isModalVisible = false;
+
+    if(intention) {
+      console.log(snap.value)
+    }
+  }, [snap.value]);
 
   const handleModalInputOnChange = useCallback(event => {
-    setModalInputValue(event.target.value);
+    Store.value = event.target.value;
   }, []);
 
   return (
     <div className={'h-full w-full'}>
       <Modal
-        isVisible={isModalVisible}
+        isVisible={snap.isModalVisible}
+
         buttons={
           <div>Close me</div>
         }
-        onReturn={() => {handleOnReturn()}}
+
+        onReturn={intention => handleOnReturn(intention)}
       >
         <h1>This is a modal</h1>
         <Input
-          value={modalInputValue}
+          value={snap.value}
           placeholder={'Name'}
 
-          onChange={(event) => { handleModalInputOnChange(event) }}
+          onChange={(event) => handleModalInputOnChange(event) }
 
           nativeRef={inputRef}
         />

@@ -1,7 +1,9 @@
 import { proxy } from 'valtio'
 
 const Store = proxy({
-  cards: []
+  cards: [],
+  value: '',
+  isModalVisible: false
 });
 
 export default Store;
