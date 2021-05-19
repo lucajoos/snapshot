@@ -56,13 +56,14 @@ const App = () => {
      */
   }, []);
 
-  const handleOnReturn = useCallback((intention, value) => {
+  const handleOnReturn = useCallback((intention, data) => {
     Store.isModalVisible = false;
 
-    console.log(value)
-
     if(intention) {
+      const {value, color} = data;
+
       console.log(value)
+      console.log(color)
     }
   }, []);
 

@@ -1,14 +1,19 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Input from './Input';
+import ColorPicker from './ColorPicker';
 
 const Modal = ({ isVisible, onReturn=()=>{} }) => {
   const inputRef = useRef(null);
   const [value, setValue] = useState('');
+  const [color, setColor] = useState('');
 
-  const handleOnClickCurtain = useCallback(() => onReturn(false, null), []);
+  const handleOnClickCurtain = useCallback(() => onReturn(false, { value: null, color: null }), []);
   const handleOnKeyDown = useCallback(event => {
     if(event.keyCode === 13 || event.keyCode === 27) {
-      onReturn(event.keyCode === 13, value || '');
+      onReturn(event.keyCode === 13, {
+        value: value || '',
+        color: color || ''
+      });
     }
   }, [value]);
 
@@ -32,6 +37,11 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
             onChange={(event) => setValue(event.target.value)}
 
             nativeRef={inputRef}
+          />
+          <ColorPicker
+            palette={['orange', 'pink', 'green', 'violet', 'blue']}
+
+            onPick={color => setColor(color || '')}
           />
         </div>
 

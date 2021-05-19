@@ -19,6 +19,8 @@
 body {
     min-width: 450px;
     min-height: 600px;
+
+    @apply text-text-default;
 }
 
 .card > div > svg {
