@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef } from 'react';
-import { X } from 'react-feather';
+import { Edit2, PenTool, X } from 'react-feather';
 import Store from '../Store';
 import { useSnapshot } from 'valtio';
 
@@ -43,8 +43,14 @@ const Card = ({ children, color='', index=-1, onClick=() => {}, innerRef=null })
           {children}
         </div>
 
-        <div className={'absolute top-0 bottom-0 m-auto right-5 grid items-center cursor-pointer'} onClick={() => handleOnClick()}>
-          <X />
+        <div className={'absolute top-0 bottom-0 m-auto right-5 items-center cursor-pointer card-remove flex'} onClick={() => handleOnClick()}>
+          <div className={`rounded hover:bg-${theme.current}-accent p-2 mr-1`}>
+            <Edit2 />
+          </div>
+
+          <div className={`rounded hover:bg-${theme.current}-accent p-2`}>
+            <X />
+          </div>
         </div>
       </div>
     </div>

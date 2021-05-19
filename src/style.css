@@ -10,7 +10,7 @@
     --color-pink-accent: #FFC2C2;
 
     --color-green-default: #CAFFBF;
-    --color-green-accent: #DDFFD6;
+    --color-green-accent: #eaffe5;
 
     --color-violet-default: #BDB2FF;
     --color-violet-accent: #DCD6FF;
@@ -38,11 +38,11 @@ body {
     outline: none !important;
 }
 
-.card > div > svg {
+.card > .card-remove > div {
     opacity: 0;
     transition: .15s;
 }
 
-.card:hover > div > svg {
+.card:hover > .card-remove > div {
     opacity: 1;
 }
