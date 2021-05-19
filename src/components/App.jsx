@@ -54,7 +54,7 @@ const App = () => {
       const cards = Store.cards;
 
       cards.push({
-        name: value?.length === 0 ? `Card #${localStorage.getItem('length')}` : value,
+        name: value?.length === 0 ? `Snapshot #${localStorage.getItem('length')}` : value,
         urls: urls,
         color: pick.color,
         meta: new Date().toISOString(),

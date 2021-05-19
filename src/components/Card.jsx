@@ -43,7 +43,7 @@ const Card = ({ card, color='', index=-1}) => {
       let current = Object.assign({}, card);
 
       if(index === number) {
-        current.name = event.target.value?.length === 0 ? `Card #${localStorage.getItem('length')}` : event.target.value;
+        current.name = event.target.value?.length === 0 ? `Snapshot #${localStorage.getItem('length')}` : event.target.value;
       }
 
       return current;
