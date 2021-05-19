@@ -1,10 +1,12 @@
-import React, { useCallback, useEffect, useRef } from 'react';
-import { Edit2, PenTool, X } from 'react-feather';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Clock, Edit2, PenTool, X } from 'react-feather';
 import Store from '../Store';
 import { useSnapshot } from 'valtio';
+import moment from 'moment';
 
-const Card = ({ children, color='', index=-1, onClick=() => {}, innerRef=null }) => {
+const Card = ({ card, color='', index=-1, onClick=() => {}, innerRef=null }) => {
   const snap = useSnapshot(Store);
+  const [name, setName] = useState(card?.name);
 
   const palette = ['orange', 'pink', 'green', 'violet', 'blue'];
   const theme = useRef(color?.length === 0 ? palette[Math.floor(Math.random() * (palette.length - 1))] : color);
@@ -40,7 +42,17 @@ const Card = ({ children, color='', index=-1, onClick=() => {}, innerRef=null })
         ref={innerRef}
       >
         <div className={'grid gap-1'}>
-          {children}
+          <div className={'grid gap-1'}>
+            <input value={card?.name} className={`text-lg font-bold bg-transparent`} type={'text'} />
+
+            <div className={'flex items-center'}>
+              <div className={'mr-1'}>
+                <Clock size={18}/>
+              </div>
+
+              <span className={'text-xs'}>Created {moment(card?.meta || new Date()).fromNow()}</span>
+            </div>
+          </div>
         </div>
 
         <div className={'absolute top-0 bottom-0 m-auto right-5 items-center cursor-pointer card-remove flex'}>
