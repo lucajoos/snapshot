@@ -59,7 +59,7 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
               nativeRef={inputRef}
             />
 
-            <div className={'pt-2'}>
+            <div className={'pt-1'}>
               <ColorPicker
                 palette={['orange', 'pink', 'green', 'violet', 'blue']}
                 value={pick}

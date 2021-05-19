@@ -57,7 +57,7 @@ const App = () => {
         name: value,
         urls: urls,
         color: pick.color,
-        meta: 'Created yesterday'
+        meta: new Date().toISOString()
       });
 
       localStorage.setItem('cards', JSON.stringify({value: cards}));
