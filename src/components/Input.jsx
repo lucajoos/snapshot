@@ -10,7 +10,7 @@ const Input = ({ type='text', placeholder='', value='', onChange=()=>{}, nativeR
       value={value}
       onChange={(event) => { handleOnChange(event); }}
       ref={nativeRef}
-      className={'border-2 border-text-default rounded px-2 py-3 text-text-default my-2 w-full'}
+      className={'border-b-2 border-gray-300 transition-all py-3 text-text-default my-3 w-full placeholder-text-default focus:border-text-default'}
     />
   )
 };

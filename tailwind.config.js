@@ -8,6 +8,12 @@ module.exports = {
         modal: '37.5%'
       },
 
+      placeholderColor: {
+        text: {
+          default: 'var(--color-text-default)'
+        }
+      },
+
       colors: {
         orange: {
           default: 'var(--color-orange-default)'

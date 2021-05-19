@@ -20,7 +20,13 @@ body {
     min-width: 450px;
     min-height: 600px;
 
+    font-size: 16px;
+
     @apply text-text-default;
+}
+
+* {
+    outline: none !important;
 }
 
 .card > div > svg {
@@ -30,8 +36,4 @@ body {
 
 .card:hover > div > svg {
     opacity: 1;
-}
-
-* {
-    outline: none !important;
 }
