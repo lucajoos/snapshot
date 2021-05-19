@@ -16,19 +16,24 @@ module.exports = {
 
       colors: {
         orange: {
-          default: 'var(--color-orange-default)'
+          default: 'var(--color-orange-default)',
+          accent: 'var(--color-orange-accent)'
         },
         pink: {
-          default: 'var(--color-pink-default)'
+          default: 'var(--color-pink-default)',
+          accent: 'var(--color-pink-accent)'
         },
         green: {
-          default: 'var(--color-green-default)'
+          default: 'var(--color-green-default)',
+          accent: 'var(--color-green-accent)'
         },
         violet: {
-          default: 'var(--color-violet-default)'
+          default: 'var(--color-violet-default)',
+          accent: 'var(--color-violet-accent)'
         },
         blue: {
-          default: 'var(--color-blue-default)'
+          default: 'var(--color-blue-default)',
+          accent: 'var(--color-blue-accent)'
         },
         background: {
           default: 'var(--color-background-default)',

@@ -4,10 +4,19 @@
 
 :root {
     --color-orange-default: #FFD6A5;
+    --color-orange-accent: #FFC885;
+
     --color-pink-default: #FFADAD;
+    --color-pink-accent: #FF8585;
+
     --color-green-default: #CAFFBF;
+    --color-green-accent: #AAFF99;
+
     --color-violet-default: #BDB2FF;
+    --color-violet-accent: #A899FF;
+
     --color-blue-default: #A0C4FF;
+    --color-blue-accent: #85B4FF;
 
     --color-background-default: #FFFFFC;
     --color-background-accent: #eae9e9;
