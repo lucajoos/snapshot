@@ -2,13 +2,10 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import CardList from './CardList';
 import Store from '../Store';
 import Modal from './Modal';
-import Input from './Input';
 import { useSnapshot } from 'valtio';
 
 const App = () => {
   const snap = useSnapshot(Store);
-
-  const inputRef = useRef(null);
 
   useEffect(() => {
     if(!localStorage.getItem('cards')) {
@@ -44,7 +41,6 @@ const App = () => {
     });
 
     Store.isModalVisible = true;
-    inputRef.current?.focus();
 
     /*
     const cards = Store.cards;
@@ -60,16 +56,14 @@ const App = () => {
      */
   }, []);
 
-  const handleOnReturn = useCallback(intention => {
+  const handleOnReturn = useCallback((intention, value) => {
     Store.isModalVisible = false;
 
-    if(intention) {
-      console.log(snap.value)
-    }
-  }, [snap.value]);
+    console.log(value)
 
-  const handleModalInputOnChange = useCallback(event => {
-    Store.value = event.target.value;
+    if(intention) {
+      console.log(value)
+    }
   }, []);
 
   return (
@@ -77,22 +71,8 @@ const App = () => {
       <Modal
         isVisible={snap.isModalVisible}
 
-        buttons={
-          <div>Close me</div>
-        }
-
-        onReturn={intention => handleOnReturn(intention)}
-      >
-        <h1>This is a modal</h1>
-        <Input
-          value={snap.value}
-          placeholder={'Name'}
-
-          onChange={(event) => handleModalInputOnChange(event) }
-
-          nativeRef={inputRef}
-        />
-      </Modal>
+        onReturn={(i, v) => handleOnReturn(i, v)}
+      />
 
       <div className={'p-5'}>
         <CardList />

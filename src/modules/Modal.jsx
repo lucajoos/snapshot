@@ -1,12 +1,22 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import Input from './Input';
 
-const Modal = ({ children, buttons, isVisible, onReturn=()=>{} }) => {
-  const handleOnClickCurtain = useCallback(() => onReturn(false), []);
+const Modal = ({ isVisible, onReturn=()=>{} }) => {
+  const inputRef = useRef(null);
+  const [value, setValue] = useState('');
+
+  const handleOnClickCurtain = useCallback(() => onReturn(false, null), []);
   const handleOnKeyDown = useCallback(event => {
     if(event.keyCode === 13 || event.keyCode === 27) {
-      onReturn(event.keyCode === 13);
+      onReturn(event.keyCode === 13, value || '');
     }
-  }, []);
+  }, [value]);
+
+  useEffect(() => {
+    if(isVisible) {
+      inputRef.current?.focus();
+    }
+  }, [isVisible]);
 
   return (
     <div className={`fixed top-0 right-0 left-0 bottom-0 z-30 grid transition-all ${isVisible ? 'opacity-100 pointer-events-auto' : 'pointer-events-none opacity-0'}`} onKeyDown={event => handleOnKeyDown(event)}>
@@ -14,11 +24,19 @@ const Modal = ({ children, buttons, isVisible, onReturn=()=>{} }) => {
 
       <div className={'absolute z-40 rounded-md bg-background-default justify-self-center self-center p-10'}>
         <div>
-          { children }
+          <h1>This is a modal</h1>
+          <Input
+            value={value}
+            placeholder={'Name'}
+
+            onChange={(event) => setValue(event.target.value)}
+
+            nativeRef={inputRef}
+          />
         </div>
 
         <div>
-          { buttons }
+          <div>Close me</div>
         </div>
       </div>
     </div>
