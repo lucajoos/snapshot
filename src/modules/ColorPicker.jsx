@@ -1,12 +1,13 @@
 import React, { useCallback, useState } from 'react';
 import { Check } from 'react-feather';
 
-const ColorPicker = ({ palette = [], onPick = () => {}, }) => {
-  const [picked, setPicked] = useState(-1);
-
+const ColorPicker = ({ palette = [], value={color: '', index: -1}, onPick = () => {} }) => {
   const handleOnClick = useCallback(index => {
-    setPicked(index);
-    onPick(palette[index]);
+    console.log(index)
+    onPick({
+      color: palette[index],
+      index: index
+    });
   }, [palette]);
 
   return (
@@ -19,7 +20,7 @@ const ColorPicker = ({ palette = [], onPick = () => {}, }) => {
               onClick={() => handleOnClick(index)}
               key={color}
             >
-              <div className={`text-text-default grid justify-center items-center h-full transition-all opacity-${picked === index ? '100' : '0'}`}>
+              <div className={`text-text-default grid justify-center items-center h-full transition-all opacity-${value.index === index ? '100' : '0'}`}>
                 <Check size={20} />
               </div>
             </div>

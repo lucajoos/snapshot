@@ -5,7 +5,7 @@ import ColorPicker from './ColorPicker';
 const Modal = ({ isVisible, onReturn=()=>{} }) => {
   const inputRef = useRef(null);
   const [value, setValue] = useState('');
-  const [color, setColor] = useState('');
+  const [pick, setPick] = useState('');
 
   const handleOnClickCurtain = useCallback(() => onReturn(false, { value: null, color: null }), []);
   const handleOnKeyDown = useCallback(event => {
@@ -20,6 +20,12 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
   useEffect(() => {
     if(isVisible) {
       inputRef.current?.focus();
+      setValue('');
+
+      setPick({
+        color: '',
+        index: -1
+      });
     }
   }, [isVisible]);
 
@@ -40,8 +46,9 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
           />
           <ColorPicker
             palette={['orange', 'pink', 'green', 'violet', 'blue']}
+            value={pick}
 
-            onPick={color => setColor(color || '')}
+            onPick={pick => setPick(pick)}
           />
         </div>
 
