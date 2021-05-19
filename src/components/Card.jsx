@@ -27,7 +27,7 @@ const Card = ({ card, color='', index=-1, onClick=() => {}, innerRef=null }) => 
 
     Store.cards = cards;
 
-    const set = cards.filter((current, number) => {
+    const set = cards.filter(current => {
       return current.id !== card.id;
     });
 
