@@ -7,6 +7,7 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
   const inputRef = useRef(null);
   const [value, setValue] = useState('');
   const [pick, setPick] = useState({color: '', index: -1});
+  const [enabled, setEnabled] = useState(false);
 
   const handleOnClickCurtain = useCallback(() => onReturn(false, { value: null, color: null }), []);
   const handleOnKeyDown = useCallback(event => {
@@ -61,7 +62,7 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
         </div>
 
         <div>
-          <Button onClick={() => handleOnClick()}>
+          <Button onClick={() => handleOnClick()} enabled={enabled}>
             Create
           </Button>
         </div>
