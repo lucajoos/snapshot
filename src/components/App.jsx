@@ -16,6 +16,10 @@ const App = () => {
       }));
     }
 
+    if(!localStorage.getItem('length')) {
+      localStorage.setItem('length', '1');
+    }
+
     try {
       const cards = JSON.parse(localStorage.getItem('cards'))?.value;
 
@@ -55,12 +59,14 @@ const App = () => {
       const cards = Store.cards;
 
       cards.push({
-        name: value,
+        name: value?.length === 0 ? `Card #${localStorage.getItem('length')}` : value,
         urls: urls,
         color: pick.color,
-        meta: new Date().toISOString()
+        meta: new Date().toISOString(),
+        visible: true
       });
 
+      localStorage.setItem('length', (parseInt(localStorage.getItem('length')) + 1).toString());
       localStorage.setItem('cards', JSON.stringify({value: cards}));
 
       Store.cards = cards;

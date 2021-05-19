@@ -11,7 +11,7 @@ const CardList = () => {
     <>
       {
         snap.cards.map((card, index) => {
-          return (
+          return ( !!card?.visible &&
             <Card
               key={index}
               index={index}

@@ -1,13 +1,34 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { X } from 'react-feather';
+import Store from '../Store';
+import { useSnapshot } from 'valtio';
 
 const Card = ({ children, color='', index=-1, onClick=() => {}, innerRef=null }) => {
+  const snap = useSnapshot(Store);
+
   const palette = ['orange', 'pink', 'green', 'violet', 'blue'];
   const theme = useRef(color?.length === 0 ? palette[Math.floor(Math.random() * (palette.length - 1))] : color);
 
   const handleOnClick = useCallback(() => {
+    let cards = snap.cards.map((card, number) => {
+      let current = Object.assign({}, card);
 
-  }, []);
+      if(index === number) {
+        current.visible = false;
+      }
+
+      return current;
+    });
+
+    Store.cards = cards;
+
+    const set = cards.filter((card, number) => {
+      return index !== number;
+    });
+
+    localStorage.setItem('length', (parseInt(localStorage.getItem('length')) - 1).toString());
+    localStorage.setItem('cards', JSON.stringify({value: set}));
+  }, [snap.cards, index]);
 
   return (
     <div
