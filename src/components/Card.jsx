@@ -15,10 +15,10 @@ const Card = ({ card, color='', index=-1, onClick=() => {}, innerRef=null }) => 
   const inputRef = useRef(null);
 
   const handleOnClickRemove = useCallback(() => {
-    let cards = snap.cards.map((card, number) => {
-      let current = Object.assign({}, card);
+    let cards = snap.cards.map(compare => {
+      let current = Object.assign({}, compare);
 
-      if(index === number) {
+      if(current.id === card.id) {
         current.visible = false;
       }
 
@@ -27,8 +27,8 @@ const Card = ({ card, color='', index=-1, onClick=() => {}, innerRef=null }) => 
 
     Store.cards = cards;
 
-    const set = cards.filter((card, number) => {
-      return index !== number;
+    const set = cards.filter((current, number) => {
+      return current.id !== card.id;
     });
 
     localStorage.setItem('length', (parseInt(localStorage.getItem('length')) - 1).toString());

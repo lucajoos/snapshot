@@ -20,6 +20,10 @@ const App = () => {
       localStorage.setItem('length', '1');
     }
 
+    if(!localStorage.getItem('id')) {
+      localStorage.setItem('id', '0');
+    }
+
     try {
       const cards = JSON.parse(localStorage.getItem('cards'))?.value;
 
@@ -63,10 +67,12 @@ const App = () => {
         urls: urls,
         color: pick.color,
         meta: new Date().toISOString(),
-        visible: true
+        visible: true,
+        id: localStorage.getItem('id')
       });
 
       localStorage.setItem('length', (parseInt(localStorage.getItem('length')) + 1).toString());
+      localStorage.setItem('id', (parseInt(localStorage.getItem('id')) + 1).toString());
       localStorage.setItem('cards', JSON.stringify({value: cards}));
 
       Store.cards = cards;
@@ -74,7 +80,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className={'w-full'}>
+    <div className={'w-full h-full relative'}>
       <Modal
         isVisible={snap.isModalVisible}
 
@@ -83,7 +89,9 @@ const App = () => {
 
       <div className={'p-5'}>
         <CardList />
+      </div>
 
+      <div className={'fixed bottom-10 right-10'}>
         <Button onClick={() => handleOnClick()}>
           <span className={'mx-1'}>Add</span>
           <Plus size={18} />

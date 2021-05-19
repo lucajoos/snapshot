@@ -10,7 +10,7 @@
     --color-pink-accent: #FFC2C2;
 
     --color-green-default: #CAFFBF;
-    --color-green-accent: #eaffe5;
+    --color-green-accent: #DDFFD6;
 
     --color-violet-default: #BDB2FF;
     --color-violet-accent: #DCD6FF;
@@ -23,6 +23,15 @@
 
     --color-text-default: #001F52;
     --color-text-accent: #002766;
+}
+
+*::-webkit-scrollbar {
+    width: 7.5px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--color-text-default);
+    border-radius: 9999px;
 }
 
 body {
