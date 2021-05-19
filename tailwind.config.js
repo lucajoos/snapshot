@@ -4,6 +4,10 @@ module.exports = {
   darkMode: false,
   theme: {
     extend: {
+      margin: {
+        empty: '110px'
+      },
+
       width: {
         modal: '85%'
       },
