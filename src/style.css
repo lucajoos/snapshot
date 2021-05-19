@@ -4,19 +4,19 @@
 
 :root {
     --color-orange-default: #FFD6A5;
-    --color-orange-accent: #FFC885;
+    --color-orange-accent: #FFE3C2;
 
     --color-pink-default: #FFADAD;
-    --color-pink-accent: #FF8585;
+    --color-pink-accent: #FFC2C2;
 
     --color-green-default: #CAFFBF;
-    --color-green-accent: #AAFF99;
+    --color-green-accent: #DDFFD6;
 
     --color-violet-default: #BDB2FF;
-    --color-violet-accent: #A899FF;
+    --color-violet-accent: #DCD6FF;
 
     --color-blue-default: #A0C4FF;
-    --color-blue-accent: #85B4FF;
+    --color-blue-accent: #C2D9FF;
 
     --color-background-default: #FFFFFC;
     --color-background-accent: #eae9e9;

@@ -3,6 +3,7 @@ import Input from './Input';
 import ColorPicker from './ColorPicker';
 import Button from './Button';
 import Header from './Header';
+import { Check } from 'react-feather';
 
 const Modal = ({ isVisible, onReturn=()=>{} }) => {
   const inputRef = useRef(null);
@@ -70,7 +71,8 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
           </div>
 
           <Button onClick={() => handleOnClick()} enabled={enabled}>
-            Create
+            <span className={'mr-1 ml-2'}>Create</span>
+            <Check />
           </Button>
         </div>
       </div>

@@ -4,6 +4,7 @@ import Store from '../Store';
 import Modal from './Modal';
 import { useSnapshot } from 'valtio';
 import Button from './Button';
+import { Check, Plus } from 'react-feather';
 
 const App = () => {
   const snap = useSnapshot(Store);
@@ -78,7 +79,8 @@ const App = () => {
         <CardList />
 
         <Button onClick={() => handleOnClick()}>
-          Add
+          <span className={'mr-1 ml-2'}>Add</span>
+          <Plus />
         </Button>
       </div>
     </div>

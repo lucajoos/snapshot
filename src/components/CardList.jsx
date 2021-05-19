@@ -14,6 +14,7 @@ const CardList = () => {
           return (
             <Card
               key={index}
+              index={index}
               color={card?.color}
             >
               <div className={'grid gap-1'}>
