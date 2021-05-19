@@ -9,7 +9,7 @@ const Card = ({ children, color='', index=-1, onClick=() => {}, innerRef=null })
   const palette = ['orange', 'pink', 'green', 'violet', 'blue'];
   const theme = useRef(color?.length === 0 ? palette[Math.floor(Math.random() * (palette.length - 1))] : color);
 
-  const handleOnClick = useCallback(() => {
+  const handleOnClickRemove = useCallback(() => {
     let cards = snap.cards.map((card, number) => {
       let current = Object.assign({}, card);
 
@@ -43,12 +43,12 @@ const Card = ({ children, color='', index=-1, onClick=() => {}, innerRef=null })
           {children}
         </div>
 
-        <div className={'absolute top-0 bottom-0 m-auto right-5 items-center cursor-pointer card-remove flex'} onClick={() => handleOnClick()}>
+        <div className={'absolute top-0 bottom-0 m-auto right-5 items-center cursor-pointer card-remove flex'}>
           <div className={`rounded hover:bg-${theme.current}-accent p-2 mr-1`}>
             <Edit2 />
           </div>
 
-          <div className={`rounded hover:bg-${theme.current}-accent p-2`}>
+          <div className={`rounded hover:bg-${theme.current}-accent p-2`} onClick={() => handleOnClickRemove()}>
             <X />
           </div>
         </div>
