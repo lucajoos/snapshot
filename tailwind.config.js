@@ -4,8 +4,12 @@ module.exports = {
   darkMode: false,
   theme: {
     extend: {
-      minWidth: {
-        modal: '37.5%'
+      width: {
+        modal: '85%'
+      },
+
+      maxWidth: {
+        modal: '420px'
       },
 
       placeholderColor: {

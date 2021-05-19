@@ -3,14 +3,14 @@ import Input from './Input';
 import ColorPicker from './ColorPicker';
 import Button from './Button';
 import Header from './Header';
-import { Check } from 'react-feather';
+import { Check, X } from 'react-feather';
 
 const Modal = ({ isVisible, onReturn=()=>{} }) => {
   const inputRef = useRef(null);
   const [value, setValue] = useState('');
   const [pick, setPick] = useState({color: '', index: -1});
 
-  const handleOnClickCurtain = useCallback(() => onReturn(false, { value: null, color: null }), []);
+  const handleOnReturn = useCallback(() => onReturn(false, { value: null, color: null }), []);
   const handleOnKeyDown = useCallback(event => {
     if(event.keyCode === 13 || event.keyCode === 27) {
       onReturn(event.keyCode === 13, {
@@ -50,9 +50,13 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
 
   return (
     <div className={`fixed top-0 right-0 left-0 bottom-0 z-30 grid transition-all ${isVisible ? 'opacity-100 pointer-events-auto' : 'pointer-events-none opacity-0'}`} onKeyDown={event => handleOnKeyDown(event)}>
-      <div className={'absolute top-0 right-0 left-0 bottom-0 opacity-60 bg-black'} onClick={() => handleOnClickCurtain()}/>
+      <div className={'absolute top-0 right-0 left-0 bottom-0 opacity-60 bg-black'} onClick={() => handleOnReturn()}/>
 
-      <div className={'absolute z-40 rounded-md bg-background-default justify-self-center self-center p-10 min-w-modal'}>
+      <div className={'absolute z-40 rounded-md bg-background-default justify-self-center self-center p-10 w-modal max-w-modal'}>
+        <div className={'absolute top-8 right-8 cursor-pointer'} onClick={() => handleOnReturn()}>
+          <X />
+        </div>
+
         <div className={'grid'}>
           <Header>
             Save current window
@@ -80,7 +84,7 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
 
           <Button onClick={() => handleOnClick()}>
             <span className={'mx-1'}>Create</span>
-            <Check />
+            <Check size={18} />
           </Button>
         </div>
       </div>

@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import CardList from './CardList';
 import Store from '../Store';
 import Modal from './Modal';
 import { useSnapshot } from 'valtio';
 import Button from './Button';
-import { Check, Plus } from 'react-feather';
+import { Plus } from 'react-feather';
 
 const App = () => {
   const snap = useSnapshot(Store);
@@ -86,7 +86,7 @@ const App = () => {
 
         <Button onClick={() => handleOnClick()}>
           <span className={'mx-1'}>Add</span>
-          <Plus />
+          <Plus size={18} />
         </Button>
       </div>
     </div>
