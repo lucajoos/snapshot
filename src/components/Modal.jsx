@@ -8,8 +8,7 @@ import { Check } from 'react-feather';
 const Modal = ({ isVisible, onReturn=()=>{} }) => {
   const inputRef = useRef(null);
   const [value, setValue] = useState('');
-  const [pick, setPick] = useState({color: '', index: -1});
-  const [enabled, setEnabled] = useState(false);
+  const [pick, setPick] = useState({color: '', index: -2});
 
   const handleOnClickCurtain = useCallback(() => onReturn(false, { value: null, color: null }), []);
   const handleOnKeyDown = useCallback(event => {
@@ -27,6 +26,15 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
       pick: pick || ''
     });
   }, [value, pick]);
+
+  const handleOnPick = useCallback(current => {
+    if(current?.color === pick?.color) {
+      current.value = '';
+      current.index = -1;
+    }
+
+    setPick(current);
+  }, [pick]);
 
   useEffect(() => {
     if(isVisible) {
@@ -65,12 +73,12 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
                 palette={['orange', 'pink', 'green', 'violet', 'blue']}
                 value={pick}
 
-                onPick={pick => setPick(pick)}
+                onPick={pick => handleOnPick(pick)}
               />
             </div>
           </div>
 
-          <Button onClick={() => handleOnClick()} enabled={enabled}>
+          <Button onClick={() => handleOnClick()}>
             <span className={'mr-1 ml-2'}>Create</span>
             <Check />
           </Button>
