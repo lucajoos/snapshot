@@ -49,7 +49,7 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
             Save current window
           </Header>
 
-          <div className={'my-6'}>
+          <div className={'mb-6 mt-5'}>
             <Input
               value={value}
               placeholder={'Name'}
