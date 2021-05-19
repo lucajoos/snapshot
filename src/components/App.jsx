@@ -3,6 +3,7 @@ import CardList from './CardList';
 import Store from '../Store';
 import Modal from './Modal';
 import { useSnapshot } from 'valtio';
+import Button from './Button';
 
 const App = () => {
   const snap = useSnapshot(Store);
@@ -60,10 +61,10 @@ const App = () => {
     Store.isModalVisible = false;
 
     if(intention) {
-      const {value, color} = data;
+      const {value, pick} = data;
 
       console.log(value)
-      console.log(color)
+      console.log(pick)
     }
   }, []);
 
@@ -78,9 +79,9 @@ const App = () => {
       <div className={'p-5'}>
         <CardList />
 
-        <div onClick={() => handleOnClick()}>
-          Add new
-        </div>
+        <Button onClick={() => handleOnClick()}>
+          Add
+        </Button>
       </div>
     </div>
   );

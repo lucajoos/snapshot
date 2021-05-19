@@ -1,21 +1,29 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Input from './Input';
 import ColorPicker from './ColorPicker';
+import Button from './Button';
 
 const Modal = ({ isVisible, onReturn=()=>{} }) => {
   const inputRef = useRef(null);
   const [value, setValue] = useState('');
-  const [pick, setPick] = useState('');
+  const [pick, setPick] = useState({color: '', index: -1});
 
   const handleOnClickCurtain = useCallback(() => onReturn(false, { value: null, color: null }), []);
   const handleOnKeyDown = useCallback(event => {
     if(event.keyCode === 13 || event.keyCode === 27) {
       onReturn(event.keyCode === 13, {
         value: value || '',
-        color: color || ''
+        pick: pick || ''
       });
     }
-  }, [value]);
+  }, [value, pick]);
+
+  const handleOnClick = useCallback(() => {
+    onReturn(true, {
+      value: value || '',
+      pick: pick || ''
+    });
+  }, [value, pick]);
 
   useEffect(() => {
     if(isVisible) {
@@ -53,7 +61,9 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
         </div>
 
         <div>
-          <div>Close me</div>
+          <Button onClick={() => handleOnClick()}>
+            Create
+          </Button>
         </div>
       </div>
     </div>
