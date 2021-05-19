@@ -69,7 +69,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className={'h-full w-full'}>
+    <div className={'w-full'}>
       <Modal
         isVisible={snap.isModalVisible}
 

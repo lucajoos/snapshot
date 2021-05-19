@@ -4,6 +4,10 @@ module.exports = {
   darkMode: false,
   theme: {
     extend: {
+      minWidth: {
+        modal: '37.5%'
+      },
+
       colors: {
         orange: {
           default: 'var(--color-orange-default)'

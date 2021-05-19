@@ -10,7 +10,7 @@ const ColorPicker = ({ palette = [], value={color: '', index: -1}, onPick = () =
   }, [palette]);
 
   return (
-    <div className={'flex'}>
+    <div className={'flex my-2'}>
       {
         palette.map((color, index) => {
           return (

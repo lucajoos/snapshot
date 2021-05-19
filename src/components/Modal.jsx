@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Input from './Input';
 import ColorPicker from './ColorPicker';
 import Button from './Button';
+import Header from './Header';
 
 const Modal = ({ isVisible, onReturn=()=>{} }) => {
   const inputRef = useRef(null);
@@ -42,26 +43,32 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
     <div className={`fixed top-0 right-0 left-0 bottom-0 z-30 grid transition-all ${isVisible ? 'opacity-100 pointer-events-auto' : 'pointer-events-none opacity-0'}`} onKeyDown={event => handleOnKeyDown(event)}>
       <div className={'absolute top-0 right-0 left-0 bottom-0 opacity-60 bg-black'} onClick={() => handleOnClickCurtain()}/>
 
-      <div className={'absolute z-40 rounded-md bg-background-default justify-self-center self-center p-10'}>
-        <div>
-          <h1>This is a modal</h1>
-          <Input
-            value={value}
-            placeholder={'Name'}
+      <div className={'absolute z-40 rounded-md bg-background-default justify-self-center self-center p-10 min-w-modal'}>
+        <div className={'grid'}>
+          <Header>
+            Save current window
+          </Header>
 
-            onChange={(event) => setValue(event.target.value)}
+          <div className={'my-6'}>
+            <Input
+              value={value}
+              placeholder={'Name'}
 
-            nativeRef={inputRef}
-          />
-          <ColorPicker
-            palette={['orange', 'pink', 'green', 'violet', 'blue']}
-            value={pick}
+              onChange={(event) => setValue(event.target.value)}
 
-            onPick={pick => setPick(pick)}
-          />
-        </div>
+              nativeRef={inputRef}
+            />
 
-        <div>
+            <div className={'pt-2'}>
+              <ColorPicker
+                palette={['orange', 'pink', 'green', 'violet', 'blue']}
+                value={pick}
+
+                onPick={pick => setPick(pick)}
+              />
+            </div>
+          </div>
+
           <Button onClick={() => handleOnClick()} enabled={enabled}>
             Create
           </Button>
