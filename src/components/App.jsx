@@ -29,42 +29,40 @@ const App = () => {
   }, []);
 
   const handleOnClick = useCallback(async () => {
-    let tabs = [{
-      url: 'hello'
-    }, {
-      url: 'world'
-    }];
-
-    let urls = [];
-
-    tabs?.forEach(tab => {
-      urls.push(tab.url);
-    });
-
     Store.isModalVisible = true;
-
-    /*
-    const cards = Store.cards;
-
-    cards.push({
-      name: 'New title',
-      urls: urls
-    });
-
-    localStorage.setItem('cards', JSON.stringify({value: cards}));
-
-    Store.cards = cards;
-     */
   }, []);
 
   const handleOnReturn = useCallback((intention, data) => {
     Store.isModalVisible = false;
 
     if(intention) {
+      // REPLACE THIS LINE IN PRODUCTION
+      let tabs = [{
+        url: 'hello'
+      }, {
+        url: 'world'
+      }];
+
+      let urls = [];
+
+      tabs?.forEach(tab => {
+        urls.push(tab.url);
+      });
+
       const {value, pick} = data;
 
-      console.log(value)
-      console.log(pick)
+      const cards = Store.cards;
+
+      cards.push({
+        name: value,
+        urls: urls,
+        color: pick.color,
+        meta: 'Created yesterday'
+      });
+
+      localStorage.setItem('cards', JSON.stringify({value: cards}));
+
+      Store.cards = cards;
     }
   }, []);
 

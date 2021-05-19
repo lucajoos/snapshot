@@ -16,7 +16,7 @@ const CardList = () => {
               color={card?.color}
             >
               <div className={'grid gap-1'}>
-                <span className={'text-lg font-bold'}>{card?.title}</span>
+                <span className={'text-lg font-bold'}>{card?.name}</span>
                 <span className={'text-xs'}>{card?.meta}</span>
               </div>
             </Card>
