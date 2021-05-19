@@ -1,9 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { Check } from 'react-feather';
 
 const ColorPicker = ({ palette = [], value={color: '', index: -1}, onPick = () => {} }) => {
   const handleOnClick = useCallback(index => {
-    console.log(index)
     onPick({
       color: palette[index],
       index: index
