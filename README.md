@@ -1,4 +1,4 @@
-# Snapshot
+# Snapshot v1.0.0
 ## Available Scripts
 
 ### yarn start

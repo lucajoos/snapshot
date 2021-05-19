@@ -22,7 +22,7 @@ module.exports = {
               {
                 source: 'web-ext-config.js',
                 destination: 'build',
-              },
+              }
             ],
           },
         ],
