@@ -85,7 +85,7 @@ const App = () => {
         <CardList />
 
         <Button onClick={() => handleOnClick()}>
-          <span className={'mr-1 ml-2'}>Add</span>
+          <span className={'mx-1'}>Add</span>
           <Plus />
         </Button>
       </div>

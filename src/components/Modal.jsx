@@ -8,7 +8,7 @@ import { Check } from 'react-feather';
 const Modal = ({ isVisible, onReturn=()=>{} }) => {
   const inputRef = useRef(null);
   const [value, setValue] = useState('');
-  const [pick, setPick] = useState({color: '', index: -2});
+  const [pick, setPick] = useState({color: '', index: -1});
 
   const handleOnClickCurtain = useCallback(() => onReturn(false, { value: null, color: null }), []);
   const handleOnKeyDown = useCallback(event => {
@@ -29,7 +29,7 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
 
   const handleOnPick = useCallback(current => {
     if(current?.color === pick?.color) {
-      current.value = '';
+      current.color = '';
       current.index = -1;
     }
 
@@ -79,7 +79,7 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
           </div>
 
           <Button onClick={() => handleOnClick()}>
-            <span className={'mr-1 ml-2'}>Create</span>
+            <span className={'mx-1'}>Create</span>
             <Check />
           </Button>
         </div>
