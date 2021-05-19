@@ -93,7 +93,7 @@ const Card = ({ card, color='', index=-1, onClick=() => {}, innerRef=null }) => 
           <div className={'grid gap-1'}>
             <input
               value={name}
-              className={`text-lg font-bold bg-transparent`}
+              className={`text-lg font-bold bg-transparent ${isDisabled ? 'pointer-events-none' : ''}`}
               type={'text'}
               onChange={e => handleOnInputChange(e)}
               disabled={isDisabled}
