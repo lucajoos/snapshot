@@ -27,8 +27,6 @@ const App = () => {
     try {
       const cards = JSON.parse(localStorage.getItem('cards'))?.value;
 
-      console.log(cards)
-
       if(cards) {
         Store.cards = cards;
       }
@@ -41,17 +39,11 @@ const App = () => {
     Store.isModalVisible = true;
   }, []);
 
-  const handleOnReturn = useCallback((intention, data) => {
+  const handleOnReturn = useCallback(async (intention, data) => {
     Store.isModalVisible = false;
 
     if(intention) {
-      // REPLACE THIS LINE IN PRODUCTION
-      let tabs = [{
-        url: 'hello'
-      }, {
-        url: 'world'
-      }];
-
+      let tabs = await chrome.tabs.query({});
       let urls = [];
 
       tabs?.forEach(tab => {
@@ -59,7 +51,6 @@ const App = () => {
       });
 
       const {value, pick} = data;
-
       const cards = Store.cards;
 
       cards.push({

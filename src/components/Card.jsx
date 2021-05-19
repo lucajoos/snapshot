@@ -4,7 +4,7 @@ import Store from '../Store';
 import { useSnapshot } from 'valtio';
 import moment from 'moment';
 
-const Card = ({ card, color='', index=-1, onClick=() => {}, innerRef=null }) => {
+const Card = ({ card, color='', index=-1}) => {
   const snap = useSnapshot(Store);
   const [name, setName] = useState(card?.name);
   const [isDisabled, setIsDisabled] = useState(true);
@@ -12,6 +12,7 @@ const Card = ({ card, color='', index=-1, onClick=() => {}, innerRef=null }) => 
   const palette = ['orange', 'pink', 'green', 'violet', 'blue'];
   const theme = useRef(color?.length === 0 ? palette[Math.floor(Math.random() * (palette.length - 1))] : color);
 
+  const containerRef = useRef(null);
   const inputRef = useRef(null);
 
   const handleOnClickRemove = useCallback(() => {
@@ -53,7 +54,6 @@ const Card = ({ card, color='', index=-1, onClick=() => {}, innerRef=null }) => 
   }, []);
 
   const handleOnClickEdit = useCallback(() => {
-    console.log(isDisabled)
     if(isDisabled) {
       setIsDisabled(!isDisabled);
 
@@ -78,22 +78,32 @@ const Card = ({ card, color='', index=-1, onClick=() => {}, innerRef=null }) => 
     if(event.keyCode === 13 || event.keyCode === 27) {
       inputRef.current?.blur();
     }
-  }, [])
+  }, []);
+
+  const handleOnClick = useCallback(event => {
+    if(event.target === containerRef.current) {
+      card.urls.forEach(url => {
+        chrome.tabs.create({
+          url: url
+        });
+      });
+    }
+  }, [card]);
 
   return (
     <div
       className={'my-4'}
     >
       <div
-        onClick={() => onClick()}
+        onClick={e => handleOnClick(e)}
         className={`card p-5 cursor-pointer select-none w-full rounded-lg text-text-default relative bg-${theme.current}-default`}
-        ref={innerRef}
+        ref={containerRef}
       >
-        <div className={'grid gap-1'}>
+        <div className={'grid gap-1 pointer-events-none'}>
           <div className={'grid gap-1'}>
             <input
               value={name}
-              className={`text-lg font-bold bg-transparent ${isDisabled ? 'pointer-events-none' : ''}`}
+              className={`text-lg font-bold bg-transparent ${isDisabled ? 'pointer-events-none' : 'pointer-events-all'}`}
               type={'text'}
               onChange={e => handleOnInputChange(e)}
               disabled={isDisabled}
@@ -113,7 +123,7 @@ const Card = ({ card, color='', index=-1, onClick=() => {}, innerRef=null }) => 
         </div>
 
         <div className={'absolute top-0 bottom-0 m-auto right-5 items-center cursor-pointer card-remove flex'}>
-          <div className={`rounded hover:bg-${theme.current}-accent p-2 mr-1`} onClick={() => {handleOnClickEdit()}}>
+          <div className={`rounded hover:bg-${theme.current}-accent p-2 mr-1 pointer-events-all`} onClick={() => {handleOnClickEdit()}}>
             {
               isDisabled ? <Edit2 /> : <Check/>
             }
@@ -121,7 +131,7 @@ const Card = ({ card, color='', index=-1, onClick=() => {}, innerRef=null }) => 
 
           {
             isDisabled && (
-              <div className={`rounded hover:bg-${theme.current}-accent p-2`} onClick={() => handleOnClickRemove()}>
+              <div className={`rounded hover:bg-${theme.current}-accent p-2 pointer-events-all`} onClick={() => handleOnClickRemove()}>
                 <X />
               </div>
             )
