@@ -12,7 +12,7 @@ const Card = ({ card, color='', index=-1}) => {
   const [isReady, setIsReady] = useState(false);
 
   const palette = ['orange', 'pink', 'green', 'violet', 'blue'];
-  const theme = useRef(color?.length === 0 ? palette[Math.floor(Math.random() * (palette.length - 1))] : color);
+  const theme = useRef(color?.length === 0 ? palette[Math.floor(Math.random() * palette.length)] : color);
 
   const containerRef = useRef(null);
   const inputRef = useRef(null);
