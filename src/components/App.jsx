@@ -4,7 +4,7 @@ import Store from '../Store';
 import Modal from './Modal';
 import { useSnapshot } from 'valtio';
 import Button from './Button';
-import { Plus } from 'react-feather';
+import { Plus, Zap } from 'react-feather';
 
 const App = () => {
   const snap = useSnapshot(Store);
@@ -43,14 +43,19 @@ const App = () => {
     Store.isModalVisible = false;
 
     if(intention) {
-      let tabs = await chrome.tabs.query({});
+      let tabs = await chrome.tabs.query({
+        currentWindow: true
+      });
+
       let urls = [];
+      let favicons = [];
 
       tabs?.forEach(tab => {
         urls.push(tab.url);
+        favicons.push(tab.favIconUrl);
       });
 
-      const {value, pick} = data;
+      const {value, pick, isShowingIcons} = data;
       const cards = Store.cards;
 
       cards.push({
@@ -59,7 +64,9 @@ const App = () => {
         color: pick.color,
         meta: new Date().toISOString(),
         visible: true,
-        id: localStorage.getItem('id')
+        id: localStorage.getItem('id'),
+        favicons: favicons,
+        isShowingIcons: isShowingIcons
       });
 
       localStorage.setItem('length', (parseInt(localStorage.getItem('length')) + 1).toString());
@@ -71,7 +78,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className={'w-full h-full relative'}>
+    <div className={'w-full h-full relative select-none'}>
       <Modal
         isVisible={snap.isModalVisible}
 
@@ -84,8 +91,10 @@ const App = () => {
 
       <div className={'fixed bottom-10 right-10'}>
         <Button onClick={() => handleOnClick()}>
-          <span className={'mx-1'}>Add</span>
-          <Plus size={18} />
+          <div className={'flex items-center'}>
+            <span className={'mx-1'}>Snapshot</span>
+            <Zap size={18} />
+          </div>
         </Button>
       </div>
     </div>

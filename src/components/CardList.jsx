@@ -16,8 +16,6 @@ const CardList = () => {
     }
   });
 
-  console.log(visible)
-
   return (
     <div className={'relative h-full'}>
       {

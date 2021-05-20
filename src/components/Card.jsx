@@ -3,17 +3,23 @@ import { Check, Clock, Edit2, PenTool, X } from 'react-feather';
 import Store from '../Store';
 import { useSnapshot } from 'valtio';
 import moment from 'moment';
+import Icon from './Icon';
 
 const Card = ({ card, color='', index=-1}) => {
   const snap = useSnapshot(Store);
   const [name, setName] = useState(card?.name);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [isReady, setIsReady] = useState(false);
 
   const palette = ['orange', 'pink', 'green', 'violet', 'blue'];
-  const theme = useRef(color?.length === 0 ? palette[Math.floor(Math.random() * (palette.length - 1))] : color);
+  const theme = useRef(color?.length === 0 ? palette[Math.floor(Math.random() * palette.length)] : color);
 
   const containerRef = useRef(null);
   const inputRef = useRef(null);
+
+  let ignoredFavicons = 0;
+  let shownFavicons = 0;
+  let loadedFavicons = 0;
 
   const handleOnClickRemove = useCallback(() => {
     let cards = snap.cards.map(compare => {
@@ -90,9 +96,16 @@ const Card = ({ card, color='', index=-1}) => {
     }
   }, [card]);
 
+  const handleIconOnLoad = useCallback(() => {
+    loadedFavicons++;
+    if(loadedFavicons === shownFavicons) {
+      setIsReady(true);
+    }
+  }, [loadedFavicons, shownFavicons]);
+
   return (
     <div
-      className={'my-4'}
+      className={`my-4 overflow-hidden ${(isReady || !card?.isShowingIcons) ? '' : 'hidden'}`}
     >
       <div
         onClick={e => handleOnClick(e)}
@@ -113,11 +126,42 @@ const Card = ({ card, color='', index=-1}) => {
             />
 
             <div className={'flex items-center'}>
-              <div className={'mr-1'}>
-                <Clock size={18}/>
+              <div className={'flex items-center'}>
+                <div className={'mr-1'}>
+                  <Clock size={18}/>
+                </div>
+
+                <span className={'text-xs'}>Created {moment(card?.meta || new Date()).fromNow()}</span>
               </div>
 
-              <span className={'text-xs'}>Created {moment(card?.meta || new Date()).fromNow()}</span>
+              {
+                card?.isShowingIcons && <div className={'flex ml-3'}>
+                  {
+                    card?.favicons.map((favicon, index) => {
+                      if(favicon ? favicon?.length === 0 : true) {
+                        ignoredFavicons++;
+                        return null;
+                      } else if((index - ignoredFavicons) < 2 || card?.favicons.length === 3) {
+                        shownFavicons++;
+
+                        return (
+                          <Icon src={favicon} alt={''} key={index} theme={theme.current} onLoad={() => handleIconOnLoad()} />
+                        );
+                      } else {
+                        return null;
+                      }
+                    })
+                  }
+
+                  {
+                    shownFavicons === 2 && card?.favicons.length > 3 && (
+                      <div key={'counter'} className={`w-6 h-6 inline-block rounded-full mr-1 bg-${theme.current}-accent text-xs flex items-center justify-center`}>
+                        +{card?.favicons.length - shownFavicons}
+                      </div>
+                    )
+                  }
+                </div>
+              }
             </div>
           </div>
         </div>

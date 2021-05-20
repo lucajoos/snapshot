@@ -3,19 +3,22 @@ import Input from './Input';
 import ColorPicker from './ColorPicker';
 import Button from './Button';
 import Header from './Header';
-import { Check, X } from 'react-feather';
+import { Check, ChevronRight, Pocket, Save, X } from 'react-feather';
+import Checkbox from './Checkbox';
 
 const Modal = ({ isVisible, onReturn=()=>{} }) => {
   const inputRef = useRef(null);
   const [value, setValue] = useState('');
   const [pick, setPick] = useState({color: '', index: -1});
+  const [isShowingIcons, setIsShowingIcons] = useState(true);
 
   const handleOnReturn = useCallback(() => onReturn(false, { value: null, color: null }), []);
   const handleOnKeyDown = useCallback(event => {
     if(event.keyCode === 13 || event.keyCode === 27) {
       onReturn(event.keyCode === 13, {
         value: value || '',
-        pick: pick || ''
+        pick: pick || '',
+        isShowingIcons: false
       });
     }
   }, [value, pick]);
@@ -23,9 +26,10 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
   const handleOnClick = useCallback(() => {
     onReturn(true, {
       value: value || '',
-      pick: pick || ''
+      pick: pick || '',
+      isShowingIcons: isShowingIcons
     });
-  }, [value, pick]);
+  }, [value, pick, isShowingIcons]);
 
   const handleOnPick = useCallback(current => {
     if(current?.color === pick?.color) {
@@ -35,6 +39,12 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
 
     setPick(current);
   }, [pick]);
+
+  const handleCheckboxOnChange = useCallback(() => {
+    setIsShowingIcons(current => {
+      return !current;
+    });
+  }, []);
 
   useEffect(() => {
     if(isVisible) {
@@ -59,7 +69,7 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
 
         <div className={'grid'}>
           <Header>
-            Save current window
+            Take a snapshot
           </Header>
 
           <div className={'mb-6 mt-5'}>
@@ -72,19 +82,26 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
               nativeRef={inputRef}
             />
 
-            <div className={'pt-3'}>
+            <div className={'flex items-center justify-between pt-3'}>
               <ColorPicker
                 palette={['orange', 'pink', 'green', 'violet', 'blue']}
                 value={pick}
 
                 onPick={pick => handleOnPick(pick)}
               />
+
+              <div className={'flex items-center'}>
+                <span className={'mr-3'}>Icons</span>
+                <Checkbox onChange={() => handleCheckboxOnChange()} value={isShowingIcons} />
+              </div>
             </div>
           </div>
 
           <Button onClick={() => handleOnClick()}>
-            <span className={'mx-1'}>Create</span>
-            <Check size={18} />
+            <div className={'flex items-center'}>
+              <span className={'mx-1'}>Save</span>
+              <Save size={18} />
+            </div>
           </Button>
         </div>
       </div>
