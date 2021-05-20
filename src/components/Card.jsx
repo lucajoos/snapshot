@@ -9,12 +9,17 @@ const Card = ({ card, color='', index=-1}) => {
   const snap = useSnapshot(Store);
   const [name, setName] = useState(card?.name);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [isReady, setIsReady] = useState(false);
 
   const palette = ['orange', 'pink', 'green', 'violet', 'blue'];
   const theme = useRef(color?.length === 0 ? palette[Math.floor(Math.random() * (palette.length - 1))] : color);
 
   const containerRef = useRef(null);
   const inputRef = useRef(null);
+
+  let ignoredFavicons = 0;
+  let shownFavicons = 0;
+  let loadedFavicons = 0;
 
   const handleOnClickRemove = useCallback(() => {
     let cards = snap.cards.map(compare => {
@@ -91,12 +96,16 @@ const Card = ({ card, color='', index=-1}) => {
     }
   }, [card]);
 
-  let ignoredFavicons = 0;
-  let shownFavicons = 0;
+  const handleIconOnLoad = useCallback(() => {
+    loadedFavicons++;
+    if(loadedFavicons === shownFavicons) {
+      setIsReady(true);
+    }
+  }, [loadedFavicons, shownFavicons]);
 
   return (
     <div
-      className={'my-4'}
+      className={`my-4 overflow-hidden ${isReady ? '' : 'hidden'}`}
     >
       <div
         onClick={e => handleOnClick(e)}
@@ -134,8 +143,9 @@ const Card = ({ card, color='', index=-1}) => {
                         return null;
                       } else if((index - ignoredFavicons) < 2 || card?.favicons.length === 3) {
                         shownFavicons++;
+
                         return (
-                          <Icon src={favicon} alt={''} key={index} theme={theme.current} />
+                          <Icon src={favicon} alt={''} key={index} theme={theme.current} onLoad={() => handleIconOnLoad()} />
                         );
                       } else {
                         return null;

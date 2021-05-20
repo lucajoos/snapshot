@@ -45,7 +45,6 @@ const App = () => {
     if(intention) {
       let tabs = await chrome.tabs.query({});
 
-
       let urls = [];
       let favicons = [];
 
