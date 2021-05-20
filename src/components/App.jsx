@@ -43,30 +43,7 @@ const App = () => {
     Store.isModalVisible = false;
 
     if(intention) {
-      //let tabs = await chrome.tabs.query({});
-
-      let tabs = [
-        {
-          url: 'https://github.com/lucajoos/snapshot',
-          favIconUrl: 'https://github.com/favicon.ico'
-        },
-        {
-          url: 'https://github.com/lucajoos/snapshot',
-          favIconUrl: 'https://github.com/favicon.ico'
-        },
-        {
-          url: 'https://github.com/lucajoos/snapshot',
-          favIconUrl: 'https://github.com/favicon.ico'
-        },
-        {
-          url: 'https://github.com/lucajoos/snapshot',
-          favIconUrl: 'https://github.com/favicon.ico'
-        },
-        {
-          url: 'https://github.com/lucajoos/snapshot',
-          favIconUrl: 'https://github.com/favicon.ico'
-        }
-      ]
+      let tabs = await chrome.tabs.query({});
 
       let urls = [];
       let favicons = [];
@@ -78,8 +55,6 @@ const App = () => {
 
       const {value, pick, isShowingIcons} = data;
       const cards = Store.cards;
-
-      console.log(isShowingIcons)
 
       cards.push({
         name: value?.length === 0 ? `Snapshot #${localStorage.getItem('length')}` : value,
