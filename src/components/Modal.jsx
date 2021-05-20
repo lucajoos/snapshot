@@ -3,7 +3,7 @@ import Input from './Input';
 import ColorPicker from './ColorPicker';
 import Button from './Button';
 import Header from './Header';
-import { Check, X } from 'react-feather';
+import { Check, ChevronRight, Pocket, Save, X } from 'react-feather';
 import Checkbox from './Checkbox';
 
 const Modal = ({ isVisible, onReturn=()=>{} }) => {
@@ -69,7 +69,7 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
 
         <div className={'grid'}>
           <Header>
-            Save current window
+            Make a snapshot
           </Header>
 
           <div className={'mb-6 mt-5'}>
@@ -98,8 +98,10 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
           </div>
 
           <Button onClick={() => handleOnClick()}>
-            <span className={'mx-1'}>Create</span>
-            <Check size={18} />
+            <div className={'flex items-center'}>
+              <span className={'mx-1'}>Save</span>
+              <Save size={18} />
+            </div>
           </Button>
         </div>
       </div>
