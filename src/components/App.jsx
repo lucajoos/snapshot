@@ -43,7 +43,9 @@ const App = () => {
     Store.isModalVisible = false;
 
     if(intention) {
-      let tabs = await chrome.tabs.query({});
+      let tabs = await chrome.tabs.query({
+        currentWindow: true
+      });
 
       let urls = [];
       let favicons = [];
