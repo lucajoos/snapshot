@@ -105,7 +105,7 @@ const Card = ({ card, color='', index=-1}) => {
 
   return (
     <div
-      className={`my-4 overflow-hidden ${isReady ? '' : 'hidden'}`}
+      className={`my-4 overflow-hidden ${(isReady || !card?.isShowingIcons) ? '' : 'hidden'}`}
     >
       <div
         onClick={e => handleOnClick(e)}
