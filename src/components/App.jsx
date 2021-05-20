@@ -44,10 +44,14 @@ const App = () => {
 
     if(intention) {
       let tabs = await chrome.tabs.query({});
+
+
       let urls = [];
+      let favicons = [];
 
       tabs?.forEach(tab => {
         urls.push(tab.url);
+        favicons.push(tab.favIconUrl);
       });
 
       const {value, pick} = data;
@@ -59,7 +63,9 @@ const App = () => {
         color: pick.color,
         meta: new Date().toISOString(),
         visible: true,
-        id: localStorage.getItem('id')
+        id: localStorage.getItem('id'),
+        favicons: favicons,
+        isShowingIcons: true
       });
 
       localStorage.setItem('length', (parseInt(localStorage.getItem('length')) + 1).toString());
