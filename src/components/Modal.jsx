@@ -69,7 +69,7 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
 
         <div className={'grid'}>
           <Header>
-            Take a snapshot
+            Take a Snapshot
           </Header>
 
           <div className={'mb-6 mt-5'}>
