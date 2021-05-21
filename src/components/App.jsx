@@ -4,7 +4,7 @@ import Store from '../Store';
 import Modal from './Modal';
 import { useSnapshot } from 'valtio';
 import Button from './Button';
-import { Plus, Zap } from 'react-feather';
+import { Zap } from 'react-feather';
 
 const App = () => {
   const snap = useSnapshot(Store);

@@ -22,7 +22,7 @@ const ColorPicker = ({ palette = [], value={color: '', index: -1}, onPick = () =
                 onClick={() => handleOnClick(index)}
                 key={color}
               >
-                <div className={`text-text-default grid justify-center items-center h-full duration-50 transition-all opacity-${value.index === index ? '100' : '0'}`}>
+                <div className={`text-text-default grid justify-center items-center h-full duration-50 transition-all ${value.index === index ? 'opacity-100' : 'opacity-0'}`}>
                   <Check size={20} />
                 </div>
               </div>
