@@ -65,7 +65,7 @@ const App = () => {
         meta: new Date().toISOString(),
         visible: true,
         id: localStorage.getItem('id'),
-        favicons: favicons,
+        favicons: isShowingIcons ? favicons : [],
         isShowingIcons: isShowingIcons
       });
 
