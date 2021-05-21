@@ -3,7 +3,7 @@ import Input from './Input';
 import ColorPicker from './ColorPicker';
 import Button from './Button';
 import Header from './Header';
-import { Check, ChevronRight, Pocket, Save, X } from 'react-feather';
+import { Save, X } from 'react-feather';
 import Checkbox from './Checkbox';
 
 const Modal = ({ isVisible, onReturn=()=>{} }) => {
@@ -18,7 +18,7 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
       onReturn(event.keyCode === 13, {
         value: value || '',
         pick: pick || '',
-        isShowingIcons: false
+        isShowingIcons: isShowingIcons
       });
     }
   }, [value, pick]);
@@ -69,7 +69,7 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
 
         <div className={'grid'}>
           <Header>
-            Take a snapshot
+            Take a Snapshot
           </Header>
 
           <div className={'mb-6 mt-5'}>

@@ -135,7 +135,7 @@ const Card = ({ card, color='', index=-1}) => {
               </div>
 
               {
-                card?.isShowingIcons && <div className={'flex ml-3'}>
+                card?.isShowingIcons && <div className={`flex p-2 rounded items-center justify-center ml-3 bg-${theme.current}-accent`}>
                   {
                     card?.favicons.map((favicon, index) => {
                       if(favicon ? favicon?.length === 0 : true) {
@@ -155,7 +155,7 @@ const Card = ({ card, color='', index=-1}) => {
 
                   {
                     shownFavicons === 2 && card?.favicons.length > 3 && (
-                      <div key={'counter'} className={`w-6 h-6 inline-block rounded-full mr-1 bg-${theme.current}-accent text-xs flex items-center justify-center`}>
+                      <div key={'counter'} className={`w-4 h-4 font-bold inline-block rounded-full text-xs flex items-center justify-center`}>
                         +{card?.favicons.length - shownFavicons}
                       </div>
                     )
