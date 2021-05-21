@@ -18,7 +18,7 @@ const Modal = ({ isVisible, onReturn=()=>{} }) => {
       onReturn(event.keyCode === 13, {
         value: value || '',
         pick: pick || '',
-        isShowingIcons: false
+        isShowingIcons: isShowingIcons
       });
     }
   }, [value, pick]);
