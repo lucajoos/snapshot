@@ -155,7 +155,7 @@ const Card = ({ card, color='', index=-1}) => {
 
                   {
                     shownFavicons === 2 && card?.favicons.length > 3 && (
-                      <div key={'counter'} className={`w-6 h-6 inline-block rounded-full mr-1 bg-${theme.current}-accent text-xs flex items-center justify-center`}>
+                      <div key={'counter'} className={`w-6 h-6 font-bold inline-block rounded-full mr-1 bg-${theme.current}-accent text-xs flex items-center justify-center`}>
                         +{card?.favicons.length - shownFavicons}
                       </div>
                     )
