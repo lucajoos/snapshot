@@ -1,15 +1,15 @@
 {
   "name": "Snapshot",
   "description": "A card-based tab management extension",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "manifest_version": 3,
   "permissions": ["tabs", "storage"],
   "action": {
     "default_popup": "index.html"
   },
   "icons": {
-    "16": "16x16.png",
-    "48": "48x48.png",
-    "128": "128x128.png"
+    "16": "icons/16x16.png",
+    "48": "icons/48x48.png",
+    "128": "icons/128x128.png"
   }
 }
