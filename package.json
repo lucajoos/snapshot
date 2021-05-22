@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start": "snowpack dev",
-    "build": "snowpack build",
+    "build": "npx license-report --output=html > ./public/licenses.html && snowpack build",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "lint": "prettier --check \"src/**/*.{js,jsx}\""
   },
@@ -28,5 +28,21 @@
     "snowpack-plugin-copy": "^1.0.1",
     "snowpack-plugin-web-ext": "^0.1.2",
     "tailwindcss": "^2.1.2"
-  }
+  },
+  "name": "snapshot",
+  "description": "A card-based tab management extension",
+  "version": "1.1.3",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucajoos/snapshot.git"
+  },
+  "keywords": [
+    "snapshot"
+  ],
+  "author": "Luca Joos",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lucajoos/snapshot/issues"
+  },
+  "homepage": "https://github.com/lucajoos/snapshot#readme"
 }

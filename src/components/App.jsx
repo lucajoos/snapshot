@@ -4,7 +4,7 @@ import Store from '../Store';
 import Modal from './Modal';
 import { useSnapshot } from 'valtio';
 import Button from './Button';
-import { Zap } from 'react-feather';
+import { Info, Zap } from 'react-feather';
 
 const App = () => {
   const snap = useSnapshot(Store);
@@ -77,6 +77,12 @@ const App = () => {
     }
   }, []);
 
+  const handleOnClickInfo = useCallback(() => {
+    chrome.tabs.create({
+      url: chrome.runtime.getURL('licenses.html')
+    });
+  }, []);
+
   return (
     <div className={'w-full h-full relative select-none'}>
       <Modal
@@ -89,7 +95,11 @@ const App = () => {
         <CardList />
       </div>
 
-      <div className={'fixed bottom-10 right-10'}>
+      <div className={'flex fixed bottom-10 right-10 items-center'}>
+        <div className={'text-gray-300 cursor-pointer mr-3'} onClick={() => handleOnClickInfo()}>
+          <Info />
+        </div>
+
         <Button onClick={() => handleOnClick()}>
           <div className={'flex items-center'}>
             <span className={'mx-1'}>Snapshot</span>
