@@ -32,7 +32,7 @@
   },
   "name": "snapshot",
   "description": "Save your opened tabs to re-open them whenever you like.",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lucajoos/snapshot.git"
