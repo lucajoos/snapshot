@@ -5,11 +5,20 @@ import Modal from './Modal';
 import { useSnapshot } from 'valtio';
 import Button from './Button';
 import { Info, Zap } from 'react-feather';
+import ConfettiGenerator from 'confetti-js';
 
 const App = () => {
   const snap = useSnapshot(Store);
 
   useEffect(() => {
+    const date = new Date();
+    const day = date.getDate();
+
+    const confetti = new ConfettiGenerator({
+      target: 'confetti',
+      colors: [[255, 214, 165], [255, 173, 173], [187, 255, 173], [189, 178, 255],  [160, 196, 255]]
+    });
+
     if(!localStorage.getItem('cards')) {
       localStorage.setItem('cards', JSON.stringify({
         value: []
@@ -33,6 +42,12 @@ const App = () => {
     } catch(e) {
       console.error(e);
     }
+
+    if((date.getMonth() === 4 && day >= 30) && (date.getMonth() === 5 && day <= 2)) {
+      confetti.render();
+    }
+
+    return () => confetti.clear();
   }, []);
 
   const handleOnClick = useCallback(async () => {
@@ -85,6 +100,7 @@ const App = () => {
 
   return (
     <div className={'w-full h-full relative select-none'}>
+      <canvas id={'confetti'} className={'absolute top-0 right-0 left-0 bottom-0'} />
       <Modal
         isVisible={snap.isModalVisible}
 
