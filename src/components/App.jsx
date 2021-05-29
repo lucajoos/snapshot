@@ -44,7 +44,7 @@ const App = () => {
       console.error(e);
     }
 
-    if(date.getMonth() === 4 && day >= 30) {
+    if(date.getMonth() === 4 && day === 30) {
       confetti.render();
     }
 
