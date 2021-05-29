@@ -1,7 +1,7 @@
 {
   "name": "Snapshot",
   "description": "Save your opened tabs to re-open them whenever you like.",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "manifest_version": 3,
   "permissions": ["tabs", "storage"],
   "action": {
