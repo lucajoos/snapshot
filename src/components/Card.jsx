@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Check, Clock, Edit2, PenTool, X } from 'react-feather';
+import { Check, Clock, Edit2, PenTool, RefreshCcw, X } from 'react-feather';
 import Store from '../Store';
 import { useSnapshot } from 'valtio';
 import moment from 'moment';
