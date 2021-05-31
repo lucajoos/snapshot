@@ -16,6 +16,7 @@ const App = () => {
 
     const confetti = new ConfettiGenerator({
       target: 'confetti',
+      max: 30,
       colors: [[255, 214, 165], [255, 173, 173], [187, 255, 173], [189, 178, 255],  [160, 196, 255]]
     });
 
@@ -43,7 +44,7 @@ const App = () => {
       console.error(e);
     }
 
-    if((date.getMonth() === 4 && day >= 30) && (date.getMonth() === 5 && day <= 2)) {
+    if(date.getMonth() === 4 && day >= 30) {
       confetti.render();
     }
 
