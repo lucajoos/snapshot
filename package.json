@@ -2,6 +2,7 @@
   "scripts": {
     "start": "snowpack dev",
     "build": "npx license-report --output=html > ./public/licenses.html && snowpack build",
+    "build-dev": "snowpack build",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "lint": "prettier --check \"src/**/*.{js,jsx}\""
   },
@@ -9,8 +10,10 @@
     "confetti-js": "^0.0.18",
     "moment": "^2.29.1",
     "react": "^17.0.2",
+    "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^17.0.2",
     "react-feather": "^2.0.9",
+    "uuid": "^8.3.2",
     "valtio": "^1.0.4"
   },
   "devDependencies": {

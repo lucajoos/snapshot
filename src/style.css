@@ -43,6 +43,11 @@ body {
     @apply text-text-default;
 }
 
+#root {
+    width: 100vw;
+    height: 100vh;
+}
+
 * {
     outline: none !important;
 }
