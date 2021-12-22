@@ -43,7 +43,7 @@ const Modal = () => {
       cards.forEach((card, index) => {
         if(card.id === snap.modal.id) {
           cards[index] = Object.assign(card, {
-            value: snap.modal.value?.length === 0 ? `Snapshot #${ snap.cards.length + 1 }` : snap.modal.value,
+            value: snap.modal.value?.length === 0 ? `Snapshot #${ snap.cards.filter(card => card.isVisible).length + 1 }` : snap.modal.value,
             pickColor: snap.modal.pickColor,
             pickIndex: snap.modal.pickIndex,
             urls: snap.modal.isUpdatingTabs ? urls : card.urls,
@@ -59,7 +59,7 @@ const Modal = () => {
 
       cards.push({
         id,
-        value: snap.modal.value?.length === 0 ? `Snapshot #${ snap.cards.length + 1 }` : snap.modal.value,
+        value: snap.modal.value?.length === 0 ? `Snapshot #${ snap.cards.filter(card => card.isVisible).length + 1 }` : snap.modal.value,
         pickColor: snap.modal.pickColor,
         pickIndex: snap.modal.pickIndex,
         urls: urls,
