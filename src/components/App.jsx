@@ -6,11 +6,8 @@ import { useSnapshot } from 'valtio';
 import Button from './Button';
 import { Info, Zap } from 'react-feather';
 import ConfettiGenerator from 'confetti-js';
-import { v4 as uuidv4 } from 'uuid';
 
 const App = () => {
-  const snap = useSnapshot(Store);
-
   useEffect(() => {
     const date = new Date();
     const day = date.getDate();
@@ -30,6 +27,10 @@ const App = () => {
     try {
       const cards = JSON.parse(localStorage.getItem('cards'))?.value;
 
+      cards.forEach(card => {
+        Store.favicons[card.id] = {};
+      });
+
       if (cards) {
         Store.cards = cards;
       }
@@ -45,46 +46,17 @@ const App = () => {
   }, []);
 
   const handleOnClick = useCallback(async () => {
+    Store.modal = {
+      value: '',
+      pickColor: '',
+      pickIndex: -1,
+      isShowingIcons: true,
+      isUpdatingTabs: false,
+      id: null
+    };
+
     Store.isModalVisible = true;
   }, []);
-
-  const handleOnReturn = useCallback(async (intention, data) => {
-    Store.isModalVisible = false;
-
-    if (intention) {
-      const { value, pick, isShowingIcons } = data;
-      // Workaround
-      const cards = [...Store.cards];
-
-      let tabs = await chrome.tabs.query({
-        currentWindow: true,
-      });
-
-      let urls = [];
-      let favicons = [];
-
-      tabs?.forEach(tab => {
-        urls.push(tab.url);
-        favicons.push(tab.favIconUrl);
-      });
-
-      cards.push({
-        name: value?.length === 0 ? `Snapshot #${ snap.cards.length + 1 }` : value,
-        urls: urls,
-        color: pick.color,
-        meta: new Date().toISOString(),
-        visible: true,
-        id: uuidv4(),
-        index: snap.cards.length,
-        favicons: isShowingIcons ? favicons : [],
-        isShowingIcons: isShowingIcons,
-      });
-
-      localStorage.setItem('cards', JSON.stringify({ value: cards }));
-
-      Store.cards = cards;
-    }
-  }, [ snap.cards ]);
 
   const handleOnClickInfo = useCallback(() => {
     chrome.tabs.create({
@@ -95,11 +67,7 @@ const App = () => {
   return (
     <div className={ 'w-full h-full relative select-none' }>
       <canvas id={ 'confetti' } className={ 'absolute top-0 right-0 left-0 bottom-0' } />
-      <Modal
-        isVisible={ snap.isModalVisible }
-
-        onReturn={ (i, v) => handleOnReturn(i, v) }
-      />
+      <Modal />
 
       <CardList />
 

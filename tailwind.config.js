@@ -30,19 +30,14 @@ const colors = {
 }
 
 module.exports = {
-  purge: {
-    content: ['./src/**/*.jsx'],
-    options: {
-      safelist: [].concat(...Object.keys(colors).map(color => {
-        return [
-          `bg-${color}-default`,
-          `bg-${color}-accent`,
-          `hover:bg-${color}-accent`
-        ]
-      }))
-    }
-  },
-  darkMode: false,
+  content: ['./src/**/*.{jsx,css}'],
+  safelist: [].concat(...Object.keys(colors).map(color => {
+    return [
+      `bg-${color}-default`,
+      `bg-${color}-accent`,
+      `hover:bg-${color}-accent`
+    ]
+  })),
   theme: {
     extend: {
       margin: {

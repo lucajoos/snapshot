@@ -40,11 +40,9 @@ const CardList = () => {
     localStorage.setItem('cards', JSON.stringify({value: cards}));
   }, [ snap.cards ]);
 
-  console.log(snap.cards)
-
   return (
     <div className={'h-full p-5'}>{
-      snap.cards.filter(card => card?.visible).length === 0 ? (
+      snap.cards.filter(card => card.isVisible).length === 0 ? (
         <div className={'text-gray-300 grid justify-center text-center mt-empty'}>
           <div className={'justify-self-center'}>
             <Archive size={200} />
@@ -65,7 +63,8 @@ const CardList = () => {
                 >
                   <div className={'grid gap-4'}>
                     {
-                      snap.cards.filter(card => card?.visible).sort((a, b) => a.index - b.index).map((card) => {
+                      snap.cards.filter(card => card.isVisible).sort((a, b) => a.index - b.index).map(card => {
+                        console.log(card)
                         return (
                           <Draggable key={ card.id } draggableId={ card.id } index={ card.index }>
                             {
@@ -74,8 +73,6 @@ const CardList = () => {
                                   ref={ draggableProvided.innerRef } { ...draggableProvided.draggableProps } { ...draggableProvided.dragHandleProps }
                                 >
                                   <Card
-                                    index={card.index}
-                                    color={card?.color}
                                     card={card}
                                   />
                                 </div>

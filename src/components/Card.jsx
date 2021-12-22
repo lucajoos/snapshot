@@ -1,32 +1,25 @@
-import React, { useCallback, useRef, useState } from 'react';
-import { Check, Clock, Edit2, X } from 'react-feather';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Clock, Edit2, X } from 'react-feather';
 import Store from '../Store';
 import { useSnapshot } from 'valtio';
 import moment from 'moment';
 import Icon from './Icon';
 
-const Card = ({ card, color = '', index = -1}) => {
+const Card = ({ card }) => {
   const snap = useSnapshot(Store);
-  const [ name, setName ] = useState(card?.name);
-  const [ isDisabled, setIsDisabled ] = useState(true);
-  const [ isReady, setIsReady ] = useState(false);
 
   const palette = [ 'orange', 'pink', 'green', 'violet', 'blue' ];
-  const theme = useRef(color?.length === 0 ? palette[Math.floor(Math.random() * palette.length)] : color);
-
+  const theme = card.pickColor?.length === 0 ? palette[Math.floor(Math.random() * palette.length)] : card.pickColor;
+  const faviconsRendered = Object.values(snap.favicons[card.id]).filter(current => current).length;
+  
   const containerRef = useRef(null);
-  const inputRef = useRef(null);
-
-  let ignoredFavicons = 0;
-  let shownFavicons = 0;
-  let loadedFavicons = 0;
 
   const handleOnClickRemove = useCallback(() => {
     let cards = snap.cards.map(compare => {
       let current = Object.assign({}, compare);
 
       if (current.id === card.id) {
-        current.visible = false;
+        current.isVisible = false;
       }
 
       return current;
@@ -39,51 +32,20 @@ const Card = ({ card, color = '', index = -1}) => {
     });
 
     localStorage.setItem('cards', JSON.stringify({ value: set }));
-  }, [ snap.cards, index ]);
-
-  const handleOnInputChange = useCallback(event => {
-    setName(event.target.value);
-
-    let cards = snap.cards.map((card, number) => {
-      let current = Object.assign({}, card);
-
-      if (index === number) {
-        current.name = event.target.value?.length === 0 ? `Snapshot #${ snap.cards.length + 1 }` : event.target.value;
-      }
-
-      return current;
-    });
-
-    Store.cards = cards;
-    localStorage.setItem('cards', JSON.stringify({ value: cards }));
-  }, [snap.cards]);
+  }, [ snap.cards, card.index ]);
 
   const handleOnClickEdit = useCallback(() => {
-    if (isDisabled) {
-      setIsDisabled(!isDisabled);
+    Store.modal = {
+      value: card.value,
+      pickColor: card.pickColor,
+      pickIndex: card.pickIndex,
+      isShowingIcons: card.isShowingIcons,
+      isUpdatingTabs: false,
+      id: card.id,
+    };
 
-      setTimeout(() => {
-        inputRef.current?.focus();
-        inputRef.current?.select();
-      }, 50);
-    } else {
-      inputRef.current?.blur();
-    }
-  }, [ isDisabled ]);
-
-  const handleOnBlur = useCallback(() => {
-    if (name?.length === 0) {
-      setName(`Snapshot #${ snap.cards.length + 1 }`);
-    }
-
-    setIsDisabled(true);
-  }, [ snap.cards, name ]);
-
-  const handleOnKeyDown = useCallback((event) => {
-    if (event.keyCode === 13 || event.keyCode === 27) {
-      inputRef.current?.blur();
-    }
-  }, []);
+    Store.isModalVisible = true;
+  }, [card]);
 
   const handleOnClick = useCallback(event => {
     if (event.target === containerRef.current) {
@@ -95,34 +57,18 @@ const Card = ({ card, color = '', index = -1}) => {
     }
   }, [ card ]);
 
-  const handleIconOnLoad = useCallback(() => {
-    loadedFavicons++;
-    if (loadedFavicons === shownFavicons) {
-      setIsReady(true);
-    }
-  }, [ loadedFavicons, shownFavicons ]);
-
   return (
     <div
-      className={ `overflow-hidden ${ (isReady || !card?.isShowingIcons) ? '' : 'hidden' }` }
+      className={ `overflow-hidden` }
     >
       <div
         onClick={ e => handleOnClick(e) }
-        className={ `card p-5 cursor-pointer select-none w-full rounded-lg text-text-default relative bg-${ theme.current }-default` }
+        className={ `card p-5 cursor-pointer select-none w-full rounded-lg text-text-default relative bg-${ theme }-default` }
         ref={ containerRef }
       >
         <div className={ 'grid gap-1 pointer-events-none' }>
           <div className={ 'grid gap-1' }>
-            <input
-              value={ name }
-              className={ `text-lg font-bold bg-transparent ${ isDisabled ? 'pointer-events-none' : 'pointer-events-all' }` }
-              type={ 'text' }
-              onChange={ e => handleOnInputChange(e) }
-              disabled={ isDisabled }
-              ref={ inputRef }
-              onBlur={ () => handleOnBlur() }
-              onKeyDown={ (e) => handleOnKeyDown(e) }
-            />
+            <span className={ 'font-bold' }>{ card.value }</span>
 
             <div className={ 'flex items-center' }>
               <div className={ 'flex items-center' }>
@@ -130,61 +76,62 @@ const Card = ({ card, color = '', index = -1}) => {
                   <Clock size={ 18 } />
                 </div>
 
-                <span className={ 'text-xs' }>Created { moment(card?.meta || new Date()).fromNow() }</span>
+                <span className={ 'text-xs' }>Created { moment(card.createdAt || new Date()).fromNow() }</span>
               </div>
 
-              {
-                card?.isShowingIcons &&
-                <div className={ `flex p-2 rounded items-center justify-center ml-3 bg-${ theme.current }-accent` }>
+                <div className={ `flex p-2 rounded items-center justify-center ml-3 bg-${ theme }-accent ${(faviconsRendered === 0 || !card.isShowingIcons) && 'opacity-0'}` }>
                   {
-                    card?.favicons.map((favicon, index) => {
-                      if (favicon ? favicon?.length === 0 : true) {
-                        ignoredFavicons++;
-                        return null;
-                      } else if ((index - ignoredFavicons) < 2 || card?.favicons.length === 3) {
-                        shownFavicons++;
-
-                        return (
-                          <Icon src={ favicon } alt={ '' } key={ index } theme={ theme.current }
-                                onLoad={ () => handleIconOnLoad() } />
-                        );
-                      } else {
-                        return null;
+                    card.favicons.map((favicon, index) => {
+                      if(!snap.favicons[card.id][index]) {
+                        Store.favicons[card.id][index] = false;
                       }
+
+                      return (
+                        <Icon
+                          src={ favicon }
+                          alt={ '' }
+                          key={ index }
+                          isVisible={ snap.favicons[card.id][index] }
+                          onLoad={() => {
+                            if(
+                              card.favicons.length <= 3 ||
+                              faviconsRendered < 2
+                            ) {
+                              Store.favicons[card.id][index] = true;
+                            }
+                          }}
+                          onError={() => {
+                            Store.favicons[card.id][index] = false;
+                          }}
+                        />
+                      );
                     })
                   }
 
                   {
-                    shownFavicons === 2 && card?.favicons.length > 3 && (
+                    card.favicons.length - faviconsRendered > 0 && (
                       <div key={ 'counter' }
                            className={ `w-4 h-4 font-bold inline-block rounded-full text-xs flex items-center justify-center` }>
-                        +{ card?.favicons.length - shownFavicons }
+                        +{ card.favicons.length - faviconsRendered }
                       </div>
                     )
                   }
                 </div>
-              }
             </div>
           </div>
         </div>
 
         <div className={ 'absolute top-0 bottom-0 m-auto right-5 items-center cursor-pointer card-remove flex' }>
-          <div className={ `rounded hover:bg-${ theme.current }-accent p-2 mr-1 pointer-events-all` } onClick={ () => {
+          <div className={ `rounded hover:bg-${ theme }-accent p-2 mr-1 pointer-events-all` } onClick={ () => {
             handleOnClickEdit();
           } }>
-            {
-              isDisabled ? <Edit2 /> : <Check />
-            }
+            <Edit2 />
           </div>
 
-          {
-            isDisabled && (
-              <div className={ `rounded hover:bg-${ theme.current }-accent p-2 pointer-events-all` }
-                   onClick={ () => handleOnClickRemove() }>
-                <X />
-              </div>
-            )
-          }
+          <div className={ `rounded hover:bg-${ theme }-accent p-2 pointer-events-all` }
+               onClick={ () => handleOnClickRemove() }>
+            <X />
+          </div>
         </div>
       </div>
     </div>

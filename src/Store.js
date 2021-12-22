@@ -2,7 +2,16 @@ import { proxy } from 'valtio'
 
 const Store = proxy({
   cards: [],
-  isModalVisible: false
+  favicons: {},
+  modal: {
+    value: '',
+    pickColor: '',
+    pickIndex: -1,
+    isShowingIcons: true,
+    isUpdatingTabs: false,
+    id: null
+  },
+  isModalVisible: false,
 });
 
 export default Store;
