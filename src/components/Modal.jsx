@@ -125,7 +125,7 @@ const Modal = () => {
 
         <div className={'grid'}>
           <Header>
-            {isUpdate ? 'Edit' : 'Take'} a Snapshot
+            {isUpdate ? 'Edit' : 'Take'} Snapshot
           </Header>
 
           <div className={'mb-6 mt-5'}>
