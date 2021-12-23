@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { Check, Sliders } from 'react-feather';
 import { useSnapshot } from 'valtio';
 import Store from '../Store';

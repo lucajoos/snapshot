@@ -10,8 +10,8 @@ const Card = ({ card }) => {
   const snap = useSnapshot(Store);
 
   const palette = useRef([ 'orange', 'pink', 'green', 'violet', 'blue' ]);
-  const theme = useRef(card.pickColor?.length === 0 ? palette.current[Math.floor(Math.random() * palette.current.length)] : card.pickColor);
-  const themeAccent = useRef(theme.current.startsWith('#') ? Color(theme.current).lighten(0.05) : null);
+  const theme = card.pickColor?.length === 0 ? palette.current[Math.floor(Math.random() * palette.current.length)] : card.pickColor
+  const themeAccent = theme.startsWith('#') ? Color(theme).lighten(0.05) : null
   const faviconsRendered = Object.values(snap.favicons[card.id]).filter(current => current).length;
 
   const [isHoveringEdit, setIsHoveringEdit] = useState(false);
@@ -70,8 +70,8 @@ const Card = ({ card }) => {
     >
       <div
         onClick={ e => handleOnClick(e) }
-        style={{ backgroundColor: theme.current?.startsWith('#') && theme.current }}
-        className={ `card p-5 cursor-pointer select-none w-full rounded-lg text-text-default relative ${!theme.current?.startsWith('#') && `bg-${theme.current}-default`}` }
+        style={{ backgroundColor: theme?.startsWith('#') && theme }}
+        className={ `card p-5 cursor-pointer select-none w-full rounded-lg text-text-default relative ${!theme?.startsWith('#') && `bg-${theme}-default`}` }
         ref={ containerRef }
       >
         <div className={ 'grid gap-1 pointer-events-none' }>
@@ -88,8 +88,8 @@ const Card = ({ card }) => {
               </div>
 
                 <div
-                  style={{ backgroundColor: theme.current?.startsWith('#') && themeAccent.current}}
-                  className={ `flex p-2 rounded items-center justify-center ml-3 ${!theme.current?.startsWith('#') ? `bg-${theme.current}-accent` : ''} ${(faviconsRendered === 0 || !card.isShowingIcons) && 'opacity-0'}` }
+                  style={{ backgroundColor: theme?.startsWith('#') && themeAccent}}
+                  className={ `flex p-2 rounded items-center justify-center ml-3 ${!theme?.startsWith('#') ? `bg-${theme}-accent` : ''} ${(faviconsRendered === 0 || !card.isShowingIcons) && 'opacity-0'}` }
                 >
                   {
                     card.favicons.map((favicon, index) => {
@@ -134,8 +134,8 @@ const Card = ({ card }) => {
 
         <div className={ 'absolute top-0 bottom-0 m-auto right-5 items-center cursor-pointer card-remove flex' }>
           <div
-            style={{ backgroundColor: theme.current?.startsWith('#') && isHoveringEdit && themeAccent.current}}
-            className={ `rounded p-2 mr-1 pointer-events-all transition-color ${!theme.current?.startsWith('#') ? `hover:bg-${theme.current}-accent` : ''}` }
+            style={{ backgroundColor: theme?.startsWith('#') && isHoveringEdit && themeAccent}}
+            className={ `rounded p-2 mr-1 pointer-events-all transition-color ${!theme?.startsWith('#') ? `hover:bg-${theme}-accent` : ''}` }
             onClick={ () => handleOnClickEdit() }
             onMouseEnter={() => setIsHoveringEdit(true)}
             onMouseLeave={() => setIsHoveringEdit(false)}
@@ -144,8 +144,8 @@ const Card = ({ card }) => {
           </div>
 
           <div
-            style={{ backgroundColor: theme.current?.startsWith('#') && isHoveringDelete && themeAccent.current}}
-            className={ `rounded p-2 rounded pointer-events-all transition-color ${!theme.current?.startsWith('#') ? `hover:bg-${theme.current}-accent` : ''}` }
+            style={{ backgroundColor: theme?.startsWith('#') && isHoveringDelete && themeAccent}}
+            className={ `rounded p-2 rounded pointer-events-all transition-color ${!theme?.startsWith('#') ? `hover:bg-${theme}-accent` : ''}` }
             onClick={ () => handleOnClickRemove() }
             onMouseEnter={() => setIsHoveringDelete(true)}
             onMouseLeave={() => setIsHoveringDelete(false)}
