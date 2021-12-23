@@ -78,7 +78,11 @@ const CardList = () => {
                   className={'grid gap-4'}
                 >
                   {
-                    snap.cards.filter(card => card.isVisible).sort((a, b) => a.index - b.index).map(card => {
+                    snap.cards.filter(card => card.isVisible).filter(card => {
+                      if(snap.search.length === 0) return true;
+
+                      return card.value.toUpperCase().includes(snap.search.toUpperCase());
+                    }).sort((a, b) => a.index - b.index).map(card => {
                       return (
                         <Draggable key={ card.id } draggableId={ card.id } index={ card.index }>
                           {
