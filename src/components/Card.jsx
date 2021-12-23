@@ -10,21 +10,23 @@ const Card = ({ card }) => {
   const snap = useSnapshot(Store);
 
   const palette = useRef([ 'orange', 'pink', 'green', 'violet', 'blue' ]);
-  const [theme, setTheme] = useState(card.pickColor?.length === 0 ? palette.current[Math.floor(Math.random() * palette.current.length)] : card.pickColor);
-  const [themeAccent, setThemeAccent] = useState(theme.startsWith('#') ? Color(theme).lighten(0.05) : null)
-  const faviconsRendered = Object.values(snap.favicons[card.id]).filter(current => current).length;
+  const [theme, setTheme] = useState(null);
+  const [themeAccent, setThemeAccent] = useState(null)
 
   const [isHoveringEdit, setIsHoveringEdit] = useState(false);
   const [isHoveringDelete, setIsHoveringDelete] = useState(false);
   
   const containerRef = useRef(null);
 
-  useEffect(() => {
-    const currentTheme = card.pickColor?.length === 0 ? palette.current[Math.floor(Math.random() * palette.current.length)] : card.pickColor;
+  const faviconsRendered = Object.values(snap.favicons[card.id]).filter(current => current).length;
+
+  // Callbacks
+  const updateTheme = useCallback(() => {
+    const currentTheme = card.isCustomPick ? card.pickColor : (card.pickColor.length > 0 ? card.pickColor : palette.current[Math.floor(Math.random() * palette.current.length)]);
 
     setTheme(currentTheme);
-    setThemeAccent(currentTheme.startsWith('#') ? Color(currentTheme).lighten(0.05) : null)
-  }, [card.pickColor, card.pickCustom, card.pickIndex]);
+    setThemeAccent(card.isCustomPick ? Color(currentTheme).lighten(0.05) : null);
+  }, [card.pickColor, card.pickCustom, card.pickIndex, card.isCustomPick]);
 
   const handleOnClickRemove = useCallback(() => {
     let cards = snap.cards.map(compare => {
@@ -71,6 +73,16 @@ const Card = ({ card }) => {
     }
   }, [ card ]);
 
+  // Effects
+  useEffect(() => {
+    updateTheme();
+  }, [card.pickColor, card.pickCustom, card.pickIndex, card.isCustomPick]);
+
+  useEffect(() => {
+    // Set initial theme
+    updateTheme();
+  }, []);
+
   return (
     <div
       className={ `overflow-hidden` }
@@ -95,8 +107,8 @@ const Card = ({ card }) => {
               </div>
 
                 <div
-                  style={{ backgroundColor: theme?.startsWith('#') && themeAccent}}
-                  className={ `flex p-2 rounded items-center justify-center ml-3 ${!theme?.startsWith('#') ? `bg-${theme}-accent` : ''} ${(faviconsRendered === 0 || !card.isShowingIcons) && 'opacity-0'}` }
+                  style={{ backgroundColor: card.isCustomPick && themeAccent}}
+                  className={ `flex p-2 rounded items-center justify-center ml-3 ${!card.isCustomPick ? `bg-${theme}-accent` : ''} ${(faviconsRendered === 0 || !card.isShowingIcons) && 'opacity-0'}` }
                 >
                   {
                     card.favicons.map((favicon, index) => {
@@ -141,8 +153,8 @@ const Card = ({ card }) => {
 
         <div className={ 'absolute top-0 bottom-0 m-auto right-5 items-center cursor-pointer card-remove flex' }>
           <div
-            style={{ backgroundColor: theme?.startsWith('#') && isHoveringEdit && themeAccent}}
-            className={ `rounded p-2 mr-1 pointer-events-all transition-color ${!theme?.startsWith('#') ? `hover:bg-${theme}-accent` : ''}` }
+            style={{ backgroundColor: card.isCustomPick && isHoveringEdit && themeAccent}}
+            className={ `rounded p-2 mr-1 pointer-events-all transition-color ${!card.isCustomPick ? `hover:bg-${theme}-accent` : ''}` }
             onClick={ () => handleOnClickEdit() }
             onMouseEnter={() => setIsHoveringEdit(true)}
             onMouseLeave={() => setIsHoveringEdit(false)}
@@ -151,8 +163,8 @@ const Card = ({ card }) => {
           </div>
 
           <div
-            style={{ backgroundColor: theme?.startsWith('#') && isHoveringDelete && themeAccent}}
-            className={ `rounded p-2 rounded pointer-events-all transition-color ${!theme?.startsWith('#') ? `hover:bg-${theme}-accent` : ''}` }
+            style={{ backgroundColor: card.isCustomPick && isHoveringDelete && themeAccent}}
+            className={ `rounded p-2 rounded pointer-events-all transition-color ${!card.isCustomPick ? `hover:bg-${theme}-accent` : ''}` }
             onClick={ () => handleOnClickRemove() }
             onMouseEnter={() => setIsHoveringDelete(true)}
             onMouseLeave={() => setIsHoveringDelete(false)}

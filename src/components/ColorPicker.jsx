@@ -20,6 +20,10 @@ const ColorPicker = ({ palette = [], pickIndex = -1, onPick = () => {}, }) => {
       Store.modal.pickColor = '#FFADAD';
     }
 
+    if(snap.modal.isShowingCustomPick) {
+      Store.modal.pickColor = '';
+    }
+
     Store.modal.pickIndex = -1;
     Store.modal.isShowingCustomPick = !snap.modal.isShowingCustomPick;
   }, [snap.modal.pickCustom, snap.modal.isShowingCustomPick]);
