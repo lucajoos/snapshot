@@ -70,7 +70,7 @@ const Modal = () => {
         editedAt: null,
         isVisible: true,
         index: snap.cards.length,
-        favicons: snap.modal.isShowingIcons ? favicons : [],
+        favicons: favicons,
         isShowingIcons: snap.modal.isShowingIcons,
       });
 
