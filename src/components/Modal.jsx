@@ -13,6 +13,7 @@ const Modal = () => {
   const snap = useSnapshot(Store);
 
   const inputRef = useRef(null);
+  const colorRef = useRef(null);
 
   const handleOnClose = useCallback(() => {
     Store.isModalVisible = false;
@@ -46,6 +47,7 @@ const Modal = () => {
             value: snap.modal.value?.length === 0 ? `Snapshot #${ snap.cards.filter(card => card.isVisible).length + 1 }` : snap.modal.value,
             pickColor: snap.modal.pickColor,
             pickIndex: snap.modal.pickIndex,
+            isCustomPick: snap.modal.pickIndex === -1 && snap.modal.pickColor.length > 0,
             urls: snap.modal.isUpdatingTabs ? urls : card.urls,
             editedAt: new Date().toISOString(),
             favicons: snap.modal.isUpdatingTabs ? favicons : card.favicons,
@@ -62,6 +64,7 @@ const Modal = () => {
         value: snap.modal.value?.length === 0 ? `Snapshot #${ snap.cards.filter(card => card.isVisible).length + 1 }` : snap.modal.value,
         pickColor: snap.modal.pickColor,
         pickIndex: snap.modal.pickIndex,
+        isCustomPick: snap.modal.pickIndex === -1 && snap.modal.pickColor.length > 0,
         urls: urls,
         createdAt: new Date().toISOString(),
         editedAt: null,
@@ -88,6 +91,10 @@ const Modal = () => {
     Store.modal.value = event.target.value;
   }, []);
 
+  const handleOnChangeColor = useCallback(event => {
+    Store.modal.pickColor = event.target.value;
+  }, []);
+
   const handleOnPick = useCallback(current => {
     if(
       current?.color === snap.modal.pickColor
@@ -112,7 +119,11 @@ const Modal = () => {
     if(snap.isModalVisible) {
       inputRef.current?.focus();
     }
-  }, [snap.isModalVisible]);
+
+    if(snap.modal.isShowingCustomPick) {
+      colorRef.current?.focus();
+    }
+  }, [snap.isModalVisible, snap.modal.isShowingCustomPick]);
 
   return (
     <div className={`fixed top-0 right-0 left-0 bottom-0 z-30 grid transition-all ${snap.isModalVisible ? 'opacity-100 pointer-events-auto' : 'pointer-events-none opacity-0'}`} onKeyDown={event => handleOnKeyDown(event)}>
@@ -148,6 +159,14 @@ const Modal = () => {
                 <Checkbox onChange={() => handleCheckboxOnChangeIcons()} value={snap.modal.isShowingIcons} />
               </div>
             </div>
+
+            <Input
+              value={snap.modal.pickColor}
+              placeholder={'Custom Color'}
+              onChange={event => handleOnChangeColor(event)}
+              nativeRef={colorRef}
+              className={!snap.modal.isShowingCustomPick && 'hidden'}
+            />
 
             {
               isUpdate && (

@@ -2,7 +2,6 @@ import React, { useCallback, useEffect } from 'react';
 import CardList from './CardList';
 import Store from '../Store';
 import Modal from './Modal';
-import { useSnapshot } from 'valtio';
 import Button from './Button';
 import { Info, Zap } from 'react-feather';
 import ConfettiGenerator from 'confetti-js';
@@ -50,8 +49,10 @@ const App = () => {
       value: '',
       pickColor: '',
       pickIndex: -1,
+      isCustomPick: false,
       isShowingIcons: true,
       isUpdatingTabs: false,
+      isShowingCustomPick: false,
       id: null
     };
 
@@ -67,6 +68,7 @@ const App = () => {
   return (
     <div className={ 'w-full h-full relative select-none' }>
       <canvas id={ 'confetti' } className={ 'absolute top-0 right-0 left-0 bottom-0' } />
+
       <Modal />
 
       <CardList />
