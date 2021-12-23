@@ -8,6 +8,7 @@ import ConfettiGenerator from 'confetti-js';
 import { useSnapshot } from 'valtio';
 import Input from './Input';
 import ContextMenu from './ContextMenu';
+import helpers from '../modules/helpers';
 
 const App = () => {
   const snap = useSnapshot(Store);
@@ -40,11 +41,31 @@ const App = () => {
   }, []);
 
   const handleOnContextMenu = useCallback(event => {
-    event.preventDefault();
+    if(snap.contextMenu.isPreventingDefault) {
+      event.preventDefault();
+    }
+
+    let type = 'default';
     Store.contextMenu.x = event.pageX;
     Store.contextMenu.y = event.pageY;
+    Store.contextMenu.data = '';
+
+    let element = event.target.closest('.card');
+
+    if(element) {
+      type = 'card';
+      Store.contextMenu.data = element.getAttribute('id');
+    }
+
+    element = event.target.closest('.input');
+
+    if(element) {
+      type = 'input';
+    }
+
+    Store.contextMenu.type = type;
     Store.contextMenu.isVisible = true;
-  }, []);
+  }, [snap.cards, snap.contextMenu.isPreventingDefault]);
 
   const handleOnClick = useCallback(event => {
     if(snap.contextMenu.isVisible) {

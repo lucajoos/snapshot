@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Clock, Edit2, X } from 'react-feather';
+import { Clock, Delete, Edit2, MoreHorizontal, Trash, X } from 'react-feather';
 import Store from '../Store';
 import { useSnapshot } from 'valtio';
 import moment from 'moment';
 import Icon from './Icon';
 import Color from 'color';
+import helpers from '../modules/helpers'
 
 const Card = ({ card, className }) => {
   const snap = useSnapshot(Store);
@@ -13,8 +14,7 @@ const Card = ({ card, className }) => {
   const [theme, setTheme] = useState(null);
   const [themeAccent, setThemeAccent] = useState(null)
 
-  const [isHoveringEdit, setIsHoveringEdit] = useState(false);
-  const [isHoveringDelete, setIsHoveringDelete] = useState(false);
+  const [isHoveringMore, setIsHoveringMore] = useState(false);
   
   const containerRef = useRef(null);
 
@@ -28,49 +28,17 @@ const Card = ({ card, className }) => {
     setThemeAccent(card.isCustomPick ? Color(currentTheme).lighten(0.05) : null);
   }, [card.pickColor, card.pickCustom, card.pickIndex, card.isCustomPick]);
 
-  const handleOnClickRemove = useCallback(() => {
-    let cards = snap.cards.map(compare => {
-      let current = Object.assign({}, compare);
-
-      if (current.id === card.id) {
-        current.isVisible = false;
-      }
-
-      return current;
-    });
-
-    Store.cards = cards;
-
-    const set = cards.filter(current => {
-      return current.id !== card.id;
-    });
-
-    localStorage.setItem('cards', JSON.stringify({ value: set }));
-  }, [ snap.cards, card.index ]);
-
-  const handleOnClickEdit = useCallback(() => {
-    Store.modal = {
-      id: card.id,
-      value: card.value,
-      tags: card.tags,
-      pickColor: card.pickColor,
-      pickIndex: card.pickIndex,
-      pickCustom: card.pickCustom,
-      isShowingIcons: card.isShowingIcons,
-      isUpdatingTabs: false,
-      isShowingCustomPick: card.isCustomPick,
-    };
-
-    Store.isModalVisible = true;
+  const handleOnClickMore = useCallback(event => {
+    Store.contextMenu.x = event.pageX - 200;
+    Store.contextMenu.y = event.pageY + 5;
+    Store.contextMenu.data = card.id;
+    Store.contextMenu.type = 'card';
+    Store.contextMenu.isVisible = true;
   }, [card]);
 
   const handleOnClick = useCallback(event => {
     if (event.target === containerRef.current) {
-      card.urls.forEach(url => {
-        chrome.tabs.create({
-          url: url,
-        });
-      });
+      helpers.card.open(card.id);
     }
   }, [ card ]);
 
@@ -93,6 +61,7 @@ const Card = ({ card, className }) => {
         style={{ backgroundColor: theme?.startsWith('#') && theme }}
         className={ `card p-5 cursor-pointer select-none w-full rounded-lg text-text-default relative ${!theme?.startsWith('#') ? `bg-${theme}-default` : ''}` }
         ref={ containerRef }
+        id={card.id}
       >
         <div className={ 'grid gap-1 pointer-events-none' }>
           <div className={ 'grid gap-1' }>
@@ -154,23 +123,13 @@ const Card = ({ card, className }) => {
 
         <div className={ 'absolute top-0 bottom-0 m-auto right-5 items-center cursor-pointer card-remove flex' }>
           <div
-            style={{ backgroundColor: card.isCustomPick && isHoveringEdit && themeAccent}}
+            style={{ backgroundColor: card.isCustomPick && isHoveringMore && themeAccent}}
             className={ `rounded p-2 mr-1 pointer-events-all transition-color ${!card.isCustomPick ? `hover:bg-${theme}-accent` : ''}` }
-            onClick={ () => handleOnClickEdit() }
-            onMouseEnter={() => setIsHoveringEdit(true)}
-            onMouseLeave={() => setIsHoveringEdit(false)}
+            onClick={ event => handleOnClickMore(event) }
+            onMouseEnter={() => setIsHoveringMore(true)}
+            onMouseLeave={() => setIsHoveringMore(false)}
           >
-            <Edit2 />
-          </div>
-
-          <div
-            style={{ backgroundColor: card.isCustomPick && isHoveringDelete && themeAccent}}
-            className={ `rounded p-2 rounded pointer-events-all transition-color ${!card.isCustomPick ? `hover:bg-${theme}-accent` : ''}` }
-            onClick={ () => handleOnClickRemove() }
-            onMouseEnter={() => setIsHoveringDelete(true)}
-            onMouseLeave={() => setIsHoveringDelete(false)}
-          >
-            <X />
+            <MoreHorizontal />
           </div>
         </div>
       </div>

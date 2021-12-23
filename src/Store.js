@@ -17,7 +17,10 @@ const Store = proxy({
   contextMenu: {
     x: 0,
     y: 0,
-    isVisible: false
+    data: '',
+    type: 'card',
+    isVisible: false,
+    isPreventingDefault: true
   },
   isModalVisible: false,
 });
