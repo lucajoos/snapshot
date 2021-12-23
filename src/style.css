@@ -29,7 +29,7 @@
 }
 
 *::-webkit-scrollbar {
-    width: 7.5px;
+    width: 6px;
 }
 
 *::-webkit-scrollbar-thumb {
