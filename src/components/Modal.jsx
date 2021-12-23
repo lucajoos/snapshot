@@ -45,13 +45,17 @@ const Modal = () => {
         if(card.id === snap.modal.id) {
           cards[index] = Object.assign(card, {
             value: snap.modal.value?.length === 0 ? `Snapshot #${ snap.cards.filter(card => card.isVisible).length + 1 }` : snap.modal.value,
+
             pickColor: snap.modal.pickColor,
             pickIndex: snap.modal.pickIndex,
-            isCustomPick: snap.modal.isShowingCustomPick && snap.modal.pickColor.length > 0 && snap.modal.pickIndex === -1,
-            urls: snap.modal.isUpdatingTabs ? urls : card.urls,
+
             editedAt: new Date().toISOString(),
-            favicons: snap.modal.isUpdatingTabs ? favicons : card.favicons,
+
             isShowingIcons: snap.modal.isShowingIcons,
+            isCustomPick: snap.modal.isShowingCustomPick && snap.modal.pickColor.length > 0 && snap.modal.pickIndex === -1,
+
+            urls: snap.modal.isUpdatingTabs ? urls : card.urls,
+            favicons: snap.modal.isUpdatingTabs ? favicons : card.favicons,
           });
         }
       })
@@ -61,17 +65,21 @@ const Modal = () => {
 
       cards.push({
         id,
+        index: snap.cards.length,
         value: snap.modal.value?.length === 0 ? `Snapshot #${ snap.cards.filter(card => card.isVisible).length + 1 }` : snap.modal.value,
+
         pickColor: snap.modal.pickColor,
         pickIndex: snap.modal.pickIndex,
-        isCustomPick: snap.modal.isShowingCustomPick && snap.modal.pickColor.length > 0 && snap.modal.pickIndex === -1,
-        urls: urls,
+
         createdAt: new Date().toISOString(),
         editedAt: null,
+
         isVisible: true,
-        index: snap.cards.length,
-        favicons: favicons,
         isShowingIcons: snap.modal.isShowingIcons,
+        isCustomPick: snap.modal.isShowingCustomPick && snap.modal.pickColor.length > 0 && snap.modal.pickIndex === -1,
+
+        urls,
+        favicons
       });
 
       Store.favicons[id] = {};
