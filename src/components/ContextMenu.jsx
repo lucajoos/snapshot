@@ -2,13 +2,12 @@ import React, { useCallback } from 'react';
 import { useSnapshot } from 'valtio';
 import Store from '../Store';
 import ContextMenuOption from './ContextMenuOption';
-import { Clipboard, Code, Edit2, ExternalLink, Search, Share, Trash } from 'react-feather';
+import { Code, Edit2, ExternalLink, Share, Trash } from 'react-feather';
 import helpers from '../modules/helpers';
 
 const ContextMenu = () => {
   const snap = useSnapshot(Store);
 
-  // Input callbacks
   // Card callbacks
   const handleOnClickCardOpen = useCallback(isWindow => {
     helpers.card.open(snap.contextMenu.data, isWindow);
@@ -32,21 +31,6 @@ const ContextMenu = () => {
       top: snap.contextMenu.y,
       left: snap.contextMenu.x
     }}>
-      {
-        snap.contextMenu.type === 'input' && (
-          <>
-            <ContextMenuOption
-              title={'Paste'}
-              icon={<Clipboard size={16}/>}
-            />
-            <ContextMenuOption
-              title={'Paste Plain'}
-              icon={<Clipboard size={16}/>}
-            />
-            <hr className={'my-1'}/>
-          </>
-        )
-      }
       {
         snap.contextMenu.type === 'card' && (
           <>

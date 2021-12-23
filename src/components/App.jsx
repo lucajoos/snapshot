@@ -57,12 +57,6 @@ const App = () => {
       Store.contextMenu.data = element.getAttribute('id');
     }
 
-    element = event.target.closest('.input');
-
-    if(element) {
-      type = 'input';
-    }
-
     Store.contextMenu.type = type;
     Store.contextMenu.isVisible = true;
   }, [snap.cards, snap.contextMenu.isPreventingDefault]);
