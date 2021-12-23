@@ -7,6 +7,29 @@ import { Info, Zap } from 'react-feather';
 import ConfettiGenerator from 'confetti-js';
 
 const App = () => {
+  // Callbacks
+  const handleOnClick = useCallback(async () => {
+    Store.modal = {
+      value: '',
+      pickColor: '',
+      pickIndex: -1,
+      isCustomPick: false,
+      isShowingIcons: true,
+      isUpdatingTabs: false,
+      isShowingCustomPick: false,
+      id: null
+    };
+
+    Store.isModalVisible = true;
+  }, []);
+
+  const handleOnClickInfo = useCallback(() => {
+    chrome.tabs.create({
+      url: chrome.runtime.getURL('licenses.html'),
+    });
+  }, []);
+
+  // Effects
   useEffect(() => {
     const date = new Date();
     const day = date.getDate();
@@ -44,32 +67,11 @@ const App = () => {
     return () => confetti.clear();
   }, []);
 
-  const handleOnClick = useCallback(async () => {
-    Store.modal = {
-      value: '',
-      pickColor: '',
-      pickIndex: -1,
-      isCustomPick: false,
-      isShowingIcons: true,
-      isUpdatingTabs: false,
-      isShowingCustomPick: false,
-      id: null
-    };
-
-    Store.isModalVisible = true;
-  }, []);
-
-  const handleOnClickInfo = useCallback(() => {
-    chrome.tabs.create({
-      url: chrome.runtime.getURL('licenses.html'),
-    });
-  }, []);
-
   return (
     <div className={ 'w-full h-full relative select-none' }>
-      <canvas id={ 'confetti' } className={ 'absolute top-0 right-0 left-0 bottom-0' } />
-
       <Modal />
+
+      <canvas id={ 'confetti' } className={ 'absolute top-0 right-0 left-0 bottom-0 pointer-events-none' } />
 
       <CardList />
 

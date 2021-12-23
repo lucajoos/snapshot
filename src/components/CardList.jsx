@@ -2,12 +2,17 @@ import React, { useCallback } from 'react';
 import Card from './Card';
 import Store from '../Store';
 import { useSnapshot } from 'valtio';
-import { Archive } from 'react-feather';
+import { Archive, Search } from 'react-feather';
 import Header from './Header';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import Input from './Input';
 
 const CardList = () => {
   const snap = useSnapshot(Store);
+
+  const handleOnChangeSearch = useCallback(event => {
+    Store.search = event.target.value;
+  }, []);
 
   const handleOnDragEnd = useCallback(event => {
     if (!event.destination) return;
@@ -41,7 +46,18 @@ const CardList = () => {
   }, [ snap.cards ]);
 
   return (
-    <div className={'h-full p-5'}>{
+    <div className={'h-full px-5 pt-3'}>
+      <div className={'flex'}>
+        <Input
+          value={snap.search}
+          placeholder={'Search'}
+          onChange={event => handleOnChangeSearch(event)}
+          className={'mb-7 mx-3'}
+          icon={<Search size={18} />}
+        />
+      </div>
+
+      {
       snap.cards.filter(card => card.isVisible).length === 0 ? (
         <div className={'text-gray-300 grid justify-center text-center mt-empty'}>
           <div className={'justify-self-center'}>
@@ -59,30 +75,27 @@ const CardList = () => {
                 <div
                   { ...droppableProvided.droppableProps }
                   ref={ droppableProvided.innerRef }
-                  className={'h-full'}
+                  className={'grid gap-4'}
                 >
-                  <div className={'grid gap-4'}>
-                    {
-                      snap.cards.filter(card => card.isVisible).sort((a, b) => a.index - b.index).map(card => {
-                        console.log(card)
-                        return (
-                          <Draggable key={ card.id } draggableId={ card.id } index={ card.index }>
-                            {
-                              draggableProvided => (
-                                <div
-                                  ref={ draggableProvided.innerRef } { ...draggableProvided.draggableProps } { ...draggableProvided.dragHandleProps }
-                                >
-                                  <Card
-                                    card={card}
-                                  />
-                                </div>
-                              )
-                            }
-                          </Draggable>
-                        )
-                      })
-                    }
-                  </div>
+                  {
+                    snap.cards.filter(card => card.isVisible).sort((a, b) => a.index - b.index).map(card => {
+                      return (
+                        <Draggable key={ card.id } draggableId={ card.id } index={ card.index }>
+                          {
+                            draggableProvided => (
+                              <div
+                                ref={ draggableProvided.innerRef } { ...draggableProvided.draggableProps } { ...draggableProvided.dragHandleProps }
+                              >
+                                <Card
+                                  card={card}
+                                />
+                              </div>
+                            )
+                          }
+                        </Draggable>
+                      )
+                    })
+                  }
                   { droppableProvided.placeholder }
                 </div>
               )

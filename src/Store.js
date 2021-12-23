@@ -3,6 +3,7 @@ import { proxy } from 'valtio'
 const Store = proxy({
   cards: [],
   favicons: {},
+  search: '',
   modal: {
     value: '',
     pickColor: '',
