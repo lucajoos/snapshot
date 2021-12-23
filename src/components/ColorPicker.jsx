@@ -3,7 +3,7 @@ import { Check, Sliders } from 'react-feather';
 import { useSnapshot } from 'valtio';
 import Store from '../Store';
 
-const ColorPicker = ({ palette = [], pickIndex = -1, onPick = () => {}, }) => {
+const ColorPicker = ({ palette = [], className='', pickIndex = -1, onPick = () => {}, }) => {
   const snap = useSnapshot(Store);
 
   const handleOnClick = useCallback((index, color) => {
@@ -29,26 +29,28 @@ const ColorPicker = ({ palette = [], pickIndex = -1, onPick = () => {}, }) => {
   }, [snap.modal.pickCustom, snap.modal.isShowingCustomPick]);
 
   return (
-    <div className={ 'flex justify-start items-center my-2' }>
+    <div className={ `flex justify-start items-center ${className ? ` ${className}` : ''}` }>
       <span>Color</span>
 
-      <div className={ 'ml-3 flex' }>
-        {
-          palette.map((color, index) => {
-            return (
-              <div
-                className={ `w-6 h-6 mr-1 cursor-pointer transition-all rounded bg-${ color }-default` }
-                onClick={ () => handleOnClick(index) }
-                key={ color }
-              >
+      <div className={ 'ml-3 flex justify-between w-full' }>
+        <div className={'flex'}>
+          {
+            palette.map((color, index) => {
+              return (
                 <div
-                  className={ `text-text-default grid justify-center items-center h-full duration-50 transition-all ${ pickIndex === index ? 'opacity-100' : 'opacity-0' }` }>
-                  <Check size={ 20 } />
+                  className={ `w-6 h-6 mr-1 cursor-pointer transition-all rounded bg-${ color }-default` }
+                  onClick={ () => handleOnClick(index) }
+                  key={ color }
+                >
+                  <div
+                    className={ `text-text-default grid justify-center items-center h-full duration-50 transition-all ${ pickIndex === index ? 'opacity-100' : 'opacity-0' }` }>
+                    <Check size={ 20 } />
+                  </div>
                 </div>
-              </div>
-            );
-          })
-        }
+              );
+            })
+          }
+        </div>
 
         <div
           className={ 'w-6 h-6 relative cursor-pointer' }

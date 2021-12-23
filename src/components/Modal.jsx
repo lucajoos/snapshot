@@ -184,18 +184,24 @@ const Modal = () => {
               maxTags={5}
             />
 
-            <div className={'flex items-center justify-between mt-5 pt-3'}>
-              <ColorPicker
-                palette={['orange', 'pink', 'green', 'violet', 'blue']}
-                pickIndex={snap.modal.pickIndex}
-                onPick={pick => handleOnPick(pick)}
-              />
+            <div className={'flex items-center justify-between mt-8'}>
+              <div className={`flex items-center ${!isUpdate ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                <span className={'mr-3'}>Capture Tabs</span>
+                <Checkbox onChange={() => handleCheckboxOnChangeTabs()} value={snap.modal.isUpdatingTabs || !isUpdate} isEnabled={isUpdate} />
+              </div>
 
               <div className={'flex items-center'}>
-                <span className={'mr-3'}>Icons</span>
+                <span className={'mr-3'}>Show Icons</span>
                 <Checkbox onChange={() => handleCheckboxOnChangeIcons()} value={snap.modal.isShowingIcons} />
               </div>
             </div>
+
+            <ColorPicker
+              palette={['orange', 'pink', 'green', 'violet', 'blue']}
+              pickIndex={snap.modal.pickIndex}
+              onPick={pick => handleOnPick(pick)}
+              className={'mt-8'}
+            />
 
             <Input
               value={snap.modal.pickColor}
@@ -204,17 +210,6 @@ const Modal = () => {
               nativeRef={colorRef}
               className={!snap.modal.isShowingCustomPick ? 'hidden' : ''}
             />
-
-            {
-              isUpdate && (
-                <div className={'flex justify-end mt-3'}>
-                  <div className={'flex items-center'}>
-                    <span className={'mr-3'}>Re-Take Tabs</span>
-                    <Checkbox onChange={() => handleCheckboxOnChangeTabs()} value={snap.modal.isUpdatingTabs} />
-                  </div>
-                </div>
-              )
-            }
           </div>
 
           <Button onClick={() => handleOnReturn()}>
