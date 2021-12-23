@@ -7,7 +7,7 @@ const Input = ({ type='text', placeholder='', value='', icon=null, onChange=()=>
     <div className={`border-b-2 border-gray-300 transition-all py-3 mt-3 w-full${className.length > 0 ? ` ${className}` : ''}`}>
       <label className={'flex items-center mx-1'}>
         {icon && (
-          <div className={'text-gray-300'}>
+          <div className={'text-gray-500'}>
             {icon}
           </div>
         )}

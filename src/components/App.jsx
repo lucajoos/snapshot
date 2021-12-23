@@ -99,7 +99,7 @@ const App = () => {
         <CardList />
 
         <div className={ 'flex px-8 py-5 justify-end items-center' }>
-          <div className={ 'text-gray-300 cursor-pointer mr-3' } onClick={ () => handleOnClickInfo() }>
+          <div className={ 'text-gray-500 cursor-pointer mr-3' } onClick={ () => handleOnClickInfo() }>
             <Info />
           </div>
 
