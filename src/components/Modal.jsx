@@ -202,7 +202,7 @@ const Modal = () => {
               placeholder={'Custom Color'}
               onChange={event => handleOnChangeColor(event)}
               nativeRef={colorRef}
-              className={!snap.modal.isShowingCustomPick && 'hidden'}
+              className={!snap.modal.isShowingCustomPick ? 'hidden' : ''}
             />
 
             {

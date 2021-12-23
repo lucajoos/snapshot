@@ -76,23 +76,25 @@ const CardList = () => {
                   <div
                     { ...droppableProvided.droppableProps }
                     ref={ droppableProvided.innerRef }
-                    className={'grid gap-4'}
+                    className={'grid'}
                   >
                     {
-                      snap.cards.filter(card => card.isVisible).filter(card => {
-                        if(snap.search.length === 0) return true;
+                      snap.cards.filter(card => card.isVisible).sort((a, b) => a.index - b.index).map(card => {
+                        let isVisible = snap.search.length === 0;
 
-                        const search = snap.search.toUpperCase();
-                        let isInTags = false;
+                        if(!isVisible) {
+                          const search = snap.search.toUpperCase();
+                          let isInTags = false;
 
-                        card.tags.forEach(tag => {
-                          if(tag.toUpperCase().includes(search)) {
-                            isInTags = true;
-                          }
-                        });
+                          card.tags.forEach(tag => {
+                            if(tag.toUpperCase().includes(search)) {
+                              isInTags = true;
+                            }
+                          });
 
-                        return isInTags || card.value.toUpperCase().includes(search);
-                      }).sort((a, b) => a.index - b.index).map(card => {
+                          isVisible = isInTags || card.value.toUpperCase().includes(search);
+                        }
+
                         return (
                           <Draggable key={ card.id } draggableId={ card.id } index={ card.index }>
                             {
@@ -102,6 +104,7 @@ const CardList = () => {
                                 >
                                   <Card
                                     card={card}
+                                    className={!isVisible ? 'hidden' : ''}
                                   />
                                 </div>
                               )

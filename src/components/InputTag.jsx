@@ -95,7 +95,7 @@ const InputTag = ({
   }, [ tags ]);
 
   return (
-    <div className={ `relative${className && ` ${className}`}` }>
+    <div className={ `relative${className ? ` ${className}` : ''}` }>
       <div
         className={ 'flex border-b-2 border-gray-300 py-3 px-1 w-input flex-wrap relative items-center cursor-text' }
         onClick={ () => spanRef.current?.focus() }>

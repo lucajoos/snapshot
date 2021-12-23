@@ -6,7 +6,7 @@ import moment from 'moment';
 import Icon from './Icon';
 import Color from 'color';
 
-const Card = ({ card }) => {
+const Card = ({ card, className }) => {
   const snap = useSnapshot(Store);
 
   const palette = useRef([ 'orange', 'pink', 'green', 'violet', 'blue' ]);
@@ -86,12 +86,12 @@ const Card = ({ card }) => {
 
   return (
     <div
-      className={ `overflow-hidden` }
+      className={ `overflow-hidden my-2${className ? ` ${className}` : ''}` }
     >
       <div
         onClick={ e => handleOnClick(e) }
         style={{ backgroundColor: theme?.startsWith('#') && theme }}
-        className={ `card p-5 cursor-pointer select-none w-full rounded-lg text-text-default relative ${!theme?.startsWith('#') && `bg-${theme}-default`}` }
+        className={ `card p-5 cursor-pointer select-none w-full rounded-lg text-text-default relative ${!theme?.startsWith('#') ? `bg-${theme}-default` : ''}` }
         ref={ containerRef }
       >
         <div className={ 'grid gap-1 pointer-events-none' }>
@@ -109,7 +109,7 @@ const Card = ({ card }) => {
 
                 <div
                   style={{ backgroundColor: card.isCustomPick && themeAccent}}
-                  className={ `flex p-2 gap-1 rounded items-center justify-center ml-3 ${!card.isCustomPick ? `bg-${theme}-accent` : ''} ${(faviconsRendered === 0 || !card.isShowingIcons) && 'opacity-0'}` }
+                  className={ `flex p-2 gap-1 rounded items-center justify-center ml-3 ${!card.isCustomPick ? `bg-${theme}-accent` : ''} ${(faviconsRendered === 0 || !card.isShowingIcons) ? 'opacity-0' : ''}` }
                 >
                   {
                     card.favicons.map((favicon, index) => {
