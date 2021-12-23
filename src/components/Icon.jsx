@@ -12,7 +12,7 @@ const Icon = ({ src='#', alt='', isVisible=true, onLoad=()=>{}, onError=()=>{}})
 
 
   return isRendered ? (
-    <div className={`inline-block rounded mr-1 ${!isVisible && 'hidden'}`}>
+    <div className={`inline-block rounded ${!isVisible && 'hidden'}`}>
       <img className={'h-4'} src={src} alt={alt} onLoad={e => onLoad(e)} onError={e => onError(e)} />
     </div>
   ) : null;
