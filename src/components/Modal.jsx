@@ -8,6 +8,7 @@ import Checkbox from './Checkbox';
 import { useSnapshot } from 'valtio';
 import Store from '../Store';
 import { v4 as uuidv4 } from 'uuid';
+import InputTag from './InputTag';
 
 const Modal = () => {
   const snap = useSnapshot(Store);
@@ -45,6 +46,7 @@ const Modal = () => {
         if(card.id === snap.modal.id) {
           cards[index] = Object.assign(card, {
             value: snap.modal.value?.length === 0 ? `Snapshot #${ snap.cards.filter(card => card.isVisible).length + 1 }` : snap.modal.value,
+            tags: snap.modal.tags,
 
             pickColor: snap.modal.pickColor,
             pickIndex: snap.modal.pickIndex,
@@ -67,6 +69,7 @@ const Modal = () => {
         id,
         index: snap.cards.length,
         value: snap.modal.value?.length === 0 ? `Snapshot #${ snap.cards.filter(card => card.isVisible).length + 1 }` : snap.modal.value,
+        tags: snap.modal.tags,
 
         pickColor: snap.modal.pickColor,
         pickIndex: snap.modal.pickIndex,
@@ -125,6 +128,16 @@ const Modal = () => {
     Store.modal.isUpdatingTabs = !snap.modal.isUpdatingTabs;
   }, [snap.modal.isUpdatingTabs]);
 
+  const handleOnChangeTags = useCallback(tags => {
+    Store.modal.tags = tags;
+  }, []);
+
+  const handleOnKeyDownTags = useCallback(event => {
+    if(event.keyCode === 13) {
+      event.preventDefault();
+    }
+  }, []);
+
   useEffect(() => {
     if(snap.isModalVisible) {
       inputRef.current?.focus();
@@ -136,7 +149,7 @@ const Modal = () => {
   }, [snap.isModalVisible, snap.modal.isShowingCustomPick]);
 
   return (
-    <div className={`fixed top-0 right-0 left-0 bottom-0 z-30 grid transition-all ${snap.isModalVisible ? 'opacity-100 pointer-events-auto' : 'pointer-events-none opacity-0'}`} onKeyDown={event => handleOnKeyDown(event)}>
+    <div className={`fixed top-0 right-0 left-0 bottom-0 z-30 grid transition-all ${snap.isModalVisible ? 'opacity-100 pointer-events-auto' : 'pointer-events-none opacity-0'}`}>
       <div className={'absolute top-0 right-0 left-0 bottom-0 opacity-60 bg-black'} onClick={() => handleOnClose()}/>
 
       <div className={'absolute z-40 rounded-md bg-background-default justify-self-center self-center p-10 w-modal max-w-modal'}>
@@ -155,9 +168,23 @@ const Modal = () => {
               placeholder={'Name'}
               onChange={event => handleOnChangeValue(event)}
               nativeRef={inputRef}
+              onKeyDown={event => handleOnKeyDown(event)}
             />
 
-            <div className={'flex items-center justify-between pt-3'}>
+            <InputTag
+              className={'mt-5'}
+              title={'Tags'}
+              tags={snap.modal.tags}
+              onChange={ tags => handleOnChangeTags(tags) }
+              onDone={() => handleOnReturn()}
+              onKeyDown={event => handleOnKeyDownTags(event)}
+              isOnlyAllowingUniqueTags={true}
+              pasteDataType={'text/plain'}
+              separators={[',', ';']}
+              maxTags={5}
+            />
+
+            <div className={'flex items-center justify-between mt-5 pt-3'}>
               <ColorPicker
                 palette={['orange', 'pink', 'green', 'violet', 'blue']}
                 pickIndex={snap.modal.pickIndex}

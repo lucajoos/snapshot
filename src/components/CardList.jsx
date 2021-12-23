@@ -47,16 +47,6 @@ const CardList = () => {
 
   return (
     <div className={'h-full px-5 pt-3'}>
-      <div className={'flex'}>
-        <Input
-          value={snap.search}
-          placeholder={'Search'}
-          onChange={event => handleOnChangeSearch(event)}
-          className={'mb-7 mx-3'}
-          icon={<Search size={18} />}
-        />
-      </div>
-
       {
       snap.cards.filter(card => card.isVisible).length === 0 ? (
         <div className={'text-gray-300 grid justify-center text-center mt-empty'}>
@@ -68,44 +58,56 @@ const CardList = () => {
           </div>
         </div>
       ) : (
-        <DragDropContext onDragEnd={ event => handleOnDragEnd(event) }>
-          <Droppable droppableId={ 'cards' } direction={ 'vertical' }>
-            {
-              droppableProvided => (
-                <div
-                  { ...droppableProvided.droppableProps }
-                  ref={ droppableProvided.innerRef }
-                  className={'grid gap-4'}
-                >
-                  {
-                    snap.cards.filter(card => card.isVisible).filter(card => {
-                      if(snap.search.length === 0) return true;
+        <>
+          <div className={'flex'}>
+            <Input
+              value={snap.search}
+              placeholder={'Search'}
+              onChange={event => handleOnChangeSearch(event)}
+              className={'mb-7 mx-3'}
+              icon={<Search size={18} />}
+            />
+          </div>
 
-                      return card.value.toUpperCase().includes(snap.search.toUpperCase());
-                    }).sort((a, b) => a.index - b.index).map(card => {
-                      return (
-                        <Draggable key={ card.id } draggableId={ card.id } index={ card.index }>
-                          {
-                            draggableProvided => (
-                              <div
-                                ref={ draggableProvided.innerRef } { ...draggableProvided.draggableProps } { ...draggableProvided.dragHandleProps }
-                              >
-                                <Card
-                                  card={card}
-                                />
-                              </div>
-                            )
-                          }
-                        </Draggable>
-                      )
-                    })
-                  }
-                  { droppableProvided.placeholder }
-                </div>
-              )
-            }
-          </Droppable>
-        </DragDropContext>
+          <DragDropContext onDragEnd={ event => handleOnDragEnd(event) }>
+            <Droppable droppableId={ 'cards' } direction={ 'vertical' }>
+              {
+                droppableProvided => (
+                  <div
+                    { ...droppableProvided.droppableProps }
+                    ref={ droppableProvided.innerRef }
+                    className={'grid gap-4'}
+                  >
+                    {
+                      snap.cards.filter(card => card.isVisible).filter(card => {
+                        if(snap.search.length === 0) return true;
+
+                        return card.value.toUpperCase().includes(snap.search.toUpperCase());
+                      }).sort((a, b) => a.index - b.index).map(card => {
+                        return (
+                          <Draggable key={ card.id } draggableId={ card.id } index={ card.index }>
+                            {
+                              draggableProvided => (
+                                <div
+                                  ref={ draggableProvided.innerRef } { ...draggableProvided.draggableProps } { ...draggableProvided.dragHandleProps }
+                                >
+                                  <Card
+                                    card={card}
+                                  />
+                                </div>
+                              )
+                            }
+                          </Draggable>
+                        )
+                      })
+                    }
+                    { droppableProvided.placeholder }
+                  </div>
+                )
+              }
+            </Droppable>
+          </DragDropContext>
+        </>
       )
     }</div>
   )

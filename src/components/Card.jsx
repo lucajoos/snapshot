@@ -50,14 +50,15 @@ const Card = ({ card }) => {
 
   const handleOnClickEdit = useCallback(() => {
     Store.modal = {
+      id: card.id,
       value: card.value,
+      tags: card.tags,
       pickColor: card.pickColor,
       pickIndex: card.pickIndex,
       pickCustom: card.pickCustom,
       isShowingIcons: card.isShowingIcons,
       isUpdatingTabs: false,
       isShowingCustomPick: card.isCustomPick,
-      id: card.id,
     };
 
     Store.isModalVisible = true;

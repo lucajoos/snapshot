@@ -13,6 +13,7 @@ const App = () => {
       value: '',
       pickColor: '',
       pickIndex: -1,
+      tags: [],
       isCustomPick: false,
       isShowingIcons: true,
       isUpdatingTabs: false,
