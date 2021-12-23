@@ -109,7 +109,7 @@ const Card = ({ card, className }) => {
 
                 <div
                   style={{ backgroundColor: card.isCustomPick && themeAccent}}
-                  className={ `flex p-2 gap-1 rounded items-center justify-center ml-3 ${!card.isCustomPick ? `bg-${theme}-accent` : ''} ${(faviconsRendered === 0 || !card.isShowingIcons) ? 'opacity-0' : ''}` }
+                  className={ `flex p-2 gap-1 rounded items-center justify-center ml-3 ${!card.isCustomPick ? `bg-${theme}-accent` : ''} ${(card.favicons.length === 0 || !card.isShowingIcons) ? 'opacity-0' : ''}` }
                 >
                   {
                     card.favicons.map((favicon, index) => {
