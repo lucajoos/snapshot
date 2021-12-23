@@ -10,14 +10,21 @@ const Card = ({ card }) => {
   const snap = useSnapshot(Store);
 
   const palette = useRef([ 'orange', 'pink', 'green', 'violet', 'blue' ]);
-  const theme = card.pickColor?.length === 0 ? palette.current[Math.floor(Math.random() * palette.current.length)] : card.pickColor
-  const themeAccent = theme.startsWith('#') ? Color(theme).lighten(0.05) : null
+  const [theme, setTheme] = useState(card.pickColor?.length === 0 ? palette.current[Math.floor(Math.random() * palette.current.length)] : card.pickColor);
+  const [themeAccent, setThemeAccent] = useState(theme.startsWith('#') ? Color(theme).lighten(0.05) : null)
   const faviconsRendered = Object.values(snap.favicons[card.id]).filter(current => current).length;
 
   const [isHoveringEdit, setIsHoveringEdit] = useState(false);
   const [isHoveringDelete, setIsHoveringDelete] = useState(false);
   
   const containerRef = useRef(null);
+
+  useEffect(() => {
+    const currentTheme = card.pickColor?.length === 0 ? palette.current[Math.floor(Math.random() * palette.current.length)] : card.pickColor;
+
+    setTheme(currentTheme);
+    setThemeAccent(currentTheme.startsWith('#') ? Color(currentTheme).lighten(0.05) : null)
+  }, [card.pickColor, card.pickCustom, card.pickIndex]);
 
   const handleOnClickRemove = useCallback(() => {
     let cards = snap.cards.map(compare => {

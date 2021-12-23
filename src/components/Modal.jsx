@@ -92,7 +92,9 @@ const Modal = () => {
   }, []);
 
   const handleOnChangeColor = useCallback(event => {
-    Store.modal.pickColor = event.target.value;
+    if(/^#[0-9a-fA-F]{0,6}$/g.test(event.target.value) || event.target.value.length === 0) {
+      Store.modal.pickColor = event.target.value.toUpperCase();
+    }
   }, []);
 
   const handleOnPick = useCallback(current => {
