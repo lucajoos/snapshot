@@ -3,10 +3,14 @@ import CardList from './CardList';
 import Store from '../Store';
 import Modal from './Modal';
 import Button from './Button';
-import { Info, Zap } from 'react-feather';
+import { Info, Search, Zap } from 'react-feather';
 import ConfettiGenerator from 'confetti-js';
+import { useSnapshot } from 'valtio';
+import Input from './Input';
 
 const App = () => {
+  const snap = useSnapshot(Store);
+
   // Callbacks
   const handleOnClick = useCallback(async () => {
     Store.modal = {
@@ -28,6 +32,10 @@ const App = () => {
     chrome.tabs.create({
       url: chrome.runtime.getURL('licenses.html'),
     });
+  }, []);
+
+  const handleOnChangeSearch = useCallback(event => {
+    Store.search = event.target.value;
   }, []);
 
   // Effects
@@ -74,19 +82,34 @@ const App = () => {
 
       <canvas id={ 'confetti' } className={ 'absolute top-0 right-0 left-0 bottom-0 pointer-events-none' } />
 
-      <CardList />
-
-      <div className={ 'flex fixed bottom-10 right-10 items-center' }>
-        <div className={ 'text-gray-300 cursor-pointer mr-3' } onClick={ () => handleOnClickInfo() }>
-          <Info />
+      <div className={'grid h-screen content'}>
+        <div className={'flex my-5 mx-8'}>
+          {
+            snap.cards.filter(card => card.isVisible).length > 0 && (
+              <Input
+                value={snap.search}
+                placeholder={'Search'}
+                onChange={event => handleOnChangeSearch(event)}
+                icon={<Search size={18} />}
+              />
+            )
+          }
         </div>
 
-        <Button onClick={ () => handleOnClick() }>
-          <div className={ 'flex items-center' }>
-            <span className={ 'mx-1' }>Snapshot</span>
-            <Zap size={ 18 } />
+        <CardList />
+
+        <div className={ 'flex px-8 py-5 justify-end items-center' }>
+          <div className={ 'text-gray-300 cursor-pointer mr-3' } onClick={ () => handleOnClickInfo() }>
+            <Info />
           </div>
-        </Button>
+
+          <Button onClick={ () => handleOnClick() }>
+            <div className={ 'flex items-center' }>
+              <span className={ 'mx-1' }>Snapshot</span>
+              <Zap size={ 18 } />
+            </div>
+          </Button>
+        </div>
       </div>
     </div>
   );

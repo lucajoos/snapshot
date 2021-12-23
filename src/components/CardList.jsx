@@ -10,10 +10,6 @@ import Input from './Input';
 const CardList = () => {
   const snap = useSnapshot(Store);
 
-  const handleOnChangeSearch = useCallback(event => {
-    Store.search = event.target.value;
-  }, []);
-
   const handleOnDragEnd = useCallback(event => {
     if (!event.destination) return;
     // Workaround
@@ -46,7 +42,7 @@ const CardList = () => {
   }, [ snap.cards ]);
 
   return (
-    <div className={'h-full px-5 pt-3'}>
+    <div className={'h-full px-5 overflow-y-scroll'}>
       {
       snap.cards.filter(card => card.isVisible).length === 0 ? (
         <div className={'text-gray-300 grid justify-center text-center mt-empty'}>
@@ -59,15 +55,7 @@ const CardList = () => {
         </div>
       ) : (
         <>
-          <div className={'flex'}>
-            <Input
-              value={snap.search}
-              placeholder={'Search'}
-              onChange={event => handleOnChangeSearch(event)}
-              className={'mb-7 mx-3'}
-              icon={<Search size={18} />}
-            />
-          </div>
+
 
           <DragDropContext onDragEnd={ event => handleOnDragEnd(event) }>
             <Droppable droppableId={ 'cards' } direction={ 'vertical' }>

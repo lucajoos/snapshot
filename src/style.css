@@ -55,6 +55,10 @@ body {
     outline: none !important;
 }
 
+.content {
+    grid-template-rows: auto 1fr auto;
+}
+
 .card > .card-remove > div {
     opacity: 0;
     transition: .15s;
