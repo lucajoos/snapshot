@@ -33,8 +33,11 @@ module.exports = {
   content: ['./src/**/*.{jsx,css}'],
   safelist: [].concat(...Object.keys(colors).map(color => {
     return [
+      `text-${color}-default`,
+      `text-${color}-accent`,
       `bg-${color}-default`,
       `bg-${color}-accent`,
+      `hover:bg-${color}-default`,
       `hover:bg-${color}-accent`
     ]
   })),
@@ -45,7 +48,8 @@ module.exports = {
       },
 
       width: {
-        modal: '85%'
+        modal: '85%',
+        contextMenu: '205px'
       },
 
       maxWidth: {

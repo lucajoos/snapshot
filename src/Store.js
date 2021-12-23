@@ -14,6 +14,11 @@ const Store = proxy({
     isShowingCustomPick: false,
     id: null
   },
+  contextMenu: {
+    x: 0,
+    y: 0,
+    isVisible: false
+  },
   isModalVisible: false,
 });
 

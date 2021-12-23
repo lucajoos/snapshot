@@ -7,12 +7,13 @@ import { Info, Search, Zap } from 'react-feather';
 import ConfettiGenerator from 'confetti-js';
 import { useSnapshot } from 'valtio';
 import Input from './Input';
+import ContextMenu from './ContextMenu';
 
 const App = () => {
   const snap = useSnapshot(Store);
 
   // Callbacks
-  const handleOnClick = useCallback(async () => {
+  const handleOnClickSnapshot = useCallback(async () => {
     Store.modal = {
       value: '',
       pickColor: '',
@@ -37,6 +38,19 @@ const App = () => {
   const handleOnChangeSearch = useCallback(event => {
     Store.search = event.target.value;
   }, []);
+
+  const handleOnContextMenu = useCallback(event => {
+    event.preventDefault();
+    Store.contextMenu.x = event.pageX;
+    Store.contextMenu.y = event.pageY;
+    Store.contextMenu.isVisible = true;
+  }, []);
+
+  const handleOnClick = useCallback(event => {
+    if(snap.contextMenu.isVisible) {
+      Store.contextMenu.isVisible = false;
+    }
+  }, [snap.contextMenu.isVisible])
 
   // Effects
   useEffect(() => {
@@ -77,7 +91,8 @@ const App = () => {
   }, []);
 
   return (
-    <div className={ 'w-full h-full relative select-none' }>
+    <div className={ 'w-full h-full relative select-none overflow-hidden' } onContextMenu={event => handleOnContextMenu(event)} onClick={() => handleOnClick()}>
+      <ContextMenu />
       <Modal />
 
       <canvas id={ 'confetti' } className={ 'absolute top-0 right-0 left-0 bottom-0 pointer-events-none' } />
@@ -98,12 +113,12 @@ const App = () => {
 
         <CardList />
 
-        <div className={ 'flex px-8 py-5 justify-end items-center' }>
+        <div className={ 'flex px-8 py-5 justify-end items-center z-10' }>
           <div className={ 'text-gray-500 cursor-pointer mr-3' } onClick={ () => handleOnClickInfo() }>
             <Info />
           </div>
 
-          <Button onClick={ () => handleOnClick() }>
+          <Button onClick={ () => handleOnClickSnapshot() }>
             <div className={ 'flex items-center' }>
               <span className={ 'mx-1' }>Snapshot</span>
               <Zap size={ 18 } />
