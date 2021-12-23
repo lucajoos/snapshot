@@ -82,7 +82,16 @@ const CardList = () => {
                       snap.cards.filter(card => card.isVisible).filter(card => {
                         if(snap.search.length === 0) return true;
 
-                        return card.value.toUpperCase().includes(snap.search.toUpperCase());
+                        const search = snap.search.toUpperCase();
+                        let isInTags = false;
+
+                        card.tags.forEach(tag => {
+                          if(tag.toUpperCase().includes(search)) {
+                            isInTags = true;
+                          }
+                        });
+
+                        return isInTags || card.value.toUpperCase().includes(search);
                       }).sort((a, b) => a.index - b.index).map(card => {
                         return (
                           <Draggable key={ card.id } draggableId={ card.id } index={ card.index }>
