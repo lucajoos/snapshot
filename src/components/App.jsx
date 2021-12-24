@@ -3,12 +3,13 @@ import CardList from './CardList';
 import Store from '../Store';
 import Modal from './Modal';
 import Button from './Button';
-import { Info, Search, Zap } from 'react-feather';
+import { Search, Settings as Cob, Zap } from 'react-feather';
 import ConfettiGenerator from 'confetti-js';
 import { useSnapshot } from 'valtio';
 import Input from './Input';
 import ContextMenu from './ContextMenu';
 import helpers from '../modules/helpers';
+import Settings from './Settings';
 
 const App = () => {
   const snap = useSnapshot(Store);
@@ -30,10 +31,8 @@ const App = () => {
     Store.isModalVisible = true;
   }, []);
 
-  const handleOnClickInfo = useCallback(() => {
-    chrome.tabs.create({
-      url: chrome.runtime.getURL('licenses.html'),
-    });
+  const handleOnClickSettings = useCallback(() => {
+    Store.settings.isVisible = true;
   }, []);
 
   const handleOnChangeSearch = useCallback(event => {
@@ -61,7 +60,7 @@ const App = () => {
     Store.contextMenu.isVisible = true;
   }, [snap.cards, snap.contextMenu.isPreventingDefault]);
 
-  const handleOnClick = useCallback(event => {
+  const handleOnClick = useCallback(() => {
     if(snap.contextMenu.isVisible) {
       Store.contextMenu.isVisible = false;
     }
@@ -79,24 +78,10 @@ const App = () => {
     });
 
     if (!localStorage.getItem('cards')) {
-      localStorage.setItem('cards', JSON.stringify({
-        value: [],
-      }));
+      helpers.card.save([]);
     }
 
-    try {
-      const cards = JSON.parse(localStorage.getItem('cards'))?.value;
-
-      cards.forEach(card => {
-        Store.favicons[card.id] = {};
-      });
-
-      if (cards) {
-        Store.cards = cards;
-      }
-    } catch (e) {
-      console.error(e);
-    }
+    helpers.card.import(localStorage.getItem('cards'));
 
     if (date.getMonth() === 4 && day === 30) {
       confetti.render();
@@ -107,6 +92,7 @@ const App = () => {
 
   return (
     <div className={ 'w-full h-full relative select-none overflow-hidden' } onContextMenu={event => handleOnContextMenu(event)} onClick={() => handleOnClick()}>
+      <Settings />
       <ContextMenu />
       <Modal />
 
@@ -129,8 +115,8 @@ const App = () => {
         <CardList />
 
         <div className={ 'flex px-8 py-5 justify-end items-center z-10' }>
-          <div className={ 'text-gray-500 cursor-pointer mr-3' } onClick={ () => handleOnClickInfo() }>
-            <Info />
+          <div className={ 'text-gray-300 cursor-pointer mr-3' } onClick={ () => handleOnClickSettings() }>
+            <Cob />
           </div>
 
           <Button onClick={ () => handleOnClickSnapshot() }>

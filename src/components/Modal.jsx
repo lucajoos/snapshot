@@ -9,6 +9,7 @@ import { useSnapshot } from 'valtio';
 import Store from '../Store';
 import { v4 as uuidv4 } from 'uuid';
 import InputTag from './InputTag';
+import helpers from '../modules/helpers';
 
 const Modal = () => {
   const snap = useSnapshot(Store);
@@ -89,7 +90,7 @@ const Modal = () => {
     }
 
     Store.cards = cards;
-    localStorage.setItem('cards', JSON.stringify({ value: cards }));
+    helpers.card.save(cards);
   }, [snap.cards, snap.modal])
 
   const handleOnKeyDown = useCallback(event => {

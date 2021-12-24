@@ -6,6 +6,7 @@ import { Archive, Search } from 'react-feather';
 import Header from './Header';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import Input from './Input';
+import helpers from '../modules/helpers';
 
 const CardList = () => {
   const snap = useSnapshot(Store);
@@ -38,7 +39,7 @@ const CardList = () => {
     });
 
     Store.cards = cards;
-    localStorage.setItem('cards', JSON.stringify({value: cards}));
+    helpers.card.save();
   }, [ snap.cards ]);
 
   return (

@@ -40,7 +40,7 @@ const ContextMenu = () => {
               onClick={() => handleOnClickCardOpen(false)}
             />
             <ContextMenuOption
-              title={'Open Window'}
+              title={'Open in Window'}
               icon={<ExternalLink size={16}/>}
               onClick={() => handleOnClickCardOpen(true)}
             />
@@ -67,7 +67,7 @@ const ContextMenu = () => {
       }
 
       <ContextMenuOption
-        title={snap.contextMenu.isPreventingDefault ? 'Show Default' : 'Hide Default'}
+        title={snap.contextMenu.isPreventingDefault ? 'Default Menu' : 'Default Menu'}
         onClick={() => handleOnClickDefaultMenu()}
         icon={<Code size={16}/>}
       />

@@ -2,6 +2,34 @@ import Store from '../Store';
 import { snapshot } from 'valtio';
 
 const card = {
+  import: content => {
+    try {
+      const cards = JSON.parse(content);
+
+      cards.forEach(current => {
+        Store.favicons[current.id] = {};
+      });
+
+      if (cards) {
+        Store.cards = cards;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  },
+
+  export: () => {
+    const snap = snapshot(Store);
+    let a = document.createElement('a');
+    a.href = 'data:json/csv;base64,' + btoa(JSON.stringify(snap.cards));
+    a.download = 'cards.json'
+    a.click();
+  },
+
+  save: cards => {
+    localStorage.setItem('cards', JSON.stringify(cards));
+  },
+
   get: id => {
     const snap = snapshot(Store);
     let card = null;
@@ -29,12 +57,7 @@ const card = {
     });
 
     Store.cards = cards;
-
-    const set = cards.filter(card => {
-      return card.id !== id;
-    });
-
-    localStorage.setItem('cards', JSON.stringify({ value: set }));
+    card.save(cards);
   },
 
   edit: id => {

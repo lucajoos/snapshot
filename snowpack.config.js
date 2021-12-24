@@ -1,4 +1,5 @@
 /** @type {import("snowpack").SnowpackUserConfig } */
+const config = require('./package.json');
 module.exports = {
   mount: {
     public: { url: '/', static: true },
@@ -34,4 +35,7 @@ module.exports = {
   buildOptions: {
     metaUrlPath: 'meta'
   },
+  env: {
+    APP_VERSION: config.version
+  }
 };
