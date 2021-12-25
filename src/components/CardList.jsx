@@ -39,7 +39,7 @@ const CardList = () => {
     });
 
     Store.cards = cards;
-    helpers.card.save();
+    helpers.cards.save();
   }, [ snap.cards ]);
 
   return (

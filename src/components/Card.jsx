@@ -38,7 +38,7 @@ const Card = ({ card, className }) => {
 
   const handleOnClick = useCallback(event => {
     if (event.target === containerRef.current) {
-      helpers.card.open(card.id);
+      helpers.cards.open(card.id);
     }
   }, [ card ]);
 

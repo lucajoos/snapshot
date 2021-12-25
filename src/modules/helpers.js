@@ -1,7 +1,7 @@
 import Store from '../Store';
 import { snapshot } from 'valtio';
 
-const card = {
+const cards = {
   import: content => {
     try {
       const cards = JSON.parse(content);
@@ -57,11 +57,11 @@ const card = {
     });
 
     Store.cards = cards;
-    card.save(cards);
+    cards.save(cards);
   },
 
   edit: id => {
-    const current = card.get(id);
+    const current = cards.get(id);
 
     Store.modal = {
       id: current.id,
@@ -79,7 +79,7 @@ const card = {
   },
 
   open: (id, isWindow) => {
-    const current = card.get(id);
+    const current = cards.get(id);
 
     if (isWindow) {
       chrome.windows.create({}, ({ tabs, id: windowId }) => {
@@ -102,6 +102,26 @@ const card = {
   }
 };
 
+const settings = {
+  save: () => {
+    const snap = snapshot(Store);
+    localStorage.setItem('settings', JSON.stringify(snap.settings));
+  },
+
+  import: content => {
+    try {
+      const settings = JSON.parse(content);
+
+      if(settings) {
+        Store.settings = settings;
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+}
+
 export default {
-  card
+  cards,
+  settings
 }

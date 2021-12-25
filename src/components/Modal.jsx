@@ -90,7 +90,7 @@ const Modal = () => {
     }
 
     Store.cards = cards;
-    helpers.card.save(cards);
+    helpers.cards.save(cards);
   }, [snap.cards, snap.modal])
 
   const handleOnKeyDown = useCallback(event => {

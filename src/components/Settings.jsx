@@ -25,13 +25,13 @@ const Settings = () => {
 
     if(event.target?.files?.length > 0) {
       const content = await event.target.files.item(0).text();
-      helpers.card.import(content);
+      helpers.cards.import(content);
       Store.settings.isVisible = false;
     }
   }, [])
 
   const handleOnClickAdvancedExport = useCallback(() => {
-    helpers.card.export();
+    helpers.cards.export();
   }, []);
 
   const handleOnClickAboutLicenses = useCallback(() => {

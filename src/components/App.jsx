@@ -78,10 +78,15 @@ const App = () => {
     });
 
     if (!localStorage.getItem('cards')) {
-      helpers.card.save([]);
+      helpers.cards.save(snap.cards);
     }
 
-    helpers.card.import(localStorage.getItem('cards'));
+    if (!localStorage.getItem('cards')) {
+      helpers.settings.save();
+    }
+
+    helpers.settings.import(localStorage.getItem('settings'));
+    helpers.cards.import(localStorage.getItem('cards'));
 
     if (date.getMonth() === 4 && day === 30) {
       confetti.render();

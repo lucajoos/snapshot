@@ -10,15 +10,15 @@ const ContextMenu = () => {
 
   // Card callbacks
   const handleOnClickCardOpen = useCallback(isWindow => {
-    helpers.card.open(snap.contextMenu.data, isWindow);
+    helpers.cards.open(snap.contextMenu.data, isWindow);
   }, [snap.contextMenu.data]);
 
   const handleOnClickCardEdit = useCallback(() => {
-    helpers.card.edit(snap.contextMenu.data);
+    helpers.cards.edit(snap.contextMenu.data);
   }, [snap.contextMenu.data]);
 
   const handleOnClickCardDelete = useCallback(() => {
-    helpers.card.remove(snap.contextMenu.data);
+    helpers.cards.remove(snap.contextMenu.data);
   }, [snap.contextMenu.data]);
 
   // Default callbacks

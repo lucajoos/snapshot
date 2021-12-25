@@ -23,6 +23,7 @@ const Store = proxy({
     isPreventingDefault: true
   },
   settings: {
+    isFullscreen: false,
     isVisible: false
   },
   isModalVisible: false,
