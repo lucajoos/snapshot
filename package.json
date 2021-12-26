@@ -1,8 +1,8 @@
 {
   "scripts": {
-    "start": "snowpack dev",
-    "build": "npx license-report --output=html > ./public/licenses.html && snowpack build",
-    "build-dev": "snowpack build",
+    "dev": "vite dev",
+    "build": "npx license-report --output=html > ./public/licenses.html && vite build",
+    "preview": "vite preview",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "lint": "prettier --check \"src/**/*.{js,jsx}\""
   },
@@ -18,20 +18,13 @@
     "valtio": "^1.2.7"
   },
   "devDependencies": {
-    "@snowpack/plugin-dotenv": "^2.2.0",
-    "@snowpack/plugin-postcss": "^1.4.3",
-    "@snowpack/plugin-react-refresh": "^2.5.0",
-    "@snowpack/web-test-runner-plugin": "^0.2.2",
-    "@testing-library/react": "^12.1.2",
-    "@web/test-runner": "^0.13.23",
+    "@vitejs/plugin-react": "^1.0.7",
+    "vite": "^2.7.2",
     "autoprefixer": "^10.4.0",
     "chai": "^4.3.4",
     "postcss": "^8.4.5",
     "postcss-cli": "^9.1.0",
     "prettier": "^2.5.1",
-    "snowpack": "^3.8.8",
-    "snowpack-plugin-copy": "^1.0.1",
-    "snowpack-plugin-web-ext": "^0.1.2",
     "tailwindcss": "^3.0.7"
   },
   "name": "snapshot",

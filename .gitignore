@@ -6,3 +6,7 @@ build.crx
 build.pem
 public/licenses.html
 *.zip
+.DS_Store
+dist
+dist-ssr
+*.local

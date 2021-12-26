@@ -70,7 +70,7 @@ const Settings = () => {
           <div className={'mt-2'}>
             <Section>About</Section>
             <Link onClick={() => handleOnClickAboutLicenses()}>Show Licenses</Link>
-            <p className={'mt-2'}>Snapshot v{import.meta.env.APP_VERSION} ({import.meta.env.MODE})</p>
+            <p className={'mt-2'}>Snapshot v{__APP_VERSION__} ({import.meta.env.MODE})</p>
             <p>React v{React.version}</p>
           </div>
         </div>
