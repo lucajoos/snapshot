@@ -67,7 +67,7 @@ const ContextMenu = () => {
       }
 
       <ContextMenuOption
-        title={snap.contextMenu.isPreventingDefault ? 'Default Menu' : 'Default Menu'}
+        title={snap.contextMenu.isPreventingDefault ? 'Allow Default' : 'Prevent Default'}
         onClick={() => handleOnClickDefaultMenu()}
         icon={<Code size={16}/>}
       />
