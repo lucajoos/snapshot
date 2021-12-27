@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A card-based tab management Chrome extension" />
+
+  <link rel="icon" type="image/png" href="/icons/png/16x16.png"/>
+
+  <title>Snapshot</title>
+
+  <style>
+    html, body {
+        margin: 0;
+        padding: 0;
+    }
+
+    html > body > iframe {
+        margin: 0;
+        padding: 0;
+        border: 0 none transparent;
+        overflow: hidden;
+        width: 400px;
+        height: 650px;
+    }
+  </style>
+
+  <script src='./inject.js'></script>
+  <script src='./communication.js'></script>
+</head>
+<body>
+<iframe src='#'></iframe>
+</body>
+</html>

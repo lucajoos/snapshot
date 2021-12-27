@@ -1,0 +1,1 @@
+window.__MODE__ = 'development';
