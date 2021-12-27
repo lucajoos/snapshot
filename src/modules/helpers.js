@@ -44,7 +44,9 @@ const cards = {
       const stack = JSON.parse(content);
 
       stack.forEach(current => {
-        Store.favicons[current.id] = {};
+        if(current) {
+          Store.favicons[current.id] = {};
+        }
       });
 
       if (current) {
