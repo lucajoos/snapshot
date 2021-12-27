@@ -16,6 +16,10 @@ window.addEventListener('load', () => {
       const { id='', event='', data={} } = e.data;
 
       switch(event) {
+        case 'window.close': {
+          window.close();
+          break;
+        }
         case 'runtime.getURL': {
           emit(id, event, chrome.runtime.getURL(data));
           break;

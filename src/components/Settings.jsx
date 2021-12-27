@@ -6,6 +6,7 @@ import Header from './Header';
 import Link from './Link';
 import Section from './Section';
 import helpers from '../modules/helpers';
+import Button from './Button';
 
 const Settings = () => {
   const snap = useSnapshot(Store);
@@ -32,6 +33,11 @@ const Settings = () => {
 
   const handleOnClickAdvancedExport = useCallback(() => {
     helpers.cards.export();
+  }, []);
+
+  const handleOnCLickAdvancedReset = useCallback(async () => {
+    localStorage.clear();
+    await helpers.api.do('window.close');
   }, []);
 
   const handleOnClickAboutLicenses = useCallback(async () => {
@@ -64,6 +70,7 @@ const Settings = () => {
               <Link onClick={() => handleOnClickAdvancedImport()}>Import Cards</Link>
               <input className={ 'hidden' } type={ 'file' } onChange={ event => handleOnChangeAdvancedImportInput(event) } value={ '' } ref={advancedImportInputRef} />
               <Link onClick={() => handleOnClickAdvancedExport()}>Export Cards</Link>
+              <Link onClick={() => handleOnCLickAdvancedReset()}>Reset</Link>
             </div>
           </div>
 
