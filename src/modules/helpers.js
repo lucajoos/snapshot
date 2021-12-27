@@ -41,14 +41,14 @@ const api = {
 const cards = {
   import: content => {
     try {
-      const cards = JSON.parse(content);
+      const stack = JSON.parse(content);
 
-      cards.forEach(current => {
+      stack.forEach(current => {
         Store.favicons[current.id] = {};
       });
 
-      if (cards) {
-        Store.cards = cards;
+      if (current) {
+        Store.cards = stack;
       }
     } catch (e) {
       console.error(e);
@@ -63,8 +63,8 @@ const cards = {
     a.click();
   },
 
-  save: cards => {
-    localStorage.setItem('cards', JSON.stringify(cards));
+  save: current => {
+    localStorage.setItem('cards', JSON.stringify(current));
   },
 
   get: id => {
@@ -83,7 +83,7 @@ const cards = {
   remove: id => {
     const snap = snapshot(Store);
 
-    let cards = snap.cards.map(card => {
+    let stack = snap.cards.map(card => {
       let current = Object.assign({}, card);
 
       if (current.id === id) {
@@ -93,8 +93,8 @@ const cards = {
       return current;
     });
 
-    Store.cards = cards;
-    cards.save(cards);
+    Store.cards = stack;
+    cards.save(stack);
   },
 
   edit: id => {
