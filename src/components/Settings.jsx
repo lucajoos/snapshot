@@ -34,10 +34,10 @@ const Settings = () => {
     helpers.cards.export();
   }, []);
 
-  const handleOnClickAboutLicenses = useCallback(() => {
-    chrome.tabs.create({
-      url: chrome.runtime.getURL('licenses.html'),
-    });
+  const handleOnClickAboutLicenses = useCallback(async () => {
+    await helpers.api.do('tabs.create', {
+      url: await helpers.api.do('runtime.getURL', 'licenses.html')
+    }, { isWaiting: false });
   }, []);
 
   return (

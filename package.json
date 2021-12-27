@@ -1,6 +1,7 @@
 {
   "scripts": {
     "dev": "NODE_ENV='development' node resolve.js && vite dev",
+    "stage": "NODE_ENV='staging' node resolve.js && vite build --mode staging",
     "build": "NODE_ENV='production' node resolve.js && npx license-report --output=html > ./public/licenses.html && vite build",
     "preview": "vite preview",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",

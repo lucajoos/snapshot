@@ -29,8 +29,8 @@ const Modal = () => {
     // Workaround
     const cards = [...Store.cards];
 
-    let tabs = await chrome.tabs.query({
-      currentWindow: true,
+    let tabs = await helpers.api.do('tabs.query', {
+      currentWindow: true
     });
 
     let urls = [];
