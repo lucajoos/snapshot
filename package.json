@@ -1,8 +1,8 @@
 {
   "scripts": {
-    "dev": "NODE_ENV='development' node resolve.js && vite dev",
-    "stage": "NODE_ENV='staging' node resolve.js && vite build --mode staging",
-    "build": "NODE_ENV='production' node resolve.js && npx license-report --output=html > ./public/licenses.html && vite build",
+    "dev": "cross-env NODE_ENV='development' node resolve.js && vite dev",
+    "stage": "cross-env NODE_ENV='staging' node resolve.js && vite build --mode staging",
+    "build": "cross-env NODE_ENV='production' node resolve.js && license-report --output=html > ./public/licenses.html && vite build",
     "preview": "vite preview",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
     "lint": "prettier --check \"src/**/*.{js,jsx}\""
@@ -22,6 +22,8 @@
     "@vitejs/plugin-react": "^1.0.7",
     "autoprefixer": "^10.4.0",
     "chai": "^4.3.4",
+    "cross-env": "^7.0.3",
+    "license-report": "^4.5.0",
     "postcss": "^8.4.5",
     "postcss-cli": "^9.1.0",
     "prettier": "^2.5.1",
