@@ -49,7 +49,7 @@ const cards = {
         }
       });
 
-      if (current) {
+      if (stack.length > 0) {
         Store.cards = stack;
       }
     } catch (e) {
