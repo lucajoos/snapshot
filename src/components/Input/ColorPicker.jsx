@@ -29,7 +29,7 @@ const ColorPicker = ({ palette = [], className='', pickIndex = -1, onPick = () =
     }
 
     Store.modal.data.snapshot.isShowingCustomPick = !snap.modal.data.snapshot.isShowingCustomPick;
-  }, [snap.modal.data.snapshot.pickCustom, snap.modal.data.snapshot.isShowingCustomPick, snap.modal.data.snapshot.previousPickIndex]);
+  }, [snap.modal.data.snapshot.pickCustom, snap.modal.data.snapshot.pickIndex, snap.modal.data.snapshot.isShowingCustomPick, snap.modal.data.snapshot.previousPickIndex]);
 
   return (
     <div className={ `flex justify-start items-center ${className ? ` ${className}` : ''}` }>
