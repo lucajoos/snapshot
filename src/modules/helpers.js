@@ -102,7 +102,7 @@ const cards = {
   edit: id => {
     const current = cards.get(id);
 
-    Store.modal = {
+    Store.modal.data.snapshot = {
       id: current.id,
       value: current.value,
       tags: current.tags,
@@ -114,7 +114,8 @@ const cards = {
       isShowingCustomPick: current.isCustomPick,
     };
 
-    Store.isModalVisible = true;
+    Store.modal.content = 'Snapshot';
+    Store.modal.isVisible = true;
   },
 
   open: async (id, isWindow) => {

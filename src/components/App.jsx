@@ -3,20 +3,19 @@ import CardList from './CardList';
 import Store from '../Store';
 import Modal from './Modal';
 import Button from './Button';
-import { Cloud, RefreshCw, Search, Settings as Cob, User, Zap } from 'react-feather';
+import { Search, Settings as Cob, User, Zap } from 'react-feather';
 import ConfettiGenerator from 'confetti-js';
 import { useSnapshot } from 'valtio';
 import Input from './Input';
 import ContextMenu from './ContextMenu';
 import helpers from '../modules/helpers';
-import Settings from './Settings';
 
 const App = () => {
   const snap = useSnapshot(Store);
 
   // Callbacks
   const handleOnClickSnapshot = useCallback(async () => {
-    Store.modal = {
+    Store.modal.data.snapshot = {
       value: '',
       pickColor: '',
       pickIndex: -1,
@@ -28,11 +27,13 @@ const App = () => {
       id: null
     };
 
-    Store.isModalVisible = true;
+    Store.modal.content = 'Snapshot';
+    Store.modal.isVisible = true;
   }, []);
 
   const handleOnClickSettings = useCallback(() => {
-    Store.settings.isVisible = true;
+    Store.modal.content = 'Settings';
+    Store.modal.isVisible = true;
   }, []);
 
   const handleOnChangeSearch = useCallback(event => {
@@ -101,7 +102,6 @@ const App = () => {
 
   return (
     <div className={ 'w-full h-full relative select-none overflow-hidden' } onContextMenu={event => handleOnContextMenu(event)} onClick={() => handleOnClick()}>
-      <Settings />
       <ContextMenu />
       <Modal />
 
