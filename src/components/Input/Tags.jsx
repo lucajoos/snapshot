@@ -1,20 +1,20 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { X as Times } from 'react-feather';
 
-const InputTag = ({
-                    className = '',
-                    title = '',
-                    tags = [],
-                    onChange = () => {},
-                    onKeyDown = () => {},
-                    onDone = () => {},
-                    isOnlyAllowingUniqueTags = false,
-                    isSpellChecking = false,
-                    regex = (/(.*?)/g),
-                    pasteDataType = null,
-                    separators = [],
-                    maxTags=-1
-                  }) => {
+const Tags = ({
+  className = '',
+  title = '',
+  tags = [],
+  onChange = () => {},
+  onKeyDown = () => {},
+  onDone = () => {},
+  isOnlyAllowingUniqueTags = false,
+  isSpellChecking = false,
+  regex = (/(.*?)/g),
+  pasteDataType = null,
+  separators = [],
+  maxTags=-1
+}) => {
   const [ value, setValue ] = useState('');
   const [ selection, setSelection ] = useState(-1);
 
@@ -134,4 +134,4 @@ const InputTag = ({
   );
 };
 
-export default InputTag;
+export default Tags;

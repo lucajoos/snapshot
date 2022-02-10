@@ -1,11 +1,12 @@
 import React, { useCallback } from 'react';
-import Card from './Card';
-import Store from '../Store';
 import { useSnapshot } from 'valtio';
-import { Archive, Search } from 'react-feather';
-import Header from './Header';
+import { Archive } from 'react-feather';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import Input from './Input';
+
+import Card from './Card';
+import { Header } from './Base';
+
+import Store from '../Store';
 import helpers from '../modules/helpers';
 
 const CardList = () => {

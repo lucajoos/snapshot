@@ -1,6 +1,6 @@
 const Profile = () => {
   return (
-    <h1>Hello World!</h1>
+    <h1>Profile</h1>
   )
 }
 

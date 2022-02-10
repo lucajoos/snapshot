@@ -1,13 +1,16 @@
 import React, { useCallback, useEffect } from 'react';
-import CardList from './CardList';
-import Store from '../Store';
-import Modal from './Modal';
-import Button from './Button';
+import { useSnapshot } from 'valtio';
 import { Search, Settings as Cob, User, Zap } from 'react-feather';
 import ConfettiGenerator from 'confetti-js';
-import { useSnapshot } from 'valtio';
-import Input from './Input';
+
+import Store from '../Store';
+
+import CardList from './CardList';
+import Modal from './Modal';
+import { Button } from './Base';
+import { TextField } from './Input';
 import ContextMenu from './ContextMenu';
+
 import helpers from '../modules/helpers';
 
 const App = () => {
@@ -111,7 +114,7 @@ const App = () => {
 
       <div className={'grid h-screen content'}>
         <div className={'flex my-5 mx-8 items-center gap-5 justify-between'}>
-          <Input
+          <TextField
             value={snap.search}
             placeholder={'Search'}
             onChange={event => handleOnChangeSearch(event)}

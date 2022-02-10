@@ -1,8 +1,8 @@
 import React, { useCallback, useRef } from 'react';
-import Header from '../Header';
-import Link from '../Link';
-import Section from '../Section';
-import helpers from '../../modules/helpers';
+
+import { Header, Link, Section } from '../../Base';
+
+import helpers from '../../../modules/helpers';
 
 const Settings = () => {
   const advancedImportInputRef = useRef(null);

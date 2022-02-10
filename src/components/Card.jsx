@@ -1,10 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Clock, Delete, Edit2, MoreHorizontal, Trash, X } from 'react-feather';
-import Store from '../Store';
 import { useSnapshot } from 'valtio';
 import moment from 'moment';
-import Icon from './Icon';
 import Color from 'color';
+import { Clock, MoreHorizontal} from 'react-feather';
+
+import Icon from './Icon';
+
+import Store from '../Store';
 import helpers from '../modules/helpers'
 
 const Card = ({ card, className }) => {

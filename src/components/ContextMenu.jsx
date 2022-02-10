@@ -1,8 +1,10 @@
 import React, { useCallback } from 'react';
 import { useSnapshot } from 'valtio';
-import Store from '../Store';
-import ContextMenuOption from './ContextMenuOption';
 import { Code, Edit2, ExternalLink, Share, Trash } from 'react-feather';
+
+import ContextMenuOption from './ContextMenuOption';
+
+import Store from '../Store';
 import helpers from '../modules/helpers';
 
 const ContextMenu = () => {

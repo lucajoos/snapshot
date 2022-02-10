@@ -1,12 +1,14 @@
-import React, { useCallback, useEffect, useRef } from 'react';
-import { X } from 'react-feather';
+import React, { useCallback } from 'react';
 import { useSnapshot } from 'valtio';
-import Store from '../Store';
-import Modals from './Modals';
+import { X } from 'react-feather';
+
+import Content from './Content';
+
+import Store from '../../Store';
 
 const Modal = () => {
   const snap = useSnapshot(Store);
-  const ModalContent = Modals[snap.modal.content];
+  const ModalContent = Content[snap.modal.content];
 
   const handleOnClose = useCallback(() => {
     Store.modal.isVisible = false;

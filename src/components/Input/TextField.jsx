@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 
-const Input = ({ type='text', placeholder='', value='', icon=null, onChange=()=>{}, onKeyDown=()=>{}, nativeRef, className='' }) => {
+const TextField = ({ type='text', placeholder='', value='', icon=null, onChange=()=>{}, onKeyDown=()=>{}, nativeRef, className='' }) => {
   const handleOnChange = useCallback(onChange, []);
 
   return (
@@ -25,4 +25,4 @@ const Input = ({ type='text', placeholder='', value='', icon=null, onChange=()=>
   )
 };
 
-export default Input;
+export default TextField;

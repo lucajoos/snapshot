@@ -1,17 +1,15 @@
 import React, { useCallback, useEffect, useRef } from 'react';
-import Input from '../Input';
-import ColorPicker from '../ColorPicker';
-import Button from '../Button';
-import Header from '../Header';
-import { Save } from 'react-feather';
-import Checkbox from '../Checkbox';
 import { useSnapshot } from 'valtio';
-import Store from '../../Store';
 import { v4 as uuidv4 } from 'uuid';
-import InputTag from '../InputTag';
-import helpers from '../../modules/helpers';
+import { Save } from 'react-feather';
 
-const Modal = () => {
+import { Button, Header } from '../../Base';
+import { Checkbox, ColorPicker, Tags, TextField } from '../../Input';
+
+import Store from '../../../Store';
+import helpers from '../../../modules/helpers';
+
+const Snapshot = () => {
   const snap = useSnapshot(Store);
 
   const inputRef = useRef(null);
@@ -148,7 +146,7 @@ const Modal = () => {
       </Header>
 
       <div className={'mb-6 mt-5'}>
-        <Input
+        <TextField
           value={snap.modal.data.snapshot.value}
           placeholder={'Name'}
           onChange={event => handleOnChangeValue(event)}
@@ -156,7 +154,7 @@ const Modal = () => {
           onKeyDown={event => handleOnKeyDown(event)}
         />
 
-        <InputTag
+        <Tags
           className={'mt-5'}
           title={'Tags'}
           tags={snap.modal.data.snapshot.tags}
@@ -188,9 +186,9 @@ const Modal = () => {
           className={'mt-8'}
         />
 
-        <Input
+        <TextField
           value={snap.modal.data.snapshot.pickColor}
-          placeholder={'Custom Color'}
+          placeholder={'Custom ColorPicker'}
           onChange={event => handleOnChangeColor(event)}
           nativeRef={colorRef}
           className={!snap.modal.data.snapshot.isShowingCustomPick ? 'hidden' : ''}
@@ -207,4 +205,4 @@ const Modal = () => {
   )
 };
 
-export default Modal;
+export default Snapshot;
