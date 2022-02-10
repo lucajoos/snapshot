@@ -46,11 +46,11 @@ const CardList = () => {
     <div className={'h-full px-5 overflow-y-scroll'}>
       {
       snap.cards.filter(card => card.isVisible).length === 0 ? (
-        <div className={'text-gray-300 grid justify-center text-center mt-empty'}>
+        <div className={'text-gray-300 h-full flex flex-col justify-center text-center items-center'}>
           <div className={'justify-self-center'}>
             <Archive size={200} />
           </div>
-          <div className={'mt-8'}>
+          <div className={'mt-4'}>
             <Header>It's a bit empty here.</Header>
           </div>
         </div>

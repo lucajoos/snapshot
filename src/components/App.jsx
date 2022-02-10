@@ -116,7 +116,6 @@ const App = () => {
             placeholder={'Search'}
             onChange={event => handleOnChangeSearch(event)}
             icon={<Search size={18} />}
-            className={`${snap.cards.filter(card => card.isVisible).length === 0 ? 'hidden' : ''}`}
           />
           <div className={'cursor-pointer'} onClick={() => handleOnClickProfile()}>
             <User />

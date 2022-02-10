@@ -43,10 +43,6 @@ module.exports = {
   })),
   theme: {
     extend: {
-      margin: {
-        empty: '110px'
-      },
-
       width: {
         modal: '85%',
         contextMenu: '205px'
