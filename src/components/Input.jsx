@@ -4,7 +4,7 @@ const Input = ({ type='text', placeholder='', value='', icon=null, onChange=()=>
   const handleOnChange = useCallback(onChange, []);
 
   return (
-    <div className={`input border-b-2 border-gray-300 transition-all py-3 mt-3 w-full${className.length > 0 ? ` ${className}` : ''}`}>
+    <div className={`input border-b-2 border-gray-300 transition-all py-3 w-full${className.length > 0 ? ` ${className}` : ''}`}>
       <label className={'flex items-center mx-1'}>
         {icon && (
           <div className={'text-gray-500'}>

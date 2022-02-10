@@ -3,7 +3,7 @@ import CardList from './CardList';
 import Store from '../Store';
 import Modal from './Modal';
 import Button from './Button';
-import { Search, Settings as Cob, Zap } from 'react-feather';
+import { Cloud, RefreshCw, Search, Settings as Cob, User, Zap } from 'react-feather';
 import ConfettiGenerator from 'confetti-js';
 import { useSnapshot } from 'valtio';
 import Input from './Input';
@@ -64,7 +64,11 @@ const App = () => {
     if(snap.contextMenu.isVisible) {
       Store.contextMenu.isVisible = false;
     }
-  }, [snap.contextMenu.isVisible])
+  }, [snap.contextMenu.isVisible]);
+
+  const handleOnClickProfile = useCallback(() => {
+
+  }, []);
 
   // Effects
   useEffect(() => {
@@ -104,17 +108,17 @@ const App = () => {
       <canvas id={ 'confetti' } className={ 'absolute top-0 right-0 left-0 bottom-0 pointer-events-none' } />
 
       <div className={'grid h-screen content'}>
-        <div className={'flex my-5 mx-8'}>
-          {
-            snap.cards.filter(card => card.isVisible).length > 0 && (
-              <Input
-                value={snap.search}
-                placeholder={'Search'}
-                onChange={event => handleOnChangeSearch(event)}
-                icon={<Search size={18} />}
-              />
-            )
-          }
+        <div className={'flex my-5 mx-8 items-center gap-5 justify-between'}>
+          <Input
+            value={snap.search}
+            placeholder={'Search'}
+            onChange={event => handleOnChangeSearch(event)}
+            icon={<Search size={18} />}
+            className={`${snap.cards.filter(card => card.isVisible).length === 0 ? 'hidden' : ''}`}
+          />
+          <div className={'cursor-pointer'} onClick={() => handleOnClickProfile()}>
+            <User />
+          </div>
         </div>
 
         <CardList />
