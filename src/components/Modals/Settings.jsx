@@ -1,7 +1,4 @@
 import React, { useCallback, useRef } from 'react';
-import { useSnapshot } from 'valtio';
-import Store from '../../Store';
-import { X } from 'react-feather';
 import Header from '../Header';
 import Link from '../Link';
 import Section from '../Section';

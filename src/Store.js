@@ -20,10 +20,7 @@ const Store = proxy({
         id: null
       },
 
-      settings: {
-        isFullscreen: false,
-        isVisible: false
-      }
+      settings: {}
     }
   },
 
@@ -35,6 +32,8 @@ const Store = proxy({
     isVisible: false,
     isPreventingDefault: import.meta.env.MODE === 'production'
   },
+
+  settings: {}
 });
 
 export default Store;

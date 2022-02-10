@@ -32,6 +32,7 @@ const App = () => {
   }, []);
 
   const handleOnClickSettings = useCallback(() => {
+    Store.modal.data.settings = snap.settings;
     Store.modal.content = 'Settings';
     Store.modal.isVisible = true;
   }, []);
@@ -90,6 +91,7 @@ const App = () => {
       helpers.settings.save();
     }
 
+    // Import data
     helpers.settings.import(localStorage.getItem('settings'));
     helpers.cards.import(localStorage.getItem('cards'));
 
