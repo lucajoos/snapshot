@@ -13,6 +13,7 @@ const Store = proxy({
         value: '',
         pickColor: '',
         pickIndex: -1,
+        previousPickIndex: -1,
         tags: [],
         isShowingIcons: true,
         isUpdatingTabs: false,

@@ -7,7 +7,7 @@ const ColorPicker = ({ palette = [], className='', pickIndex = -1, onPick = () =
   const snap = useSnapshot(Store);
 
   const handleOnClick = useCallback((index, color) => {
-    Store.modal.isShowingCustomPick = false;
+    Store.modal.data.snapshot.isShowingCustomPick = false;
 
     onPick({
       color: color ? color : palette[index],
@@ -16,17 +16,20 @@ const ColorPicker = ({ palette = [], className='', pickIndex = -1, onPick = () =
   }, [ palette ]);
 
   const handleOnClickCustom = useCallback(() => {
-    if(snap.modal.pickColor ? (snap.modal.pickColor.length === 0 || !snap.modal.pickColor.startsWith('#')) : true) {
-      Store.modal.pickColor = '#FFADAD';
+    if(snap.modal.data.snapshot.pickColor ? (snap.modal.data.snapshot.pickColor.length === 0 || !snap.modal.data.snapshot.pickColor.startsWith('#')) : true) {
+      Store.modal.data.snapshot.pickColor = '#FFADAD';
     }
 
-    if(snap.modal.isShowingCustomPick) {
-      Store.modal.pickColor = '';
+    if(snap.modal.data.snapshot.isShowingCustomPick) {
+      Store.modal.data.snapshot.pickColor = '';
+      Store.modal.data.snapshot.pickIndex = snap.modal.data.snapshot.previousPickIndex;
+    } else {
+      Store.modal.data.snapshot.previousPickIndex = snap.modal.data.snapshot.pickIndex;
+      Store.modal.data.snapshot.pickIndex = -1;
     }
 
-    Store.modal.pickIndex = -1;
-    Store.modal.isShowingCustomPick = !snap.modal.isShowingCustomPick;
-  }, [snap.modal.pickCustom, snap.modal.isShowingCustomPick]);
+    Store.modal.data.snapshot.isShowingCustomPick = !snap.modal.data.snapshot.isShowingCustomPick;
+  }, [snap.modal.data.snapshot.pickCustom, snap.modal.data.snapshot.isShowingCustomPick, snap.modal.data.snapshot.previousPickIndex]);
 
   return (
     <div className={ `flex justify-start items-center ${className ? ` ${className}` : ''}` }>
