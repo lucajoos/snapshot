@@ -145,7 +145,7 @@ const Snapshot = () => {
         {isUpdate ? 'Edit' : 'Take'} Snapshot
       </Header>
 
-      <div className={'mb-6 mt-5'}>
+      <div className={'my-6'}>
         <TextField
           value={snap.modal.data.snapshot.value}
           placeholder={'Name'}
@@ -155,7 +155,7 @@ const Snapshot = () => {
         />
 
         <Tags
-          className={'mt-5'}
+          className={'mt-4'}
           title={'Tags'}
           tags={snap.modal.data.snapshot.tags}
           onChange={ tags => handleOnChangeTags(tags) }
@@ -188,7 +188,7 @@ const Snapshot = () => {
 
         <TextField
           value={snap.modal.data.snapshot.pickColor}
-          placeholder={'Custom ColorPicker'}
+          placeholder={'Custom Color'}
           onChange={event => handleOnChangeColor(event)}
           nativeRef={colorRef}
           className={!snap.modal.data.snapshot.isShowingCustomPick ? 'hidden' : ''}
@@ -197,7 +197,7 @@ const Snapshot = () => {
 
       <Button onClick={() => handleOnReturn()}>
         <div className={'flex items-center'}>
-          <span className={'mx-1'}>Save</span>
+          <span className={'mx-2'}>Save</span>
           <Save size={18} />
         </div>
       </Button>

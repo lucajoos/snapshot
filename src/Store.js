@@ -1,4 +1,5 @@
 import { proxy } from 'valtio'
+import supabase from './modules/supabase';
 
 const Store = proxy({
   cards: [],
@@ -21,6 +22,14 @@ const Store = proxy({
         id: null
       },
 
+      profile: {
+        email: '',
+        password: '',
+        error: null,
+        isSigningIn: true,
+        isLoading: false
+      },
+
       settings: {}
     }
   },
@@ -34,7 +43,8 @@ const Store = proxy({
     isPreventingDefault: import.meta.env.MODE === 'production'
   },
 
-  settings: {}
+  settings: {},
+  session: supabase.auth.session()
 });
 
 export default Store;

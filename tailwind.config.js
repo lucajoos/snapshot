@@ -43,6 +43,10 @@ module.exports = {
   })),
   theme: {
     extend: {
+      animation: {
+        'spin-slow': 'spin 3s linear infinite',
+      },
+
       width: {
         modal: '85%',
         contextMenu: '205px'

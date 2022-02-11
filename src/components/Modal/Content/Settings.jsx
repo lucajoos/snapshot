@@ -37,29 +37,27 @@ const Settings = () => {
 
   return (
     <>
-      <Header>
-        Settings
-      </Header>
+      <div className={'flex flex-col gap-6'}>
+        <Header>
+          Settings
+        </Header>
 
-      <div className={'mt-2'}>
-        <Section>Appearance</Section>
-      </div>
-
-      <div>
-        <Section>Advanced</Section>
-        <div className={'flex gap-2'}>
-          <Link onClick={() => handleOnClickAdvancedImport()}>Import Cards</Link>
-          <input className={ 'hidden' } type={ 'file' } onChange={ event => handleOnChangeAdvancedImportInput(event) } value={ '' } ref={advancedImportInputRef} />
-          <Link onClick={() => handleOnClickAdvancedExport()}>Export Cards</Link>
-          <Link onClick={() => handleOnCLickAdvancedReset()}>Reset</Link>
+        <div>
+          <Section>Advanced</Section>
+          <div className={'flex gap-2'}>
+            <Link onClick={() => handleOnClickAdvancedImport()}>Import Cards</Link>
+            <input className={ 'hidden' } type={ 'file' } onChange={ event => handleOnChangeAdvancedImportInput(event) } value={ '' } ref={advancedImportInputRef} />
+            <Link onClick={() => handleOnClickAdvancedExport()}>Export Cards</Link>
+            <Link onClick={() => handleOnCLickAdvancedReset()}>Reset</Link>
+          </div>
         </div>
-      </div>
 
-      <div className={'mt-2'}>
-        <Section>About</Section>
-        <Link onClick={() => handleOnClickAboutLicenses()}>Show Licenses</Link>
-        <p className={'mt-2'}>Snapshot v{__APP_VERSION__} ({import.meta.env.MODE})</p>
-        <p>React v{React.version}</p>
+        <div>
+          <Section>About</Section>
+          <Link onClick={() => handleOnClickAboutLicenses()}>Show Licenses</Link>
+          <p className={'mt-2'}>Snapshot v{__APP_VERSION__} ({import.meta.env.MODE})</p>
+          <p>React v{React.version}</p>
+        </div>
       </div>
     </>
   )

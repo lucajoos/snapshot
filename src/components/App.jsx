@@ -12,6 +12,8 @@ import { TextField } from './Input';
 import ContextMenu from './ContextMenu';
 
 import helpers from '../modules/helpers';
+import supabase from '../modules/supabase';
+import Profile from './Modal/Content/Profile';
 
 const App = () => {
   const snap = useSnapshot(Store);
@@ -37,6 +39,19 @@ const App = () => {
   const handleOnClickSettings = useCallback(() => {
     Store.modal.data.settings = snap.settings;
     Store.modal.content = 'Settings';
+    Store.modal.isVisible = true;
+  }, []);
+
+  const handleOnClickProfile = useCallback(() => {
+    Store.modal.data.profile = {
+      email: '',
+      password: '',
+      error: null,
+      isSigningIn: true,
+      isLoading: false
+    };
+
+    Store.modal.content = 'Profile';
     Store.modal.isVisible = true;
   }, []);
 
@@ -71,10 +86,6 @@ const App = () => {
     }
   }, [snap.contextMenu.isVisible]);
 
-  const handleOnClickProfile = useCallback(() => {
-
-  }, []);
-
   // Effects
   useEffect(() => {
     const date = new Date();
@@ -97,7 +108,12 @@ const App = () => {
     // Import data
     helpers.settings.import(localStorage.getItem('settings'));
     helpers.cards.import(localStorage.getItem('cards'));
+    
+    supabase.auth.onAuthStateChange((_, session) => {
+      Store.session = session;
+    });
 
+    // Confetti? - Confetti.
     if (date.getMonth() === 4 && day === 30) {
       confetti.render();
     }
@@ -123,18 +139,17 @@ const App = () => {
           <div className={'cursor-pointer'} onClick={() => handleOnClickProfile()}>
             <User />
           </div>
+          <div className={'cursor-pointer'} onClick={() => handleOnClickSettings()}>
+            <Cob />
+          </div>
         </div>
 
         <CardList />
 
         <div className={ 'flex px-8 py-5 justify-end items-center z-10' }>
-          <div className={ 'text-gray-300 cursor-pointer mr-3' } onClick={ () => handleOnClickSettings() }>
-            <Cob />
-          </div>
-
           <Button onClick={ () => handleOnClickSnapshot() }>
             <div className={ 'flex items-center' }>
-              <span className={ 'mx-1' }>Snapshot</span>
+              <span className={ 'mx-2' }>Snapshot</span>
               <Zap size={ 18 } />
             </div>
           </Button>
