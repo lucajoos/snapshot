@@ -3,7 +3,6 @@ import React, { useCallback, useRef } from 'react';
 import { Header, Link, Section } from '../../Base';
 
 import helpers from '../../../modules/helpers';
-import { ExternalLink } from 'react-feather';
 
 const Settings = () => {
   const advancedImportInputRef = useRef(null);

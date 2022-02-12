@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useSnapshot } from 'valtio';
-import { AlertTriangle, Inbox, Loader, Lock, LogIn, Mail, Phone, User } from 'react-feather';
+import { AlertTriangle, Eye, EyeOff, Inbox, Loader, Lock, LogIn, Mail, Phone, User } from 'react-feather';
 
 import { Button, Link } from '../../../Base';
 import { TextField } from '../../../Input';
@@ -60,6 +60,10 @@ const Authentication = () => {
     Store.modal.data.profile.isSigningIn = !snap.modal.data.profile.isSigningIn;
   }, [snap.modal.data.profile.isSigningIn, snap.modal.data.profile.error]);
 
+  const handleOnClickAbility = useCallback(() => {
+    Store.modal.data.profile.isPasswordVisible = !snap.modal.data.profile.isPasswordVisible;
+  }, [snap.modal.data.profile.isPasswordVisible]);
+
   // Effects
   useEffect(() => {
     if(snap.modal.isVisible && snap.modal.content === 'Profile') {
@@ -105,12 +109,14 @@ const Authentication = () => {
           />
 
           <TextField
-            type={'password'}
+            type={snap.modal.data.profile.isPasswordVisible ? 'text' : 'password'}
             value={snap.modal.data.profile.password}
             placeholder={'Password'}
             onChange={event => handleOnChangePassword(event)}
             icon={<Lock size={18} />}
             onKeyDown={async event => { if(event.keyCode === 13) await handleOnClickAuthenticate() }}
+            ability={snap.modal.data.profile.isPasswordVisible ? <Eye size={18}/> : <EyeOff size={18}/>}
+            onClickAbility={() => handleOnClickAbility()}
           />
         </div>
 

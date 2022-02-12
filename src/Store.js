@@ -26,6 +26,7 @@ const Store = proxy({
         email: '',
         password: '',
         error: null,
+        isPasswordVisible: false,
         isSigningIn: true,
         isLoading: false
       },
