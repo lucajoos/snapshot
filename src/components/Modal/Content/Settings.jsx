@@ -1,7 +1,7 @@
 import React, { useCallback, useRef } from 'react';
+import { Settings as Cob } from 'react-feather';
 
 import { Header, Link, Section } from '../../Base';
-
 import helpers from '../../../modules/helpers';
 
 const Settings = () => {
@@ -44,9 +44,7 @@ const Settings = () => {
   return (
     <>
       <div className={'flex flex-col gap-6'}>
-        <Header>
-          Settings
-        </Header>
+        <Header><Cob /> Settings</Header>
 
         <div>
           <Section>General</Section>

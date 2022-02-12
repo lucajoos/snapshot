@@ -7,6 +7,7 @@ import Store from '../../../../Store';
 
 import supabase from '../../../../modules/supabase';
 import Authentication from './Authentication';
+import { User } from 'react-feather';
 
 const Profile = () => {
   const snap = useSnapshot(Store);
@@ -17,7 +18,7 @@ const Profile = () => {
 
   return (
     <>
-      <Header>Profile</Header>
+      <Header><User /> Profile</Header>
 
       {
         !snap.session ? (

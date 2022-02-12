@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useSnapshot } from 'valtio';
 import { v4 as uuidv4 } from 'uuid';
-import { Save, Type } from 'react-feather';
+import { Save, Type, Zap } from 'react-feather';
 
 import { Button, Header } from '../../Base';
 import { Checkbox, ColorPicker, Tags, TextField } from '../../Input';
@@ -173,7 +173,7 @@ const Snapshot = () => {
   return (
     <>
       <Header>
-        {isUpdate ? 'Edit' : 'Take'} Snapshot
+        <Zap /> {isUpdate ? 'Edit' : 'Take'} Snapshot
       </Header>
 
       <div className={'my-6'}>
