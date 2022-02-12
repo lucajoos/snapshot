@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useSnapshot } from 'valtio';
 import { AlertTriangle, Inbox, Loader, Lock, LogIn, Mail, Phone, User } from 'react-feather';
 
@@ -10,6 +10,7 @@ import supabase from '../../../../modules/supabase';
 
 const Authentication = () => {
   const snap = useSnapshot(Store);
+  const emailRef = useRef(null);
 
   const handleOnChangeEmail = useCallback(event => {
     Store.modal.data.profile.email = event.target.value;
@@ -59,6 +60,13 @@ const Authentication = () => {
     Store.modal.data.profile.isSigningIn = !snap.modal.data.profile.isSigningIn;
   }, [snap.modal.data.profile.isSigningIn, snap.modal.data.profile.error]);
 
+  // Effects
+  useEffect(() => {
+    if(snap.modal.isVisible && snap.modal.content === 'Profile') {
+      emailRef.current?.focus();
+    }
+  }, [snap.modal.isVisible, snap.modal.content]);
+
   return (
     snap.modal.data.profile.isLoading ? (
       <div className={'h-full flex flex-col justify-center text-center items-center mt-2 mb-20'}>
@@ -93,6 +101,7 @@ const Authentication = () => {
             onChange={event => handleOnChangeEmail(event)}
             icon={<Mail size={18} />}
             onKeyDown={async event => { if(event.keyCode === 13) await handleOnClickAuthenticate() }}
+            nativeRef={emailRef}
           />
 
           <TextField

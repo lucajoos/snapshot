@@ -164,6 +164,12 @@ const Snapshot = () => {
     }
   }, [snap.modal.data.snapshot.isShowingCustomPick]);
 
+  useEffect(() => {
+    if(snap.modal.isVisible && snap.modal.content === 'Snapshot') {
+      inputRef.current?.focus();
+    }
+  }, [snap.modal.isVisible, snap.modal.content]);
+
   return (
     <>
       <Header>
