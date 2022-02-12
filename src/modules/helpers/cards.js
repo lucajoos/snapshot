@@ -2,22 +2,28 @@ import Store from '../../Store';
 import { snapshot } from 'valtio';
 import api from './api';
 import supabase from '../supabase';
-import helpers from './index';
 
 const cards = {
+  load: stack => {
+    if(stack ? typeof stack !== 'object' : true) return false;
+
+    stack.forEach(current => {
+      if(current) {
+        Store.favicons[current.id] = {};
+      }
+    });
+
+    if (stack.length > 0) {
+      Store.cards = stack;
+    }
+  },
+
   import: content => {
+    if(content ? content.length === 0 : false) return [];
+
     try {
       const stack = JSON.parse(content);
-
-      stack.forEach(current => {
-        if(current) {
-          Store.favicons[current.id] = {};
-        }
-      });
-
-      if (stack.length > 0) {
-        Store.cards = stack;
-      }
+      cards.load(stack);
     } catch (e) {
       console.error(e);
     }
@@ -48,32 +54,21 @@ const cards = {
     return card;
   },
 
-  remove: id => {
+  remove: async id => {
     const snap = snapshot(Store);
-
-    let stack = snap.cards.map(async card => {
-      let current = Object.assign({}, card);
-
-      if (current.id === id) {
-        current.isVisible = false;
-
-        if(snap.session) {
-          await supabase
-            .from('cards')
-            .update([{
-              is_visible: false
-            }], {
-              returning: 'minimal'
-            })
-            .match({ id })
-        }
-      }
-
-      return current;
+    const update = snap.cards.filter(card => {
+      return card.id !== id;
     });
 
-    Store.cards = stack;
-    cards.save(stack);
+    if(snap.session) {
+      await supabase
+        .from('cards')
+        .delete()
+        .match({ id })
+    }
+
+    Store.cards = update;
+    cards.save(update);
   },
 
   edit: id => {

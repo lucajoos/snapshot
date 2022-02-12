@@ -11,8 +11,8 @@ const ContextMenu = () => {
   const snap = useSnapshot(Store);
 
   // Card callbacks
-  const handleOnClickCardOpen = useCallback(isWindow => {
-    helpers.cards.open(snap.contextMenu.data, isWindow);
+  const handleOnClickCardOpen = useCallback(async isWindow => {
+    await helpers.cards.open(snap.contextMenu.data, isWindow);
   }, [snap.contextMenu.data]);
 
   const handleOnClickCardEdit = useCallback(() => {

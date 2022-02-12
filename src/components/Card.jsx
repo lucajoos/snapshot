@@ -38,9 +38,9 @@ const Card = ({ card, className }) => {
     Store.contextMenu.isVisible = true;
   }, [card]);
 
-  const handleOnClick = useCallback(event => {
+  const handleOnClick = useCallback(async event => {
     if (event.target === containerRef.current) {
-      helpers.cards.open(card.id);
+      await helpers.cards.open(card.id);
     }
   }, [ card ]);
 

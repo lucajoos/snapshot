@@ -87,7 +87,7 @@ const App = () => {
   }, [snap.contextMenu.isVisible]);
 
   // Effects
-  useEffect(() => {
+  useEffect(async () => {
     const date = new Date();
     const day = date.getDate();
 
@@ -101,17 +101,16 @@ const App = () => {
       helpers.cards.save(snap.cards);
     }
 
-    if (!localStorage.getItem('cards')) {
-      helpers.settings.save();
-    }
-
     // Import data
     helpers.settings.import(localStorage.getItem('settings'));
     helpers.cards.import(localStorage.getItem('cards'));
     
-    supabase.auth.onAuthStateChange((_, session) => {
+    supabase.auth.onAuthStateChange(async (_, session) => {
       Store.session = session;
+      await helpers.remote.synchronize();
     });
+
+    await helpers.remote.synchronize();
 
     // Confetti? - Confetti.
     if (date.getMonth() === 4 && day === 30) {

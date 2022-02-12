@@ -62,7 +62,7 @@ const Snapshot = () => {
             await supabase
               .from('cards')
               .update([
-                helpers.db.camelCaseToSnakeCase(update)
+                helpers.remote.camelCaseToSnakeCase(update)
               ], {
                 returning: 'minimal'
               })
@@ -101,7 +101,7 @@ const Snapshot = () => {
         await supabase
           .from('cards')
           .insert([
-            helpers.db.camelCaseToSnakeCase(card)
+            helpers.remote.camelCaseToSnakeCase(card)
           ], {
             returning: 'minimal'
           });
