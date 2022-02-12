@@ -92,6 +92,7 @@ const Authentication = () => {
             placeholder={'Email address'}
             onChange={event => handleOnChangeEmail(event)}
             icon={<Mail size={18} />}
+            onKeyDown={async event => { if(event.keyCode === 13) await handleOnClickAuthenticate() }}
           />
 
           <TextField
@@ -100,6 +101,7 @@ const Authentication = () => {
             placeholder={'Password'}
             onChange={event => handleOnChangePassword(event)}
             icon={<Lock size={18} />}
+            onKeyDown={async event => { if(event.keyCode === 13) await handleOnClickAuthenticate() }}
           />
         </div>
 
