@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useSnapshot } from 'valtio';
-import { AlertTriangle, Archive, Inbox, Loader, LogIn } from 'react-feather';
+import { AlertTriangle, Archive, Inbox, Loader, Lock, LogIn, Search, User } from 'react-feather';
 
 import { Button, Header, Link } from '../../../Base';
 import { TextField } from '../../../Input';
@@ -90,6 +90,7 @@ const Authentication = () => {
           value={snap.modal.data.profile.email}
           placeholder={'Email address'}
           onChange={event => handleOnChangeEmail(event)}
+          icon={<User size={18} />}
         />
 
         <TextField
@@ -98,6 +99,7 @@ const Authentication = () => {
           placeholder={'Password'}
           onChange={event => handleOnChangePassword(event)}
           className={'mt-4'}
+          icon={<Lock size={18} />}
         />
 
         <Button className={'mt-6'} onClick={() => handleOnClickAuthenticate()}>
