@@ -64,6 +64,10 @@ const App = () => {
       event.preventDefault();
     }
 
+    if(snap.modal.isVisible) {
+      Store.modal.isVisible = false;
+    }
+
     let type = 'default';
     Store.contextMenu.x = event.pageX;
     Store.contextMenu.y = event.pageY;
@@ -78,7 +82,7 @@ const App = () => {
 
     Store.contextMenu.type = type;
     Store.contextMenu.isVisible = true;
-  }, [snap.cards, snap.contextMenu.isPreventingDefault]);
+  }, [snap.cards, snap.contextMenu.isPreventingDefault, snap.modal.isVisible]);
 
   const handleOnClick = useCallback(() => {
     if(snap.contextMenu.isVisible) {
