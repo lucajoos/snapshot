@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useSnapshot } from 'valtio';
 import { v4 as uuidv4 } from 'uuid';
-import { Save } from 'react-feather';
+import { Lock, Save, Type } from 'react-feather';
 
 import { Button, Header } from '../../Base';
 import { Checkbox, ColorPicker, Tags, TextField } from '../../Input';
@@ -177,6 +177,7 @@ const Snapshot = () => {
           onChange={event => handleOnChangeValue(event)}
           nativeRef={inputRef}
           onKeyDown={event => handleOnKeyDown(event)}
+          icon={<Type size={18} />}
         />
 
         <Tags
@@ -184,7 +185,6 @@ const Snapshot = () => {
           title={'Tags'}
           tags={snap.modal.data.snapshot.tags}
           onChange={ tags => handleOnChangeTags(tags) }
-          onDone={() => handleOnReturn()}
           onKeyDown={event => handleOnKeyDownTags(event)}
           isOnlyAllowingUniqueTags={true}
           pasteDataType={'text/plain'}

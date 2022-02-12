@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react';
-import { X as Times } from 'react-feather';
+import { Tag, X as Times } from 'react-feather';
 
 const Tags = ({
   className = '',
@@ -7,7 +7,6 @@ const Tags = ({
   tags = [],
   onChange = () => {},
   onKeyDown = () => {},
-  onDone = () => {},
   isOnlyAllowingUniqueTags = false,
   isSpellChecking = false,
   regex = (/(.*?)/g),
@@ -55,8 +54,6 @@ const Tags = ({
           onChange([ ...tags, value ]);
           setValue('');
           spanRef.current.textContent = '';
-        } else {
-          onDone(tags);
         }
       }
     } else if (event.key === 'Backspace' && value.length === 0) {
@@ -99,25 +96,35 @@ const Tags = ({
       <div
         className={ 'flex border-b-2 border-gray-300 py-3 px-1 w-input flex-wrap relative items-center cursor-text' }
         onClick={ () => spanRef.current?.focus() }>
+
         {
-          tags.length === 0 && value.length === 0 && (
-            <span className={'absolute left-1'}>{ title }</span>
+          tags.length === 0  && (
+            <div className={'text-gray-500'}>
+              <Tag size={18}/>
+            </div>
           )
         }
         {
-          tags.map((tag, index) => (
-            <div key={ index }
-                 className={ `flex rounded items-center py-1 mr-1 px-2 cursor-pointer ${index !== selection ? 'bg-gray-200' : 'bg-text-default text-background-default'}` }>
-              <span>{ tag }</span>
-              <div className={ 'ml-1 cursor-pointer self-center' } onClick={ () => handleOnRemove(index) }>
-                <Times size={ 14 } />
-              </div>
-            </div>
-          ))
+          tags.length === 0 && value.length === 0 && (
+            <span className={'absolute my-4 left-[calc(0.75rem+18px)]'}>{ title }</span>
+          )
         }
+        <div className={'flex gap-2 items-center flex-wrap'}>
+          {
+            tags.map((tag, index) => (
+              <div key={ index }
+                   className={ `flex rounded items-center py-1 px-2 cursor-pointer bg-gray-200 ring-2 ${index === selection ? 'ring-text-default' : 'ring-transparent'}` }>
+                <span>{ tag }</span>
+                <div className={ 'ml-1 cursor-pointer self-center' } onClick={ () => handleOnRemove(index) }>
+                  <Times size={ 14 } />
+                </div>
+              </div>
+            ))
+          }
+        </div>
 
         <span
-          className={'py-1'}
+          className={`py-1 ${tags.length === 0 ? 'pl-[calc(0.75rem-3px)]' : 'pl-2'}`}
 
           onKeyDown={ event => handleOnKeyDown(event) }
           onInput={ event => handleOnInput(event) }

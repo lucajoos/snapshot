@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import { useSnapshot } from 'valtio';
-import { AlertTriangle, Archive, Inbox, Loader, Lock, LogIn, Search, User } from 'react-feather';
+import { AlertTriangle, Inbox, Loader, Lock, LogIn, User } from 'react-feather';
 
-import { Button, Header, Link } from '../../../Base';
+import { Button, Link } from '../../../Base';
 import { TextField } from '../../../Input';
 
 import Store from '../../../../Store';
