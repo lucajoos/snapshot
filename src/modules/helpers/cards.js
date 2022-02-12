@@ -1,6 +1,8 @@
 import Store from '../../Store';
 import { snapshot } from 'valtio';
 import api from './api';
+import supabase from '../supabase';
+import helpers from './index';
 
 const cards = {
   import: content => {
@@ -29,8 +31,8 @@ const cards = {
     a.click();
   },
 
-  save: current => {
-    localStorage.setItem('cards', JSON.stringify(current));
+  save: object => {
+    localStorage.setItem('cards', JSON.stringify(object));
   },
 
   get: id => {
@@ -49,11 +51,22 @@ const cards = {
   remove: id => {
     const snap = snapshot(Store);
 
-    let stack = snap.cards.map(card => {
+    let stack = snap.cards.map(async card => {
       let current = Object.assign({}, card);
 
       if (current.id === id) {
         current.isVisible = false;
+
+        if(snap.session) {
+          await supabase
+            .from('cards')
+            .update([{
+              is_visible: false
+            }], {
+              returning: 'minimal'
+            })
+            .match({ id })
+        }
       }
 
       return current;

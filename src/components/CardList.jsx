@@ -8,11 +8,12 @@ import { Header } from './Base';
 
 import Store from '../Store';
 import helpers from '../modules/helpers';
+import supabase from '../modules/supabase';
 
 const CardList = () => {
   const snap = useSnapshot(Store);
 
-  const handleOnDragEnd = useCallback(event => {
+  const handleOnDragEnd = useCallback(async event => {
     if (!event.destination) return;
     // Workaround
     let cards = [...Store.cards];
@@ -39,9 +40,22 @@ const CardList = () => {
       }
     });
 
+    if(snap.session) {
+      for(const { index, id } of cards) {
+        await supabase
+          .from('cards')
+          .update([{
+            index
+          }], {
+            returning: 'minimal'
+          })
+          .match({ id })
+      }
+    }
+
     Store.cards = cards;
     helpers.cards.save(cards);
-  }, [ snap.cards ]);
+  }, [ snap.cards, snap.session ]);
 
   return (
     <div className={'h-full px-5 overflow-y-scroll'}>

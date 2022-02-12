@@ -8,6 +8,7 @@ import { Checkbox, ColorPicker, Tags, TextField } from '../../Input';
 
 import Store from '../../../Store';
 import helpers from '../../../modules/helpers';
+import supabase from '../../../modules/supabase';
 
 const Snapshot = () => {
   const snap = useSnapshot(Store);
@@ -37,9 +38,9 @@ const Snapshot = () => {
 
     if(snap.modal.data.snapshot.id ? snap.modal.data.snapshot.id.length > 0 : false) {
       // Update Snapshot
-      cards.forEach((card, index) => {
+      for (const card of cards) {
         if(card.id === snap.modal.data.snapshot.id) {
-          cards[index] = Object.assign(card, {
+          const update = {
             value: snap.modal.data.snapshot.value?.length === 0 ? `Snapshot #${ snap.cards.filter(card => card.isVisible).length + 1 }` : snap.modal.data.snapshot.value,
             tags: snap.modal.data.snapshot.tags,
 
@@ -53,14 +54,27 @@ const Snapshot = () => {
 
             urls: snap.modal.data.snapshot.isUpdatingTabs ? urls : card.urls,
             favicons: snap.modal.data.snapshot.isUpdatingTabs ? favicons : card.favicons,
-          });
+          };
+
+          cards[cards.indexOf(card)] = Object.assign(card, update);
+
+          if(snap.session) {
+            await supabase
+              .from('cards')
+              .update([
+                helpers.db.camelCaseToSnakeCase(update)
+              ], {
+                returning: 'minimal'
+              })
+              .match({ id: card.id })
+          }
         }
-      })
+      }
     } else {
       // Take Snapshot
       const id = uuidv4();
 
-      cards.push({
+      const card = {
         id,
         index: snap.cards.length,
         value: snap.modal.data.snapshot.value?.length === 0 ? `Snapshot #${ snap.cards.filter(card => card.isVisible).length + 1 }` : snap.modal.data.snapshot.value,
@@ -70,7 +84,7 @@ const Snapshot = () => {
         pickIndex: snap.modal.data.snapshot.pickIndex,
 
         createdAt: new Date().toISOString(),
-        editedAt: null,
+        editedAt: new Date().toISOString(),
 
         isVisible: true,
         isShowingIcons: snap.modal.data.snapshot.isShowingIcons,
@@ -78,18 +92,29 @@ const Snapshot = () => {
 
         urls,
         favicons
-      });
+      };
 
+      cards.push(card);
       Store.favicons[id] = {};
+
+      if(snap.session) {
+        await supabase
+          .from('cards')
+          .insert([
+            helpers.db.camelCaseToSnakeCase(card)
+          ], {
+            returning: 'minimal'
+          });
+      }
     }
 
     Store.cards = cards;
     helpers.cards.save(cards);
-  }, [snap.cards, snap.modal])
+  }, [snap.cards, snap.modal, snap.session])
 
-  const handleOnKeyDown = useCallback(event => {
+  const handleOnKeyDown = useCallback(async event => {
     if(event.keyCode === 13) {
-      handleOnReturn();
+      await handleOnReturn();
     }
   }, [snap.cards, snap.modal]);
 
