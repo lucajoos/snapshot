@@ -3,6 +3,7 @@ import React, { useCallback, useRef } from 'react';
 import { Header, Link, Section } from '../../Base';
 
 import helpers from '../../../modules/helpers';
+import { ExternalLink } from 'react-feather';
 
 const Settings = () => {
   const advancedImportInputRef = useRef(null);
@@ -35,12 +36,25 @@ const Settings = () => {
     }, { isWaiting: false });
   }, []);
 
+  const handleOnClickOpenFullscreen = useCallback(async () => {
+    await helpers.api.do('tabs.create', {
+      url: await helpers.api.do('runtime.getURL', 'app.html?fullscreen=true')
+    }, { isWaiting: false });
+  }, []);
+
   return (
     <>
       <div className={'flex flex-col gap-6'}>
         <Header>
           Settings
         </Header>
+
+        <div>
+          <Section>General</Section>
+          <div className={'flex flex-col gap-2'}>
+            <Link onClick={() => handleOnClickOpenFullscreen()} external={true}>Fullscreen</Link>
+          </div>
+        </div>
 
         <div>
           <Section>Advanced</Section>
@@ -54,7 +68,7 @@ const Settings = () => {
 
         <div>
           <Section>About</Section>
-          <Link onClick={() => handleOnClickAboutLicenses()}>Show Licenses</Link>
+          <Link onClick={() => handleOnClickAboutLicenses()} external={true}>Show Licenses</Link>
           <p className={'mt-2'}>Snapshot v{__APP_VERSION__} ({import.meta.env.MODE})</p>
           <p>React v{React.version}</p>
         </div>
