@@ -56,14 +56,21 @@ const cards = {
 
   remove: async id => {
     const snap = snapshot(Store);
-    const update = snap.cards.filter(card => {
-      return card.id !== id;
+    const update = snap.cards.map(card => {
+      if(card.id === id) {
+        return Object.assign({}, card, { isVisible: false });
+      }
+
+      return card;
     });
 
     if(snap.session) {
       await supabase
         .from('cards')
-        .delete()
+        .update({
+          is_visible: false,
+          edited_at: new Date().toISOString()
+        })
         .match({ id })
     }
 

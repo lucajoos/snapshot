@@ -45,7 +45,8 @@ const CardList = () => {
         await supabase
           .from('cards')
           .update([{
-            index
+            index,
+            edited_at: new Date().toISOString()
           }], {
             returning: 'minimal'
           })

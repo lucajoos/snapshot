@@ -110,11 +110,45 @@ const App = () => {
       await helpers.remote.synchronize();
     });
 
-    await helpers.remote.synchronize();
-
     // Confetti? - Confetti.
     if (date.getMonth() === 4 && day === 30) {
       confetti.render();
+    }
+
+    // Synchronize
+    if(snap.session) {
+      await helpers.remote.synchronize();
+
+      supabase
+        .from(`cards:user_id=eq.${supabase.auth.user().id}`)
+        .on('INSERT', ({ new: card }) => {
+          if(!card) return false;
+
+          const cards = [...Store.cards];
+          cards.push(helpers.remote.snakeCaseToCamelCase(card));
+
+          Store.favicons[card.id] = {};
+          Store.cards = cards;
+          helpers.cards.save(cards);
+        })
+        .on('UPDATE', payload => {
+          if(!payload.new || !payload.old) return false;
+
+          let cards = [...Store.cards];
+
+          cards = cards.map(card => {
+            if(card.id === payload.old.id) {
+              return helpers.remote.snakeCaseToCamelCase(payload.new);
+            }
+
+            return card;
+          });
+
+          Store.favicons[payload.new.id] = {};
+          Store.cards = cards;
+          helpers.cards.save(cards);
+        })
+        .subscribe()
     }
 
     return () => confetti.clear();
