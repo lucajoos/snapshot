@@ -125,11 +125,21 @@ const App = () => {
           if(!card) return false;
 
           const cards = [...Store.cards];
-          cards.push(helpers.remote.snakeCaseToCamelCase(card));
+          let isInCards = false;
 
-          Store.favicons[card.id] = {};
-          Store.cards = cards;
-          helpers.cards.save(cards);
+          cards.forEach(({ id }) => {
+            if(id === card.id) {
+              isInCards = true;
+            }
+          });
+
+          if(!isInCards) {
+            cards.push(helpers.remote.snakeCaseToCamelCase(card));
+
+            Store.favicons[card.id] = {};
+            Store.cards = cards;
+            helpers.cards.save(cards);
+          }
         })
         .on('UPDATE', payload => {
           if(!payload.new || !payload.old) return false;
