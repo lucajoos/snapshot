@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useSnapshot } from 'valtio';
-import { AlertTriangle, Inbox, Loader, Lock, LogIn, User } from 'react-feather';
+import { AlertTriangle, Inbox, Loader, Lock, LogIn, Mail, Phone, User } from 'react-feather';
 
 import { Button, Link } from '../../../Base';
 import { TextField } from '../../../Input';
@@ -75,7 +75,7 @@ const Authentication = () => {
       <>
         <div className={'flex my-6'}>
           <span>{snap.modal.data.profile.isSigningIn ? `Don't have an account?` : `Already have an account?`}&nbsp;</span>
-          <Link onClick={() => handleOnClickChangeMode()}>{snap.modal.data.profile.mode === 'signIn' ? `Sign-in` : `Sign-up`}</Link>
+          <Link onClick={() => handleOnClickChangeMode()}>{snap.modal.data.profile.isSigningIn ? `Sign-up` : `Sign-in`}</Link>
         </div>
 
         {snap.modal.data.profile.error ? (
@@ -85,22 +85,23 @@ const Authentication = () => {
           </div>
         ) : ''}
 
-        <TextField
-          type={'email'}
-          value={snap.modal.data.profile.email}
-          placeholder={'Email address'}
-          onChange={event => handleOnChangeEmail(event)}
-          icon={<User size={18} />}
-        />
+        <div className={'flex flex-col gap-4'}>
+          <TextField
+            type={'email'}
+            value={snap.modal.data.profile.email}
+            placeholder={'Email address'}
+            onChange={event => handleOnChangeEmail(event)}
+            icon={<Mail size={18} />}
+          />
 
-        <TextField
-          type={'password'}
-          value={snap.modal.data.profile.password}
-          placeholder={'Password'}
-          onChange={event => handleOnChangePassword(event)}
-          className={'mt-4'}
-          icon={<Lock size={18} />}
-        />
+          <TextField
+            type={'password'}
+            value={snap.modal.data.profile.password}
+            placeholder={'Password'}
+            onChange={event => handleOnChangePassword(event)}
+            icon={<Lock size={18} />}
+          />
+        </div>
 
         <Button className={'mt-6'} onClick={() => handleOnClickAuthenticate()}>
           <span className={'mx-2'}>{snap.modal.data.profile.isSigningIn ? `Sign-in` : `Sign-up`}</span>

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useSnapshot } from 'valtio';
-import { Search, Settings as Cob, User, Zap } from 'react-feather';
+import { RefreshCw, Search, Settings as Cob, User, Zap } from 'react-feather';
 import ConfettiGenerator from 'confetti-js';
 
 import Store from '../Store';
