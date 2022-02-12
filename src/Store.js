@@ -31,7 +31,12 @@ const Store = proxy({
         isLoading: false
       },
 
-      settings: {}
+      settings: {
+        category: {
+          title: null,
+          icon: null
+        }
+      }
     }
   },
 

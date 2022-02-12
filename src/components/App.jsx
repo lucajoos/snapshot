@@ -39,6 +39,7 @@ const App = () => {
   const handleOnClickSettings = useCallback(() => {
     Store.modal.data.settings = snap.settings;
     Store.modal.content = 'Settings';
+    Store.modal.data.settings.category = null;
     Store.modal.isVisible = true;
   }, []);
 
@@ -64,10 +65,6 @@ const App = () => {
       event.preventDefault();
     }
 
-    if(snap.modal.isVisible) {
-      Store.modal.isVisible = false;
-    }
-
     let type = 'default';
     Store.contextMenu.x = event.pageX;
     Store.contextMenu.y = event.pageY;
@@ -78,11 +75,16 @@ const App = () => {
     if(element) {
       type = 'card';
       Store.contextMenu.data = element.getAttribute('id');
+
+      console.log(element)
+      if(element.classList.contains('isArchived')) {
+        type = 'card-isArchived';
+      }
     }
 
     Store.contextMenu.type = type;
     Store.contextMenu.isVisible = true;
-  }, [snap.cards, snap.contextMenu.isPreventingDefault, snap.modal.isVisible]);
+  }, [snap.cards, snap.contextMenu.isPreventingDefault]);
 
   const handleOnClick = useCallback(() => {
     if(snap.contextMenu.isVisible) {

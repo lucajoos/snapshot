@@ -2,6 +2,7 @@ import Store from '../../Store';
 import { snapshot } from 'valtio';
 import api from './api';
 import supabase from '../supabase';
+import helpers from './index';
 
 const cards = {
   load: stack => {
@@ -75,6 +76,35 @@ const cards = {
     }
 
     Store.cards = update;
+    cards.save(update);
+  },
+
+  restore: async id => {
+    const snap = snapshot(Store);
+    const update = snap.cards.map(card => {
+      if(card.id === id) {
+        return Object.assign({}, card, { isVisible: true });
+      }
+
+      return card;
+    });
+
+    if(snap.session) {
+      await supabase
+        .from('cards')
+        .update({
+          is_visible: true,
+          edited_at: new Date().toISOString()
+        })
+        .match({ id })
+    }
+
+    Store.cards = update;
+
+    if(snap.modal.isVisible) {
+      Store.modal.isVisible = false;
+    }
+
     cards.save(update);
   },
 

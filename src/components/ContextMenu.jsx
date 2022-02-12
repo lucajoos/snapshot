@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useSnapshot } from 'valtio';
-import { Code, Edit2, ExternalLink, Share, Trash } from 'react-feather';
+import { Code, Edit2, ExternalLink, RotateCcw, Share, Trash } from 'react-feather';
 
 import ContextMenuOption from './ContextMenuOption';
 
@@ -19,8 +19,16 @@ const ContextMenu = () => {
     helpers.cards.edit(snap.contextMenu.data);
   }, [snap.contextMenu.data]);
 
+  const handleOnClickCardRemove = useCallback(async () => {
+    await helpers.cards.remove(snap.contextMenu.data);
+  }, [snap.contextMenu.data]);
+
+  const handleOnClickCardRestore = useCallback(() => {
+    helpers.cards.restore(snap.contextMenu.data);
+  }, [snap.contextMenu.data]);
+
   const handleOnClickCardDelete = useCallback(() => {
-    helpers.cards.remove(snap.contextMenu.data);
+    // TODO
   }, [snap.contextMenu.data]);
 
   // Default callbacks
@@ -57,6 +65,25 @@ const ContextMenu = () => {
               onClick={() => handleOnClickCardEdit()}
             />
             <hr className={'my-1'}/>
+            <ContextMenuOption
+              title={'Remove'}
+              color={'text-red-500'}
+              icon={<Trash size={16}/>}
+              onClick={() => handleOnClickCardRemove()}
+            />
+            <hr className={'my-1'}/>
+          </>
+        )
+      }
+
+      {
+        snap.contextMenu.type === 'card-isArchived' && (
+          <>
+            <ContextMenuOption
+              title={'Restore'}
+              icon={<RotateCcw size={16}/>}
+              onClick={() => handleOnClickCardRestore()}
+            />
             <ContextMenuOption
               title={'Delete'}
               color={'text-red-500'}

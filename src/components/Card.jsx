@@ -2,14 +2,14 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSnapshot } from 'valtio';
 import moment from 'moment';
 import Color from 'color';
-import { Clock, MoreHorizontal} from 'react-feather';
+import { Clock, MoreHorizontal } from 'react-feather';
 
 import Icon from './Icon';
 
 import Store from '../Store';
 import helpers from '../modules/helpers'
 
-const Card = ({ card, className }) => {
+const Card = ({ card, className, isArchived=false }) => {
   const snap = useSnapshot(Store);
 
   const palette = useRef([ 'orange', 'pink', 'green', 'violet', 'blue' ]);
@@ -33,13 +33,13 @@ const Card = ({ card, className }) => {
   const handleOnClickMore = useCallback(event => {
     Store.contextMenu.x = event.pageX - 200;
     Store.contextMenu.y = event.pageY + 5;
+    Store.contextMenu.type = isArchived ? 'card-isArchived' : 'card';
     Store.contextMenu.data = card.id;
-    Store.contextMenu.type = 'card';
     Store.contextMenu.isVisible = true;
-  }, [card]);
+  }, [card, isArchived]);
 
   const handleOnClick = useCallback(async event => {
-    if (event.target === containerRef.current) {
+    if (event.target === containerRef.current && !isArchived) {
       await helpers.cards.open(card.id);
     }
   }, [ card ]);
@@ -61,7 +61,7 @@ const Card = ({ card, className }) => {
       <div
         onClick={ e => handleOnClick(e) }
         style={{ backgroundColor: theme?.startsWith('#') && theme }}
-        className={ `card p-5 cursor-pointer select-none w-full rounded-lg text-text-default relative ${!theme?.startsWith('#') ? `bg-${theme}-default` : ''}` }
+        className={ `card p-5 select-none w-full rounded-lg text-text-default relative${!theme?.startsWith('#') ? ` bg-${theme}-default` : ''}${isArchived ? ' isArchived' : ' cursor-pointer'}` }
         ref={ containerRef }
         id={card.id}
       >
@@ -80,7 +80,7 @@ const Card = ({ card, className }) => {
 
                 <div
                   style={{ backgroundColor: card.isCustomPick && themeAccent}}
-                  className={ `flex p-2 gap-1 rounded items-center justify-center ml-3 ${!card.isCustomPick ? `bg-${theme}-accent` : ''} ${(card.favicons.length === 0 || !card.isShowingIcons) ? 'opacity-0' : ''}` }
+                  className={ `flex p-2 gap-1 rounded items-center justify-center ml-3 ${!card.isCustomPick ? `bg-${theme}-accent` : ''} ${(card.favicons.length === 0 || !card.isShowingIcons || isArchived) ? 'opacity-0' : ''}` }
                 >
                   {
                     card.favicons.map((favicon, index) => {
@@ -123,7 +123,7 @@ const Card = ({ card, className }) => {
           </div>
         </div>
 
-        <div className={ 'absolute top-0 bottom-0 m-auto right-5 items-center cursor-pointer card-remove flex' }>
+        <div className={ `absolute top-0 bottom-0 m-auto right-5 items-center cursor-pointer card-remove flex` }>
           <div
             style={{ backgroundColor: card.isCustomPick && isHoveringMore && themeAccent}}
             className={ `rounded p-2 mr-1 pointer-events-all transition-color ${!card.isCustomPick ? `hover:bg-${theme}-accent` : ''}` }
