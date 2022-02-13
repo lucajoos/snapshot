@@ -1,5 +1,5 @@
 import { snapshot } from 'valtio';
-import Store from '../../Store';
+import Store, { Template } from '../../Store';
 
 const settings = {
   save: () => {
@@ -7,14 +7,15 @@ const settings = {
     localStorage.setItem('settings', JSON.stringify(snap.settings));
   },
 
-  import: content => {
+  load: content => {
     try {
-      const settings = JSON.parse(content);
+      let settings = JSON.parse(content);
 
-      if(settings) {
-        Store.settings = settings;
+      if(!settings) {
+        settings = Template.settings;
       }
 
+      Store.settings = settings;
       return settings;
     } catch (e) {
       console.error(e);

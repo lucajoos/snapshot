@@ -105,9 +105,8 @@ const App = () => {
       helpers.cards.save(snap.cards);
     }
 
-    // Import data
-    const settings = helpers.settings.import(localStorage.getItem('settings'));
-    helpers.cards.import(localStorage.getItem('cards'));
+    // Load settings & import cards
+    const settings = helpers.settings.load(localStorage.getItem('settings'));
 
     if(settings.behaviour.isFullscreen && new URLSearchParams(window.location.search).get('fullscreen') !== 'true') {
       await helpers.api.do('tabs.create', {
@@ -119,6 +118,8 @@ const App = () => {
       Store.session = session;
       await helpers.remote.synchronize();
     });
+
+    helpers.cards.import(localStorage.getItem('cards'));
 
     // Confetti? - Confetti.
     if (date.getMonth() === 4 && day === 30) {
