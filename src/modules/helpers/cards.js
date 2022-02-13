@@ -4,7 +4,7 @@ import helpers from './index';
 import supabase from '../supabase';
 
 const cards = {
-  move: (event, cards) => {
+  move: (event, cards, options={isUpdatingSelf: true}) => {
     if(!cards) {
       cards = [...Store.cards];
     }
@@ -14,6 +14,7 @@ const cards = {
 
     // Apply mutations
     cards.forEach((card, index) => {
+      console.log(card.index)
       if(
         mutation === 1 ? (
           card.index >= event.destination.index &&
@@ -23,9 +24,10 @@ const cards = {
           card.index <= event.destination.index
         )
       ) {
+        console.log('MOVE: ' + card.index + ' MUTATE: ' + mutation)
         // If in range mutate index
         cards[index].index += mutation;
-      } else if(card.index === event.source.index) {
+      } else if(options.isUpdatingSelf && (card.index === event.source.index)) {
         // Update index of moved document to destination index
         cards[index].index = event.destination.index;
       }
@@ -110,7 +112,7 @@ const cards = {
           index: -1,
           edited_at: new Date().toISOString()
         })
-        .match({ id })
+        .match({ id });
     }
 
     if(maxIndex > card.index) {
@@ -122,7 +124,9 @@ const cards = {
         destination: {
           index: update.length
         }
-      }, update);
+      }, update, {
+        isUpdatingSelf: false
+      });
 
       if(snap.session) {
         for(const { index, id } of update) {
@@ -144,7 +148,7 @@ const cards = {
 
   restore: async id => {
     const snap = snapshot(Store);
-    const update = snap.cards.map(card => {
+    let update = [...Store.cards].map(card => {
       if(card.id === id) {
         return Object.assign({}, card, { isVisible: true });
       }
@@ -156,10 +160,43 @@ const cards = {
       await supabase
         .from('cards')
         .update({
+          index: 0,
           is_visible: true,
           edited_at: new Date().toISOString()
         })
         .match({ id })
+    }
+
+    update = helpers.cards.move({
+      source: {
+        index: update.length
+      },
+      destination: {
+        index: 0
+      }
+    }, update, {
+      isUpdatingSelf: false
+    });
+
+    update = update.map(current => {
+      if(current.id === id) {
+        return Object.assign(current, { index: 0 });
+      }
+
+      return current;
+    });
+
+    if(snap.session) {
+      for(const { index, id } of update) {
+        await supabase
+          .from('cards')
+          .update([{
+            index
+          }], {
+            returning: 'minimal'
+          })
+          .match({ id })
+      }
     }
 
     Store.cards = update;
