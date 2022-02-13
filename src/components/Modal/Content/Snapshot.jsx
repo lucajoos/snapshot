@@ -237,11 +237,9 @@ const Snapshot = () => {
         />
       </div>
 
-      <Button onClick={() => handleOnReturn()}>
-        <div className={'flex items-center'}>
-          <span className={'mx-2'}>Save</span>
-          <Save size={18} />
-        </div>
+      <Button onClick={() => handleOnReturn()} className={'self-end'}>
+        <span>Save</span>
+        <Save size={18} />
       </Button>
     </>
   )

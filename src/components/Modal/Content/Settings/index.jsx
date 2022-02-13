@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from 'react';
-import { Archive, Box, ChevronLeft, Globe, RefreshCw, Settings as Cob } from 'react-feather';
+import { Archive, Box, ChevronLeft, ChevronRight, Globe, RefreshCw, Settings as Cob } from 'react-feather';
 
 import { Header, Option } from '../../../Base';
 import { useSnapshot } from 'valtio';
@@ -12,9 +12,9 @@ const Settings = () => {
 
   const iconsRef = useRef({
     General: <Globe />,
+    Behaviour: <Box />,
     Sync: <RefreshCw />,
-    Archive: <Archive />,
-    Miscellaneous: <Box />
+    Archive: <Archive />
   })
 
   const handleOnClickCategory = useCallback(title => {
@@ -29,11 +29,14 @@ const Settings = () => {
     <div className={'flex flex-col gap-6'}>
       <Header><Cob /> Settings</Header>
 
-      <div className={'flex gap-4 mt-2 flex-col'}>
-        <Option title={'General'} icon={iconsRef.current['General']} onClick={title => handleOnClickCategory(title)} />
-        <Option title={'Sync'} icon={iconsRef.current['Sync']} onClick={title => handleOnClickCategory(title)} />
-        <Option title={'Archive'} icon={iconsRef.current['Archive']} onClick={title => handleOnClickCategory(title)} />
-        <Option title={'Miscellaneous'} icon={iconsRef.current['Miscellaneous']} onClick={title => handleOnClickCategory(title)} />
+      <div className={'flex gap-2 flex-col'}>
+        <Option.Category title='General' icon={iconsRef.current['General']} onClick={title => handleOnClickCategory(title)} />
+        <hr />
+        <Option.Category title='Behaviour' icon={iconsRef.current['Behaviour']} onClick={title => handleOnClickCategory(title)} />
+        <hr />
+        <Option.Category title='Sync' icon={iconsRef.current['Sync']} onClick={title => handleOnClickCategory(title)} />
+        <hr />
+        <Option.Category title='Archive' icon={iconsRef.current['Archive']} onClick={title => handleOnClickCategory(title)} />
       </div>
     </div>
   ) : (
@@ -51,7 +54,7 @@ const Settings = () => {
           {snap.modal.data.settings.category}
         </div>
       </Header>
-      <div className={'mt-4 flex flex-col'}>
+      <div className={'max-h-[50vh] overflow-scroll mt-6 flex flex-col'}>
         <CategoryContent />
       </div>
     </>

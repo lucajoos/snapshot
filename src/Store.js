@@ -46,7 +46,16 @@ const Store = proxy({
     isPreventingDefault: import.meta.env.MODE === 'production'
   },
 
-  settings: {},
+  settings: {
+    sync: {
+      isSynchronizing: true
+    },
+
+    behaviour: {
+      isDeletingPermanently: false,
+      isFullscreen: false
+    }
+  },
   session: supabase.auth.session()
 });
 

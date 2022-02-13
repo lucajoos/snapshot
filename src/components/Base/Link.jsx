@@ -1,10 +1,10 @@
 import React from 'react';
 import { ExternalLink } from 'react-feather';
 
-const Link = ({ children, external=false, onClick=()=>{},}) => {
+const Link = ({ children, external=false, onClick=()=>{}, className=''}) => {
   return (
     <div
-      className={'cursor-pointer text-text-default underline flex items-center gap-1'}
+      className={`cursor-pointer text-text-default underline flex items-center gap-1${className.length > 0 ? ` ${className}` : ''}`}
       onClick={() => onClick()}
     >
       {children}

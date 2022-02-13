@@ -37,7 +37,6 @@ const App = () => {
   }, []);
 
   const handleOnClickSettings = useCallback(() => {
-    Store.modal.data.settings = snap.settings;
     Store.modal.content = 'Settings';
     Store.modal.data.settings.category = null;
     Store.modal.isVisible = true;
@@ -195,11 +194,9 @@ const App = () => {
         <CardList />
 
         <div className={ 'flex px-8 py-5 justify-end items-center z-10' }>
-          <Button onClick={ () => handleOnClickSnapshot() }>
-            <div className={ 'flex items-center' }>
-              <span className={ 'mx-2' }>Snapshot</span>
-              <Zap size={ 18 } />
-            </div>
+          <Button onClick={ () => handleOnClickSnapshot() } className={'self-end'}>
+            <span>Snapshot</span>
+            <Zap size={ 18 } />
           </Button>
         </div>
       </div>

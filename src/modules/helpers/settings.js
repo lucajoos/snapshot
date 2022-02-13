@@ -4,8 +4,7 @@ import Store from '../../Store';
 const settings = {
   save: () => {
     const snap = snapshot(Store);
-    localStorage.setItem('settings', JSON.stringify(snap.modal.content.settings));
-    Store.settings = snap.modal.content.settings;
+    localStorage.setItem('settings', JSON.stringify(snap.settings));
   },
 
   import: content => {

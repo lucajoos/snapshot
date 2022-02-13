@@ -23,7 +23,7 @@ const Modal = () => {
           <X />
         </div>
 
-        <div className={'grid'}>
+        <div className={'max-h-[70vh] overflow-scroll flex flex-col'}>
           {
             snap.modal.content.length > 0 ? <ModalContent /> : null
           }

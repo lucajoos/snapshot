@@ -120,8 +120,8 @@ const Authentication = () => {
           />
         </div>
 
-        <Button className={'mt-6'} onClick={() => handleOnClickAuthenticate()}>
-          <span className={'mx-2'}>{snap.modal.data.profile.isSigningIn ? `Sign-in` : `Sign-up`}</span>
+        <Button className={'mt-6 self-end'} onClick={() => handleOnClickAuthenticate()}>
+          <span>{snap.modal.data.profile.isSigningIn ? `Sign-in` : `Sign-up`}</span>
           <LogIn size={18} />
         </Button>
       </>
