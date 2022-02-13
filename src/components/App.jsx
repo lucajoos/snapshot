@@ -76,7 +76,6 @@ const App = () => {
       type = 'card';
       Store.contextMenu.data = element.getAttribute('id');
 
-      console.log(element)
       if(element.classList.contains('isArchived')) {
         type = 'card-isArchived';
       }

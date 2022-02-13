@@ -58,8 +58,6 @@ const CardList = () => {
     helpers.cards.save(cards);
   }, [ snap.cards, snap.session ]);
 
-  console.log('1')
-
   return (
     <div className={'h-full px-5 overflow-y-scroll'}>
       {

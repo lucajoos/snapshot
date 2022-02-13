@@ -2,7 +2,7 @@ import React from 'react';
 import { useSnapshot } from 'valtio';
 import Store from '../../../../../Store';
 import Card from '../../../../Card';
-import { Header, Link, Section } from '../../../../Base';
+import { Header } from '../../../../Base';
 import { Wind } from 'react-feather';
 
 const Archive = () => {
