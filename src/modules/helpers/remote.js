@@ -71,9 +71,8 @@ const remote = {
         delete card.source;
 
         if(source === 'local') {
-          let r;
           if(isInRemote) {
-            r = await supabase
+            supabase
               .from('cards')
               .update([
                 remote.camelCaseToSnakeCase(card)
@@ -82,14 +81,24 @@ const remote = {
               })
               .match({
                 id: card.id
+              })
+              .then(({ error }) => {
+                if(error) {
+                  console.error(error);
+                }
               });
           } else {
-            r = await supabase
+            supabase
               .from('cards')
               .insert([
                 remote.camelCaseToSnakeCase(card)
               ], {
                 returning: 'minimal'
+              })
+              .then(({ error }) => {
+                if(error) {
+                  console.error(error);
+                }
               });
           }
         }

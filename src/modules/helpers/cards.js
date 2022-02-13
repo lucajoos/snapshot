@@ -14,7 +14,6 @@ const cards = {
 
     // Apply mutations
     cards.forEach((card, index) => {
-      console.log(card.index)
       if(
         mutation === 1 ? (
           card.index >= event.destination.index &&
@@ -24,7 +23,6 @@ const cards = {
           card.index <= event.destination.index
         )
       ) {
-        console.log('MOVE: ' + card.index + ' MUTATE: ' + mutation)
         // If in range mutate index
         cards[index].index += mutation;
       } else if(options.isUpdatingSelf && (card.index === event.source.index)) {
@@ -105,14 +103,19 @@ const cards = {
     });
 
     if(snap.session) {
-      await supabase
+      supabase
         .from('cards')
         .update({
           is_visible: false,
           index: -1,
           edited_at: new Date().toISOString()
         })
-        .match({ id });
+        .match({ id })
+        .then(({ error }) => {
+          if(error) {
+            console.error(error);
+          }
+        });
     }
 
     if(maxIndex > card.index) {
@@ -130,7 +133,7 @@ const cards = {
 
       if(snap.session) {
         for(const { index, id } of update) {
-          await supabase
+          supabase
             .from('cards')
             .update([{
               index
@@ -138,6 +141,11 @@ const cards = {
               returning: 'minimal'
             })
             .match({ id })
+            .then(({ error }) => {
+              if(error) {
+                console.error(error);
+              }
+            });
         }
       }
     }
@@ -157,7 +165,7 @@ const cards = {
     });
 
     if(snap.session) {
-      await supabase
+      supabase
         .from('cards')
         .update({
           index: 0,
@@ -165,6 +173,11 @@ const cards = {
           edited_at: new Date().toISOString()
         })
         .match({ id })
+        .then(({ error }) => {
+          if(error) {
+            console.error(error);
+          }
+        });
     }
 
     update = helpers.cards.move({
@@ -188,7 +201,7 @@ const cards = {
 
     if(snap.session) {
       for(const { index, id } of update) {
-        await supabase
+        supabase
           .from('cards')
           .update([{
             index
@@ -196,6 +209,11 @@ const cards = {
             returning: 'minimal'
           })
           .match({ id })
+          .then(({ error }) => {
+            if(error) {
+              console.error(error);
+            }
+          });
       }
     }
 
@@ -234,12 +252,17 @@ const cards = {
 
     if(update) {
       if(snap.session) {
-        await supabase
+        supabase
           .from('cards')
           .update(
             helpers.remote.camelCaseToSnakeCase(update)
           )
-          .match({ id });
+          .match({ id })
+          .then(({ error }) => {
+            if(error) {
+              console.error(error);
+            }
+          });
       }
 
       Store.cards = stack;

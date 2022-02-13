@@ -13,13 +13,13 @@ import supabase from '../modules/supabase';
 const CardList = () => {
   const snap = useSnapshot(Store);
 
-  const handleOnDragEnd = useCallback(async event => {
+  const handleOnDragEnd = useCallback(event => {
     if (!event.destination) return;
     const stack = helpers.cards.move(event);
 
     if(snap.session) {
       for(const { index, id } of stack) {
-        await supabase
+        supabase
           .from('cards')
           .update([{
             index
@@ -27,6 +27,11 @@ const CardList = () => {
             returning: 'minimal'
           })
           .match({ id })
+          .then(({ error }) => {
+            if(error) {
+              console.error(error);
+            }
+          });
       }
     }
 

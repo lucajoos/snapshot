@@ -59,7 +59,7 @@ const Snapshot = () => {
           cards[cards.indexOf(card)] = Object.assign(card, update);
 
           if(snap.session) {
-            await supabase
+            supabase
               .from('cards')
               .update([
                 helpers.remote.camelCaseToSnakeCase(update)
@@ -67,6 +67,11 @@ const Snapshot = () => {
                 returning: 'minimal'
               })
               .match({ id: card.id })
+              .then(({ error }) => {
+                if(error) {
+                  console.error(error);
+                }
+              });
           }
         }
       }
@@ -99,12 +104,17 @@ const Snapshot = () => {
       Store.favicons[id] = {};
 
       if(snap.session) {
-        await supabase
+        supabase
           .from('cards')
           .insert([
             helpers.remote.camelCaseToSnakeCase(card)
           ], {
             returning: 'minimal'
+          })
+          .then(({ error }) => {
+            if(error) {
+              console.error(error);
+            }
           });
       }
     }

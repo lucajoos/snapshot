@@ -13,13 +13,14 @@ const Profile = () => {
   const snap = useSnapshot(Store);
 
   const handleOnClickSignOut = useCallback(async () => {
-    await supabase.auth.signOut();
+    supabase.auth.signOut().catch(e => {
+      console.error(e);
+    });
   }, []);
 
   return (
     <>
       <Header><User /> Profile</Header>
-
       {
         !snap.session ? (
           <Authentication />
