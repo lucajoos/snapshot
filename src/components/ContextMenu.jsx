@@ -20,8 +20,10 @@ const ContextMenu = () => {
   }, [snap.contextMenu.data]);
 
   const handleOnClickCardRemove = useCallback(async () => {
-    await helpers.cards.remove(snap.contextMenu.data);
-  }, [snap.contextMenu.data]);
+    await helpers.cards[
+      snap.settings.behaviour.isDeletingPermanently ? 'delete' : 'remove'
+    ](snap.contextMenu.data);
+  }, [snap.contextMenu.data, snap.settings.behaviour.isDeletingPermanently]);
 
   const handleOnClickCardRestore = useCallback(async () => {
     await helpers.cards.restore(snap.contextMenu.data);
@@ -66,7 +68,7 @@ const ContextMenu = () => {
             />
             <hr className={'my-1'}/>
             <ContextMenuOption
-              title={'Remove'}
+              title={snap.settings.behaviour.isDeletingPermanently ? 'Delete' : 'Remove'}
               color={'text-red-500'}
               icon={<Trash size={16}/>}
               onClick={() => handleOnClickCardRemove()}
