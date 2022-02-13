@@ -15,38 +15,14 @@ const CardList = () => {
 
   const handleOnDragEnd = useCallback(async event => {
     if (!event.destination) return;
-    // Workaround
-    let cards = [...Store.cards];
-
-    // Calculate if document was moved back or forth
-    const mutation = event.destination.index < event.source.index ? 1 : -1;
-
-    // Apply mutations & send to database
-    snap.cards.forEach((card, index) => {
-      if(
-        mutation === 1 ? (
-          card.index >= event.destination.index &&
-          card.index < event.source.index
-        ) : (
-          card.index > event.source.index &&
-          card.index <= event.destination.index
-        )
-      ) {
-        // If in range mutate index
-        cards[index].index += mutation;
-      } else if(card.index === event.source.index) {
-        // Update index of moved document to destination index
-        cards[index].index = event.destination.index;
-      }
-    });
+    const stack = helpers.cards.move(event);
 
     if(snap.session) {
-      for(const { index, id } of cards) {
+      for(const { index, id } of stack) {
         await supabase
           .from('cards')
           .update([{
-            index,
-            edited_at: new Date().toISOString()
+            index
           }], {
             returning: 'minimal'
           })
@@ -54,8 +30,8 @@ const CardList = () => {
       }
     }
 
-    Store.cards = cards;
-    helpers.cards.save(cards);
+    Store.cards = stack;
+    helpers.cards.save(stack);
   }, [ snap.cards, snap.session ]);
 
   return (
