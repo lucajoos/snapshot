@@ -56,7 +56,9 @@ const Store = proxy({
       isFullscreen: false
     }
   },
-  session: supabase.auth.session()
+
+  session: supabase.auth.session(),
+  isFullscreen: false
 });
 
 export default Store;

@@ -1,19 +1,7 @@
 import React, { useCallback, useRef } from 'react';
 import helpers from '../../../../../modules/helpers';
-import { Button, Link, Option, Section } from '../../../../Base';
-import {
-  ArrowDownCircle,
-  ArrowUpCircle,
-  CornerLeftDown,
-  CornerRightDown,
-  CornerRightUp,
-  Download, Maximize, Rewind,
-  Share,
-  Trash,
-  Upload,
-  X,
-  Zap,
-} from 'react-feather';
+import { Link, Option, Section } from '../../../../Base';
+import { Download, Maximize, Rewind, Upload } from 'react-feather';
 
 const General = () => {
   const importRef = useRef(null);

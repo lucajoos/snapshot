@@ -54,6 +54,8 @@ const cards = {
     try {
       const stack = JSON.parse(content);
       cards.load(stack);
+
+      return stack;
     } catch (e) {
       console.error(e);
     }

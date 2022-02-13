@@ -1,4 +1,3 @@
-import { ChevronRight } from 'react-feather';
 import React from 'react';
 import { Switch } from '../../Input';
 

@@ -106,8 +106,14 @@ const App = () => {
     }
 
     // Import data
-    helpers.settings.import(localStorage.getItem('settings'));
+    const settings = helpers.settings.import(localStorage.getItem('settings'));
     helpers.cards.import(localStorage.getItem('cards'));
+
+    if(settings.behaviour.isFullscreen && new URLSearchParams(window.location.search).get('fullscreen') !== 'true') {
+      await helpers.api.do('tabs.create', {
+        url: await helpers.api.do('runtime.getURL', 'app.html?fullscreen=true')
+      }, { isWaiting: false });
+    }
     
     supabase.auth.onAuthStateChange(async (_, session) => {
       Store.session = session;

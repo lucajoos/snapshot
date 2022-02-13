@@ -1,7 +1,13 @@
 window.addEventListener('load', () => {
   if(typeof window.__IS_LISTENING__ === 'boolean' ? !window.__IS_LISTENING__ : true) {
     const iframe = document.querySelector('html > body > iframe');
-    iframe.setAttribute('src', (window.__MODE__ === 'production' || window.__MODE__ === 'staging') ? './index.html' : 'http://localhost:3000');
+    const isFullscreen = new URLSearchParams(window.location.search).get('fullscreen') === 'true';
+
+    iframe.setAttribute('src', (window.__MODE__ === 'production' || window.__MODE__ === 'staging') ? `./index.html${isFullscreen ? '?fullscreen=true' : ''}` : `http://localhost:3000${isFullscreen ? '?fullscreen=true' : ''}`);
+
+    if(isFullscreen) {
+      iframe.setAttribute('style', 'width:100vw;height:100vh;')
+    }
 
     const emit = (id, event, data) => {
       iframe.contentWindow.postMessage({

@@ -14,6 +14,8 @@ const settings = {
       if(settings) {
         Store.settings = settings;
       }
+
+      return settings;
     } catch (e) {
       console.error(e);
     }
