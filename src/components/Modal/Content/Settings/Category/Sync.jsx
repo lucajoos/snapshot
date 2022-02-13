@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useSnapshot } from 'valtio';
 import Store from '../../../../../Store';
 import { Button, Option, Section } from '../../../../Base';
-import { Clock, Key, Link2, Save, UploadCloud } from 'react-feather';
+import { Cloud, GitPullRequest, Key, Link2, Save } from 'react-feather';
 import { TextField } from '../../../../Input';
 import helpers from '../../../../../modules/helpers';
 
@@ -11,7 +11,13 @@ const Sync = () => {
 
   const handleOnChangeIsSynchronizing = useCallback(() => {
     Store.settings.sync.isSynchronizing = !snap.settings.sync.isSynchronizing;
+    helpers.settings.save();
   }, [snap.settings.sync.isSynchronizing]);
+
+  const handleOnChangeIsRealtime = useCallback(() => {
+    Store.settings.sync.isRealtime = !snap.settings.sync.isRealtime;
+    helpers.settings.save();
+  }, [snap.settings.sync.isRealtime]);
 
   const handleOnChangeSupabaseUrl = useCallback(event => {
     Store.modal.data.settings.sync.advanced.supabaseUrl = event.target.value;
@@ -41,16 +47,16 @@ const Sync = () => {
       <div className={'flex flex-col gap-2'}>
         <Option.Switch
           title={'Synchronize'}
-          icon={<UploadCloud />}
+          icon={<Cloud />}
           value={snap.settings.sync.isSynchronizing}
           onChange={() => handleOnChangeIsSynchronizing()}
         />
 
         <Option.Switch
           title={'Realtime'}
-          icon={<Clock />}
-          value={snap.settings.sync.isSynchronizing}
-          onChange={() => handleOnChangeIsSynchronizing()}
+          icon={<GitPullRequest />}
+          value={snap.settings.sync.isRealtime}
+          onChange={() => handleOnChangeIsRealtime()}
         />
       </div>
 

@@ -104,7 +104,7 @@ const cards = {
       return current;
     });
 
-    if(snap.session) {
+    if(snap.session && snap.settings.sync.isSynchronizing) {
       supabase
         .from('cards')
         .update({
@@ -133,7 +133,7 @@ const cards = {
         isUpdatingSelf: false
       });
 
-      if(snap.session) {
+      if(snap.session && snap.settings.sync.isSynchronizing) {
         for(const { index, id } of update) {
           supabase
             .from('cards')
@@ -166,7 +166,7 @@ const cards = {
       return card;
     });
 
-    if(snap.session) {
+    if(snap.session && snap.settings.sync.isSynchronizing) {
       supabase
         .from('cards')
         .update({
@@ -201,7 +201,7 @@ const cards = {
       return current;
     });
 
-    if(snap.session) {
+    if(snap.session && snap.settings.sync.isSynchronizing) {
       for(const { index, id } of update) {
         supabase
           .from('cards')
@@ -253,7 +253,7 @@ const cards = {
     });
 
     if(update) {
-      if(snap.session) {
+      if(snap.session && snap.settings.sync.isSynchronizing) {
         supabase
           .from('cards')
           .update(

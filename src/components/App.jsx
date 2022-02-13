@@ -129,46 +129,48 @@ const App = () => {
     if(snap.session) {
       await helpers.remote.synchronize();
 
-      supabase
-        .from(`cards:user_id=eq.${supabase.auth.user().id}`)
-        .on('INSERT', ({ new: card }) => {
-          if(!card) return false;
+      if(settings.sync.isRealtime) {
+        supabase
+          .from(`cards:user_id=eq.${supabase.auth.user().id}`)
+          .on('INSERT', ({ new: card }) => {
+            if(!card) return false;
 
-          const cards = [...Store.cards];
-          let isInCards = false;
+            const cards = [...Store.cards];
+            let isInCards = false;
 
-          cards.forEach(({ id }) => {
-            if(id === card.id) {
-              isInCards = true;
+            cards.forEach(({ id }) => {
+              if(id === card.id) {
+                isInCards = true;
+              }
+            });
+
+            if(!isInCards) {
+              cards.push(helpers.remote.snakeCaseToCamelCase(card));
+
+              Store.favicons[card.id] = {};
+              Store.cards = cards;
+              helpers.cards.save(cards);
             }
-          });
+          })
+          .on('UPDATE', payload => {
+            if(!payload.new || !payload.old) return false;
 
-          if(!isInCards) {
-            cards.push(helpers.remote.snakeCaseToCamelCase(card));
+            let cards = [...Store.cards];
 
-            Store.favicons[card.id] = {};
+            cards = cards.map(card => {
+              if(card.id === payload.old.id) {
+                return helpers.remote.snakeCaseToCamelCase(payload.new);
+              }
+
+              return card;
+            });
+
+            Store.favicons[payload.new.id] = {};
             Store.cards = cards;
             helpers.cards.save(cards);
-          }
-        })
-        .on('UPDATE', payload => {
-          if(!payload.new || !payload.old) return false;
-
-          let cards = [...Store.cards];
-
-          cards = cards.map(card => {
-            if(card.id === payload.old.id) {
-              return helpers.remote.snakeCaseToCamelCase(payload.new);
-            }
-
-            return card;
-          });
-
-          Store.favicons[payload.new.id] = {};
-          Store.cards = cards;
-          helpers.cards.save(cards);
-        })
-        .subscribe()
+          })
+          .subscribe();
+      }
     }
 
     return () => confetti.clear();

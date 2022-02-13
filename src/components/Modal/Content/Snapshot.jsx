@@ -58,7 +58,7 @@ const Snapshot = () => {
 
           cards[cards.indexOf(card)] = Object.assign(card, update);
 
-          if(snap.session) {
+          if(snap.session && snap.settings.sync.isSynchronizing) {
             supabase
               .from('cards')
               .update([
@@ -103,7 +103,7 @@ const Snapshot = () => {
       cards.push(card);
       Store.favicons[id] = {};
 
-      if(snap.session) {
+      if(snap.session && snap.settings.sync.isSynchronizing) {
         supabase
           .from('cards')
           .insert([
@@ -121,7 +121,7 @@ const Snapshot = () => {
 
     Store.cards = cards;
     helpers.cards.save(cards);
-  }, [snap.cards, snap.modal, snap.session])
+  }, [snap.cards, snap.modal, snap.session, snap.settings.sync.isSynchronizing])
 
   const handleOnKeyDown = useCallback(async event => {
     if(event.keyCode === 13) {

@@ -55,6 +55,8 @@ const Template = {
   settings: {
     sync: {
       isSynchronizing: true,
+      isRealtime: true,
+
       advanced: {
         supabaseUrl: '',
         supabaseAnonKey: ''

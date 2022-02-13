@@ -17,7 +17,7 @@ const CardList = () => {
     if (!event.destination) return;
     const stack = helpers.cards.move(event);
 
-    if(snap.session) {
+    if(snap.session && snap.settings.sync.isSynchronizing) {
       for(const { index, id } of stack) {
         supabase
           .from('cards')
@@ -37,7 +37,7 @@ const CardList = () => {
 
     Store.cards = stack;
     helpers.cards.save(stack);
-  }, [ snap.cards, snap.session ]);
+  }, [ snap.cards, snap.session, snap.settings.sync.isSynchronizing ]);
 
   return (
     <div className={'h-full px-5 overflow-y-scroll'}>

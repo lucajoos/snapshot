@@ -107,6 +107,7 @@ const remote = {
       }
 
       helpers.cards.load(stack);
+      helpers.cards.save(stack);
     }
   },
 };
