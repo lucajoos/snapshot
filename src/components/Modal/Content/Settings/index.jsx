@@ -6,13 +6,13 @@ import { useSnapshot } from 'valtio';
 import Store from '../../../../Store';
 import Category from './Category';
 
-const Index = () => {
+const Settings = () => {
   const snap = useSnapshot(Store);
   const CategoryContent = Category[snap.modal.data.settings.category];
 
   const iconsRef = useRef({
     General: <Globe />,
-    Synchronization: <RefreshCw />,
+    Sync: <RefreshCw />,
     Archive: <Archive />,
     Miscellaneous: <Box />
   })
@@ -31,7 +31,7 @@ const Index = () => {
 
       <div className={'flex gap-4 mt-2 flex-col'}>
         <Option title={'General'} icon={iconsRef.current['General']} onClick={title => handleOnClickCategory(title)} />
-        <Option title={'Synchronization'} icon={iconsRef.current['Synchronization']} onClick={title => handleOnClickCategory(title)} />
+        <Option title={'Sync'} icon={iconsRef.current['Sync']} onClick={title => handleOnClickCategory(title)} />
         <Option title={'Archive'} icon={iconsRef.current['Archive']} onClick={title => handleOnClickCategory(title)} />
         <Option title={'Miscellaneous'} icon={iconsRef.current['Miscellaneous']} onClick={title => handleOnClickCategory(title)} />
       </div>
@@ -39,15 +39,17 @@ const Index = () => {
   ) : (
     <>
       <Header>
-        <div className={'cursor-pointer flex gap-2'} onClick={() => handleOnClickReturn()}>
+        <div className={'chevron-left transition-all cursor-pointer'} onClick={() => handleOnClickReturn()}>
           <ChevronLeft />
         </div>
-        {
-          iconsRef.current[
-            snap.modal.data.settings.category
-          ]
-        }
-        {snap.modal.data.settings.category}
+        <div className={'flex ml-2 items-center gap-2'}>
+          {
+            iconsRef.current[
+              snap.modal.data.settings.category
+              ]
+          }
+          {snap.modal.data.settings.category}
+        </div>
       </Header>
       <div className={'mt-4 flex flex-col'}>
         <CategoryContent />
@@ -56,4 +58,4 @@ const Index = () => {
   )
 };
 
-export default Index;
+export default Settings;

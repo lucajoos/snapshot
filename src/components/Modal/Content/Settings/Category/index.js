@@ -1,8 +1,8 @@
 import Archive from './Archive';
 import Miscellaneous from './Miscellaneous';
-import Synchronization from './Synchronization';
+import Sync from './Sync';
 import General from './General';
 
 export default {
-  Archive, Miscellaneous, Synchronization, General
+  Archive, Miscellaneous, Sync, General
 }

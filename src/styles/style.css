@@ -61,10 +61,10 @@ body {
 }
 
 .card > .card-remove > div {
-    opacity: 0;
+    @apply opacity-0;
     transition: .15s;
 }
 
 .card:hover > .card-remove > div {
-    opacity: 1;
+    @apply opacity-100;
 }

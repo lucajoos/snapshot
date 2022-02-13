@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Synchronization = () => {
+const Sync = () => {
   return (
     <>
 
@@ -8,4 +8,4 @@ const Synchronization = () => {
   )
 };
 
-export default Synchronization;
+export default Sync;
