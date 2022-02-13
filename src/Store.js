@@ -32,10 +32,7 @@ const Store = proxy({
       },
 
       settings: {
-        category: {
-          title: null,
-          icon: null
-        }
+        category: null
       }
     }
   },
