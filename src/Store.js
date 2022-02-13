@@ -1,7 +1,7 @@
 import { proxy } from 'valtio'
 import supabase from './modules/supabase';
 
-const Store = proxy({
+const Template = {
   cards: [],
   favicons: {},
   search: '',
@@ -32,7 +32,13 @@ const Store = proxy({
       },
 
       settings: {
-        category: null
+        category: null,
+        sync: {
+          advanced: {
+            supabaseUrl: '',
+            supabaseAnonKey: ''
+          }
+        }
       }
     }
   },
@@ -48,7 +54,11 @@ const Store = proxy({
 
   settings: {
     sync: {
-      isSynchronizing: true
+      isSynchronizing: true,
+      advanced: {
+        supabaseUrl: '',
+        supabaseAnonKey: ''
+      }
     },
 
     behaviour: {
@@ -59,6 +69,11 @@ const Store = proxy({
 
   session: supabase.auth.session(),
   isFullscreen: false
-});
+};
 
+const Store = proxy(Template);
 export default Store;
+
+export {
+  Template
+};

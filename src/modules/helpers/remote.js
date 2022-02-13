@@ -36,8 +36,8 @@ const remote = {
 
   synchronize: async () => {
     const snap = snapshot(Store);
-    if(snap.session) {
 
+    if(snap.session && snap.settings.sync.isSynchronizing) {
       const cards = [
         ...(
           await supabase
