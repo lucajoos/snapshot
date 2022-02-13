@@ -23,12 +23,12 @@ const ContextMenu = () => {
     await helpers.cards.remove(snap.contextMenu.data);
   }, [snap.contextMenu.data]);
 
-  const handleOnClickCardRestore = useCallback(() => {
-    helpers.cards.restore(snap.contextMenu.data);
+  const handleOnClickCardRestore = useCallback(async () => {
+    await helpers.cards.restore(snap.contextMenu.data);
   }, [snap.contextMenu.data]);
 
-  const handleOnClickCardDelete = useCallback(() => {
-    // TODO
+  const handleOnClickCardDelete = useCallback(async () => {
+    await helpers.cards.delete(snap.contextMenu.data);
   }, [snap.contextMenu.data]);
 
   // Default callbacks

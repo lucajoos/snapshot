@@ -8,7 +8,7 @@ const Archive = () => {
 
   return (
     <div className={'overflow-scroll max-h-[60vh]'}>
-      {snap.cards.filter(card => !card.isVisible).sort((a, b) => new Date(a.editedAt) - new Date(b.editedAt)).reverse().map(card => {
+      {snap.cards.filter(card => !card.isVisible && !card.isDeleted).sort((a, b) => new Date(a.editedAt) - new Date(b.editedAt)).reverse().map(card => {
         return <Card card={card} isArchived={true} key={card.id} />
       })}
     </div>

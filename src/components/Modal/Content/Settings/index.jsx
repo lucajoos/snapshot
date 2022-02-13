@@ -22,7 +22,7 @@ const Index = () => {
     <div className={'flex flex-col gap-6'}>
       <Header><Cob /> Settings</Header>
 
-      <div className={'flex gap-2 mt-2 flex-col'}>
+      <div className={'flex gap-4 mt-2 flex-col'}>
         <Option title={'General'} icon={<Globe />} onClick={title => handleOnClickCategory(title)} />
         <Option title={'Synchronization'} icon={<RefreshCw />} onClick={title => handleOnClickCategory(title)} />
         <Option title={'Archive'} icon={<Archive />} onClick={title => handleOnClickCategory(title)} />

@@ -1,8 +1,7 @@
 import Store from '../../Store';
 import { snapshot } from 'valtio';
-import api from './api';
-import supabase from '../supabase';
 import helpers from './index';
+import supabase from '../supabase';
 
 const cards = {
   load: stack => {
@@ -100,12 +99,51 @@ const cards = {
     }
 
     Store.cards = update;
-
-    if(snap.modal.isVisible) {
-      Store.modal.isVisible = false;
-    }
-
     cards.save(update);
+  },
+
+  delete: async id => {
+    const snap = snapshot(Store);
+    const update = {
+      index: -1,
+      value: '',
+      tags: [],
+
+      pickColor: '',
+      pickIndex: -1,
+
+      editedAt: new Date().toISOString(),
+
+      isVisible: false,
+      isDeleted: true,
+      isShowingIcons: false,
+      isCustomPick: false,
+
+      urls: [],
+      favicons: []
+    };
+    
+    const stack = snap.cards.map(card => {
+      if(card.id === id) {
+        return Object.assign({}, card, update);
+      }
+
+      return card;
+    });
+
+    if(update) {
+      if(snap.session) {
+        await supabase
+          .from('cards')
+          .update(
+            helpers.remote.camelCaseToSnakeCase(update)
+          )
+          .match({ id });
+      }
+
+      Store.cards = stack;
+      cards.save(stack);
+    }
   },
 
   edit: id => {
@@ -131,19 +169,19 @@ const cards = {
     const current = cards.get(id);
 
     if (isWindow) {
-      const {tabs, id: windowId} = await api.do('windows.create', {});
+      const {tabs, id: windowId} = await helpers.api.do('windows.create', {});
 
       for(const url of current.urls) {
-        await api.do('tabs.create', {
+        await helpers.api.do('tabs.create', {
           url,
           windowId
         }, { isWaiting: false });
       }
 
-      await api.do('tabs.remove', tabs[0].id, { isWaiting: false });
+      await helpers.api.do('tabs.remove', tabs[0].id, { isWaiting: false });
     } else {
       for(const url of current.urls) {
-        await api.do('tabs.create', {
+        await helpers.api.do('tabs.create', {
           url
         }, { isWaiting: false });
       }

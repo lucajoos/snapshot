@@ -87,6 +87,7 @@ const Snapshot = () => {
         editedAt: new Date().toISOString(),
 
         isVisible: true,
+        isDeleted: false,
         isShowingIcons: snap.modal.data.snapshot.isShowingIcons,
         isCustomPick: snap.modal.data.snapshot.isShowingCustomPick && snap.modal.data.snapshot.pickColor.length > 0 && snap.modal.data.snapshot.pickIndex === -1,
 
