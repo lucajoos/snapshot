@@ -7,7 +7,7 @@ import Store from '../../../../Store';
 
 import supabase from '../../../../modules/supabase';
 import Authentication from './Authentication';
-import { User } from 'react-feather';
+import { LogOut, User } from 'react-feather';
 
 const Profile = () => {
   const snap = useSnapshot(Store);
@@ -21,15 +21,21 @@ const Profile = () => {
   return (
     <>
       <Header><User /> Profile</Header>
-      {
-        !snap.session ? (
-          <Authentication />
-        ) : (
-          <>
-            <Button onClick={() => handleOnClickSignOut()}>Logout</Button>
-          </>
-        )
-      }
+      <div className={'mt-6 flex flex-col'}>
+        {
+          !snap.session ? (
+            <Authentication />
+          ) : (
+            <div className={'flex gap-4 flex-col'}>
+              <p>{supabase.auth.user().email}</p>
+              <Button className={'self-end'} onClick={() => handleOnClickSignOut()}>
+                <span>Logout</span>
+                <LogOut size={18} />
+              </Button>
+            </div>
+          )
+        }
+      </div>
     </>
   )
 }
