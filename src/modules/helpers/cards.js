@@ -35,10 +35,11 @@ const cards = {
   },
 
   load: stack => {
+    const snap = snapshot(Store);
     if(stack ? typeof stack !== 'object' : true) return false;
 
     stack.forEach(current => {
-      if(current) {
+      if(current ? !snap.favicons[current.id] : false) {
         Store.favicons[current.id] = {};
       }
     });

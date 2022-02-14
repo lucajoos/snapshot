@@ -84,28 +84,29 @@ const Card = ({ card, className, isArchived=false }) => {
                 >
                   {
                     card.favicons.map((favicon, index) => {
-                      if(!snap.favicons[card.id][index]) {
+                      if(snap.favicons[card.id][index] === undefined) {
                         Store.favicons[card.id][index] = false;
                       }
 
                       return (
-                        <Icon
-                          src={ favicon }
-                          alt={ '' }
-                          key={ index }
-                          isVisible={ snap.favicons[card.id][index] }
-                          onLoad={() => {
-                            if(
-                              card.favicons.length <= 3 ||
-                              faviconsRendered < 2
-                            ) {
-                              Store.favicons[card.id][index] = true;
-                            }
-                          }}
-                          onError={() => {
-                            Store.favicons[card.id][index] = false;
-                          }}
-                        />
+                        <div key={ index }>
+                          <Icon
+                            src={ favicon }
+                            alt={ '' }
+                            isVisible={ snap.favicons[card.id][index] }
+                            onLoad={() => {
+                              if(
+                                card.favicons.length <= 3 ||
+                                faviconsRendered < 2
+                              ) {
+                                Store.favicons[card.id][index] = true;
+                              }
+                            }}
+                            onError={() => {
+                              Store.favicons[card.id][index] = false;
+                            }}
+                          />
+                        </div>
                       );
                     })
                   }
