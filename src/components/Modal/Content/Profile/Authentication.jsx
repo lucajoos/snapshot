@@ -73,7 +73,7 @@ const Authentication = () => {
 
   return (
     snap.modal.data.profile.isLoading ? (
-      <div className={'h-full flex flex-col justify-center text-center items-center mt-2 mb-20'}>
+      <div className={'h-full flex flex-col justify-center text-center items-center mt-2'}>
         <div className={`justify-self-center${snap.modal.data.profile.isSigningIn ? ' animate-spin-slow' : ''}`}>
           {snap.modal.data.profile.isSigningIn ? (
             <Loader size={32} />
