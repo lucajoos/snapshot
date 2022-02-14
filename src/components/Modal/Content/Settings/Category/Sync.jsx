@@ -28,11 +28,16 @@ const Sync = () => {
   }, []);
 
   const handleOnClickSupabaseSave = useCallback(async () => {
-    Store.settings.sync.advanced.supabaseUrl = snap.modal.data.settings.sync.advanced.supabaseUrl;
-    Store.settings.sync.advanced.supabaseAnonKey = snap.modal.data.settings.sync.advanced.supabaseAnonKey;
+    if(
+      snap.modal.data.settings.sync.advanced.supabaseUrl.length > 0 &&
+      snap.modal.data.settings.sync.advanced.supabaseAnonKey.length > 0
+    ) {
+      Store.settings.sync.advanced.supabaseUrl = snap.modal.data.settings.sync.advanced.supabaseUrl;
+      Store.settings.sync.advanced.supabaseAnonKey = snap.modal.data.settings.sync.advanced.supabaseAnonKey;
 
-    helpers.settings.save();
-    await helpers.api.do('window.close');
+      helpers.settings.save();
+      await helpers.api.do('window.close');
+    }
   }, [snap.modal.data.settings.sync.advanced.supabaseUrl, snap.modal.data.settings.sync.advanced.supabaseAnonKey]);
 
   useEffect(() => {
