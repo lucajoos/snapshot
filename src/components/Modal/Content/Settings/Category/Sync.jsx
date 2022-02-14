@@ -35,6 +35,19 @@ const Sync = () => {
     await helpers.api.do('window.close');
   }, [snap.modal.data.settings.sync.advanced.supabaseUrl, snap.modal.data.settings.sync.advanced.supabaseAnonKey]);
 
+  const handleOnClickSupabaseReset = useCallback(async () => {
+    if(
+      snap.settings.sync.advanced.supabaseUrl.length > 0 &&
+      snap.settings.sync.advanced.supabaseAnonKey.length > 0
+    ) {
+      Store.settings.sync.advanced.supabaseUrl = '';
+      Store.settings.sync.advanced.supabaseAnonKey = '';
+
+      helpers.settings.save();
+      await helpers.api.do('window.close');
+    }
+  }, [snap.settings.sync.advanced.supabaseUrl, snap.settings.sync.advanced.supabaseAnonKey]);
+
   useEffect(() => {
     if(snap.modal.isVisible && snap.modal.content === 'Settings' && snap.modal.data.settings.category === 'Sync') {
        Store.modal.data.settings.sync.advanced.supabaseUrl = snap.settings.sync.advanced.supabaseUrl;
@@ -78,10 +91,13 @@ const Sync = () => {
             type={'password'}
           />
 
-          <Button className={'self-end mt-2'} onClick={() => handleOnClickSupabaseSave()}>
-            <span>Save</span>
-            <Save size={18} />
-          </Button>
+          <div className={'flex mt-2 gap-4 justify-end'}>
+            <Link isUnderlined={false} onClick={() => handleOnClickSupabaseReset()}>Reset</Link>
+            <Button onClick={() => handleOnClickSupabaseSave()}>
+              <span>Save</span>
+              <Save size={18} />
+            </Button>
+          </div>
         </div>
       </div>
     </div>
