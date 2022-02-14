@@ -1,5 +1,5 @@
 import React, { useCallback, useRef } from 'react';
-import { Archive, Box, ChevronLeft, ChevronRight, Globe, RefreshCw, Settings as Cob } from 'react-feather';
+import { Archive, Box, ChevronLeft, Globe, RefreshCw, Settings as Cob } from 'react-feather';
 
 import { Header, Option } from '../../../Base';
 import { useSnapshot } from 'valtio';

@@ -14,6 +14,7 @@ import ContextMenu from './ContextMenu';
 import helpers from '../modules/helpers';
 import supabase from '../modules/supabase';
 import Profile from './Modal/Content/Profile';
+import Confirm from './Confirm';
 
 const App = () => {
   const snap = useSnapshot(Store);
@@ -183,6 +184,7 @@ const App = () => {
   return (
     <div className={ 'w-full h-full relative select-none overflow-hidden' } onContextMenu={event => handleOnContextMenu(event)} onClick={() => handleOnClick()}>
       <ContextMenu />
+      <Confirm />
       <Modal />
 
       <canvas id={ 'confetti' } className={ 'absolute top-0 right-0 left-0 bottom-0 pointer-events-none' } />
@@ -205,7 +207,7 @@ const App = () => {
 
         <CardList />
 
-        <div className={ 'flex justify-end items-center z-10 mt-4' }>
+        <div className={ 'flex justify-end items-center mt-4' }>
           <Button onClick={ () => handleOnClickSnapshot() } className={'self-end'}>
             <span>Snapshot</span>
             <Zap size={ 18 } />

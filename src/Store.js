@@ -6,6 +6,8 @@ const Template = {
   favicons: {},
   search: '',
 
+  isFullscreen: false,
+
   modal: {
     isVisible: false,
     content: '',
@@ -71,8 +73,14 @@ const Template = {
     }
   },
 
+  confirm: {
+    isVisible: false,
+    type: '',
+    text: '',
+    resolve: () => {},
+  },
+
   session: supabase.auth.session(),
-  isFullscreen: false
 };
 
 const Store = proxy(Template);

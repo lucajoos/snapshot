@@ -1,7 +1,8 @@
 import React, { useCallback, useRef } from 'react';
 import helpers from '../../../../../modules/helpers';
 import { Link, Option, Section } from '../../../../Base';
-import { Download, Maximize, Rewind, Upload } from 'react-feather';
+import { Download, Maximize, SkipBack, Upload } from 'react-feather';
+import Store, { Template } from '../../../../../Store';
 
 const General = () => {
   const importRef = useRef(null);
@@ -30,8 +31,25 @@ const General = () => {
   }, []);
 
   const handleOnClickReset = useCallback(async () => {
-    localStorage.clear();
-    await helpers.api.do('window.close');
+    Store.confirm.text = 'All your locally stored data will be irreversibly deleted.';
+    Store.confirm.type = 'Reset';
+    Store.confirm.isVisible = true;
+
+    Store.confirm.resolve = (isAccepted => {
+      if(isAccepted) {
+        localStorage.clear();
+
+        Object.keys(Template).forEach(key => {
+          Store[key] = Template[key];
+        });
+      }
+
+      Store.confirm.isVisible = false;
+
+      if(isAccepted) {
+        Store.modal.isVisible = false;
+      }
+    });
   }, []);
 
   const handleOnClickAboutLicenses = useCallback(async () => {
@@ -54,7 +72,7 @@ const General = () => {
 
         <hr className={'my-2'}/>
 
-        <Option.Category title={'Reset'} icon={<Rewind />} onClick={() => handleOnClickReset()}/>
+        <Option.Category title={'Reset'} icon={<SkipBack />} onClick={() => handleOnClickReset()}/>
       </div>
 
       <div>
