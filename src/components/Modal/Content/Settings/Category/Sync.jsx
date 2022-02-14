@@ -28,21 +28,26 @@ const Sync = () => {
   }, []);
 
   const handleOnClickSupabaseSave = useCallback(async () => {
-    Store.confirm.text = 'A connection to this third-party server will be established';
-    Store.confirm.type = 'Connect';
-    Store.confirm.isVisible = true;
+    if(
+      snap.modal.data.settings.sync.advanced.supabaseUrl.length > 0 &&
+      snap.modal.data.settings.sync.advanced.supabaseAnonKey.length > 0
+    ) {
+      Store.confirm.text = 'A connection to this third-party server will be established';
+      Store.confirm.type = 'Connect';
+      Store.confirm.isVisible = true;
 
-    Store.confirm.resolve = (async isAccepted => {
-      if(isAccepted) {
-        Store.settings.sync.advanced.supabaseUrl = snap.modal.data.settings.sync.advanced.supabaseUrl;
-        Store.settings.sync.advanced.supabaseAnonKey = snap.modal.data.settings.sync.advanced.supabaseAnonKey;
+      Store.confirm.resolve = (async isAccepted => {
+        if(isAccepted) {
+          Store.settings.sync.advanced.supabaseUrl = snap.modal.data.settings.sync.advanced.supabaseUrl;
+          Store.settings.sync.advanced.supabaseAnonKey = snap.modal.data.settings.sync.advanced.supabaseAnonKey;
 
-        helpers.settings.save();
-        await helpers.api.do('window.close');
-      } else {
-        Store.confirm.isVisible = false;
-      }
-    });
+          helpers.settings.save();
+          await helpers.api.do('window.close');
+        } else {
+          Store.confirm.isVisible = false;
+        }
+      });
+    }
   }, [snap.modal.data.settings.sync.advanced.supabaseUrl, snap.modal.data.settings.sync.advanced.supabaseAnonKey]);
 
   const handleOnClickSupabaseReset = useCallback(async () => {
@@ -50,11 +55,21 @@ const Sync = () => {
       snap.settings.sync.advanced.supabaseUrl.length > 0 &&
       snap.settings.sync.advanced.supabaseAnonKey.length > 0
     ) {
-      Store.settings.sync.advanced.supabaseUrl = '';
-      Store.settings.sync.advanced.supabaseAnonKey = '';
+      Store.confirm.text = 'The connection to the official server will be re-established.';
+      Store.confirm.type = 'Connect';
+      Store.confirm.isVisible = true;
 
-      helpers.settings.save();
-      await helpers.api.do('window.close');
+      Store.confirm.resolve = (async isAccepted => {
+        if(isAccepted) {
+          Store.settings.sync.advanced.supabaseUrl = '';
+          Store.settings.sync.advanced.supabaseAnonKey = '';
+
+          helpers.settings.save();
+          await helpers.api.do('window.close');
+        } else {
+          Store.confirm.isVisible = false;
+        }
+      });
     }
   }, [snap.settings.sync.advanced.supabaseUrl, snap.settings.sync.advanced.supabaseAnonKey]);
 
@@ -95,7 +110,7 @@ const Sync = () => {
 
           <TextField
             value={snap.modal.data.settings.sync.advanced.supabaseAnonKey}
-            placeholder={'Supabase Key'}
+            placeholder={'Supabase Anon Key'}
             onChange={event => handleOnChangeSupabaseAnonKey(event)}
             icon={<Key size={18} />}
             type={'password'}
