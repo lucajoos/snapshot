@@ -46,8 +46,10 @@ const Template = {
   contextMenu: {
     x: 0,
     y: 0,
+    height: 0,
     data: '',
-    type: 'card',
+    type: '',
+    isFlipped: false,
     isVisible: false,
     isPreventingDefault: import.meta.env.MODE === 'production'
   },

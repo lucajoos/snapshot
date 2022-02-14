@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useSnapshot } from 'valtio';
 import { Code, Edit2, ExternalLink, RotateCcw, Share, Trash } from 'react-feather';
 
@@ -9,6 +9,7 @@ import helpers from '../modules/helpers';
 
 const ContextMenu = () => {
   const snap = useSnapshot(Store);
+  const contextMenuRef = useRef(null);
 
   // Card callbacks
   const handleOnClickCardOpen = useCallback(async isWindow => {
@@ -36,11 +37,16 @@ const ContextMenu = () => {
   // Default callbacks
   const handleOnClickDefaultMenu = useCallback(() => {
     Store.contextMenu.isPreventingDefault = !snap.contextMenu.isPreventingDefault;
-  }, [snap.contextMenu.isPreventingDefault])
+  }, [snap.contextMenu.isPreventingDefault]);
+
+  // Effects
+  useEffect(() => {
+    Store.contextMenu.height = contextMenuRef.current.offsetHeight;
+  }, [snap.contextMenu.type]);
 
   return (
-    <div className={`z-50 p-2 w-contextMenu overflow-hidden bg-background-default drop-shadow-xl rounded grid absolute ${!snap.contextMenu.isVisible ? 'hidden' : ''}`} style={{
-      top: snap.contextMenu.y,
+    <div ref={contextMenuRef} className={`z-50 p-2 w-contextMenu overflow-hidden bg-background-default drop-shadow-xl rounded grid absolute ${!snap.contextMenu.isVisible ? 'hidden' : ''}`} style={{
+      top: snap.contextMenu.y - (snap.contextMenu.isFlipped ? snap.contextMenu.height - 10 : 10),
       left: snap.contextMenu.x
     }}>
       {
