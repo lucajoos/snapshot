@@ -186,8 +186,8 @@ const App = () => {
 
       <canvas id={ 'confetti' } className={ 'absolute top-0 right-0 left-0 bottom-0 pointer-events-none' } />
 
-      <div className={'grid h-screen content'}>
-        <div className={'flex my-5 mx-8 items-center gap-5 justify-between'}>
+      <div className={'flex flex-col p-8 h-screen content'}>
+        <div className={'flex items-center gap-4 justify-between mb-6'}>
           <TextField
             value={snap.search}
             placeholder={'Search'}
@@ -204,7 +204,7 @@ const App = () => {
 
         <CardList />
 
-        <div className={ 'flex px-8 py-5 justify-end items-center z-10' }>
+        <div className={ 'flex justify-end items-center z-10 mt-4' }>
           <Button onClick={ () => handleOnClickSnapshot() } className={'self-end'}>
             <span>Snapshot</span>
             <Zap size={ 18 } />

@@ -40,7 +40,7 @@ const CardList = () => {
   }, [ snap.cards, snap.session, snap.settings.sync.isSynchronizing ]);
 
   return (
-    <div className={'h-full px-5 overflow-y-scroll'}>
+    <div className={'h-full overflow-y-scroll'}>
       {
       snap.cards.filter(card => card.isVisible).length === 0 ? (
         <div className={'text-gray-300 h-full flex flex-col justify-center text-center items-center'}>

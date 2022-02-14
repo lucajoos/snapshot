@@ -69,6 +69,7 @@ const Sync = () => {
             onChange={event => handleOnChangeSupabaseUrl(event)}
             icon={<Link2 size={18} />}
           />
+
           <TextField
             value={snap.modal.data.settings.sync.advanced.supabaseAnonKey}
             placeholder={'Supabase Anon Key'}
@@ -77,7 +78,7 @@ const Sync = () => {
             type={'password'}
           />
 
-          <Button className={'self-end'} onClick={() => handleOnClickSupabaseSave()}>
+          <Button className={'self-end mt-2'} onClick={() => handleOnClickSupabaseSave()}>
             <span>Save</span>
             <Save size={18} />
           </Button>

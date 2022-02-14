@@ -48,12 +48,7 @@ module.exports = {
       },
 
       width: {
-        modal: '85%',
         contextMenu: '205px'
-      },
-
-      maxWidth: {
-        modal: '420px'
       },
 
       placeholderColor: {

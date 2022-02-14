@@ -3,7 +3,7 @@ import { useSnapshot } from 'valtio';
 import { v4 as uuidv4 } from 'uuid';
 import { Save, Type, Zap } from 'react-feather';
 
-import { Button, Header } from '../../Base';
+import { Button, Header, Option } from '../../Base';
 import { Checkbox, ColorPicker, Tags, TextField } from '../../Input';
 
 import Store from '../../../Store';
@@ -182,12 +182,12 @@ const Snapshot = () => {
   }, [snap.modal.isVisible, snap.modal.content]);
 
   return (
-    <>
+    <div className={'flex flex-col h-full'}>
       <Header>
         <Zap /> {isUpdate ? 'Edit' : 'Take'} Snapshot
       </Header>
 
-      <div className={'flex flex-col mt-6 overflow-scroll'}>
+      <div className={'flex flex-col mt-6 overflow-y-scroll'}>
         <TextField
           value={snap.modal.data.snapshot.value}
           placeholder={'Name'}
@@ -235,13 +235,13 @@ const Snapshot = () => {
           nativeRef={colorRef}
           className={!snap.modal.data.snapshot.isShowingCustomPick ? 'hidden' : ''}
         />
-
-        <Button onClick={() => handleOnReturn()} className={'self-end mt-6'}>
-          <span>Save</span>
-          <Save size={18} />
-        </Button>
       </div>
-    </>
+
+      <Button onClick={() => handleOnReturn()} className={'self-end mt-6'}>
+        <span>Save</span>
+        <Save size={18} />
+      </Button>
+    </div>
   )
 };
 
