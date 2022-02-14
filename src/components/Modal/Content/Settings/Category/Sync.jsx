@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { useSnapshot } from 'valtio';
 import Store from '../../../../../Store';
-import { Button, Option, Section } from '../../../../Base';
+import { Button, Link, Option, Section } from '../../../../Base';
 import { Cloud, GitPullRequest, Key, Link2, Save } from 'react-feather';
 import { TextField } from '../../../../Input';
 import helpers from '../../../../../modules/helpers';
@@ -28,16 +28,11 @@ const Sync = () => {
   }, []);
 
   const handleOnClickSupabaseSave = useCallback(async () => {
-    if(
-      snap.modal.data.settings.sync.advanced.supabaseUrl.length > 0 &&
-      snap.modal.data.settings.sync.advanced.supabaseAnonKey.length > 0
-    ) {
-      Store.settings.sync.advanced.supabaseUrl = snap.modal.data.settings.sync.advanced.supabaseUrl;
-      Store.settings.sync.advanced.supabaseAnonKey = snap.modal.data.settings.sync.advanced.supabaseAnonKey;
+    Store.settings.sync.advanced.supabaseUrl = snap.modal.data.settings.sync.advanced.supabaseUrl;
+    Store.settings.sync.advanced.supabaseAnonKey = snap.modal.data.settings.sync.advanced.supabaseAnonKey;
 
-      helpers.settings.save();
-      await helpers.api.do('window.close');
-    }
+    helpers.settings.save();
+    await helpers.api.do('window.close');
   }, [snap.modal.data.settings.sync.advanced.supabaseUrl, snap.modal.data.settings.sync.advanced.supabaseAnonKey]);
 
   useEffect(() => {
