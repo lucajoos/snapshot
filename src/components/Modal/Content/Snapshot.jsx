@@ -187,7 +187,7 @@ const Snapshot = () => {
         <Zap /> {isUpdate ? 'Edit' : 'Take'} Snapshot
       </Header>
 
-      <div className={'my-6'}>
+      <div className={'flex flex-col mt-6 overflow-scroll'}>
         <TextField
           value={snap.modal.data.snapshot.value}
           placeholder={'Name'}
@@ -235,12 +235,12 @@ const Snapshot = () => {
           nativeRef={colorRef}
           className={!snap.modal.data.snapshot.isShowingCustomPick ? 'hidden' : ''}
         />
-      </div>
 
-      <Button onClick={() => handleOnReturn()} className={'self-end'}>
-        <span>Save</span>
-        <Save size={18} />
-      </Button>
+        <Button onClick={() => handleOnReturn()} className={'self-end mt-6'}>
+          <span>Save</span>
+          <Save size={18} />
+        </Button>
+      </div>
     </>
   )
 };
