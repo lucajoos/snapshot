@@ -2,13 +2,14 @@ import React, { useCallback, useRef } from 'react';
 import { useSnapshot } from 'valtio';
 import Store from '../Store';
 import { Button, Header, Link } from './Base';
-import { AlertTriangle, SkipBack } from 'react-feather';
+import { AlertTriangle, Save, Server, SkipBack } from 'react-feather';
 
 const Confirm = () => {
   const snap = useSnapshot(Store);
 
   const iconsRef = useRef({
-    Reset: <SkipBack size={18} />
+    Reset: <SkipBack size={18} />,
+    Connect: <Server size={18} />
   });
 
   const handleOnClose = useCallback(() => {

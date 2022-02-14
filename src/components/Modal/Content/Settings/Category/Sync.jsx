@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react';
 import { useSnapshot } from 'valtio';
 import Store from '../../../../../Store';
 import { Button, Link, Option, Section } from '../../../../Base';
-import { Cloud, GitPullRequest, Key, Link2, Save } from 'react-feather';
+import { Cloud, GitPullRequest, Key, Link2, Save, Server } from 'react-feather';
 import { TextField } from '../../../../Input';
 import helpers from '../../../../../modules/helpers';
 
@@ -28,11 +28,21 @@ const Sync = () => {
   }, []);
 
   const handleOnClickSupabaseSave = useCallback(async () => {
-    Store.settings.sync.advanced.supabaseUrl = snap.modal.data.settings.sync.advanced.supabaseUrl;
-    Store.settings.sync.advanced.supabaseAnonKey = snap.modal.data.settings.sync.advanced.supabaseAnonKey;
+    Store.confirm.text = 'A connection to this third-party server will be established';
+    Store.confirm.type = 'Connect';
+    Store.confirm.isVisible = true;
 
-    helpers.settings.save();
-    await helpers.api.do('window.close');
+    Store.confirm.resolve = (async isAccepted => {
+      if(isAccepted) {
+        Store.settings.sync.advanced.supabaseUrl = snap.modal.data.settings.sync.advanced.supabaseUrl;
+        Store.settings.sync.advanced.supabaseAnonKey = snap.modal.data.settings.sync.advanced.supabaseAnonKey;
+
+        helpers.settings.save();
+        await helpers.api.do('window.close');
+      } else {
+        Store.confirm.isVisible = false;
+      }
+    });
   }, [snap.modal.data.settings.sync.advanced.supabaseUrl, snap.modal.data.settings.sync.advanced.supabaseAnonKey]);
 
   const handleOnClickSupabaseReset = useCallback(async () => {
@@ -78,14 +88,14 @@ const Sync = () => {
         <div className={'flex flex-col gap-4'}>
           <TextField
             value={snap.modal.data.settings.sync.advanced.supabaseUrl}
-            placeholder={'Supabase Url'}
+            placeholder={'Supabase URL'}
             onChange={event => handleOnChangeSupabaseUrl(event)}
             icon={<Link2 size={18} />}
           />
 
           <TextField
             value={snap.modal.data.settings.sync.advanced.supabaseAnonKey}
-            placeholder={'Supabase Anon Key'}
+            placeholder={'Supabase Key'}
             onChange={event => handleOnChangeSupabaseAnonKey(event)}
             icon={<Key size={18} />}
             type={'password'}
@@ -94,8 +104,8 @@ const Sync = () => {
           <div className={'flex mt-2 gap-4 justify-end'}>
             <Link isUnderlined={false} onClick={() => handleOnClickSupabaseReset()}>Reset</Link>
             <Button onClick={() => handleOnClickSupabaseSave()}>
-              <span>Save</span>
-              <Save size={18} />
+              <span>Connect</span>
+              <Server size={18} />
             </Button>
           </div>
         </div>
