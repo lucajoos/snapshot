@@ -5,7 +5,7 @@ import Store from '../../../../../Store';
 import { Maximize, Trash } from 'react-feather';
 import helpers from '../../../../../modules/helpers';
 
-const Behaviour = () => {
+const Preferences = () => {
   const snap = useSnapshot(Store);
 
   const handleOnChangeDeletePermanently = useCallback(() => {
@@ -44,4 +44,4 @@ const Behaviour = () => {
   )
 };
 
-export default Behaviour;
+export default Preferences;

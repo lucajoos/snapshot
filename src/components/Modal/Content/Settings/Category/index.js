@@ -1,8 +1,8 @@
 import Archive from './Archive';
-import Behaviour from './Behaviour';
+import Preferences from './Preferences';
 import Sync from './Sync';
 import General from './General';
 
 export default {
-  Archive, Behaviour, Sync, General
+  Archive, Preferences, Sync, General
 }
