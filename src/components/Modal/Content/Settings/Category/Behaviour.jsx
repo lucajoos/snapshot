@@ -13,10 +13,16 @@ const Behaviour = () => {
     helpers.settings.save();
   }, [snap.settings.behaviour.isDeletingPermanently]);
 
-  const handleOnChangeFullscreen = useCallback(() => {
+  const handleOnChangeFullscreen = useCallback(async () => {
     Store.settings.behaviour.isFullscreen = !snap.settings.behaviour.isFullscreen;
     helpers.settings.save();
-  }, [snap.settings.behaviour.isFullscreen]);
+
+    if(!snap.settings.behaviour.isFullscreen && !snap.isFullscreen) {
+      await helpers.api.do('tabs.create', {
+        url: await helpers.api.do('runtime.getURL', 'app.html?fullscreen=true')
+      }, { isWaiting: false });
+    }
+  }, [snap.settings.behaviour.isFullscreen, snap.isFullscreen]);
 
   return (
     <>

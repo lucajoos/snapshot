@@ -107,8 +107,10 @@ const App = () => {
 
     // Load settings & import cards
     const settings = helpers.settings.load(localStorage.getItem('settings'));
+    const isFullscreen = new URLSearchParams(window.location.search).get('fullscreen') === 'true';
+    Store.isFullscreen = isFullscreen;
 
-    if(settings.behaviour.isFullscreen && new URLSearchParams(window.location.search).get('fullscreen') !== 'true') {
+    if(settings.behaviour.isFullscreen && !isFullscreen) {
       await helpers.api.do('tabs.create', {
         url: await helpers.api.do('runtime.getURL', 'app.html?fullscreen=true')
       }, { isWaiting: false });
