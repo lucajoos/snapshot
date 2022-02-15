@@ -32,37 +32,35 @@ const Authentication = () => {
       try {
         Store.modal.data.profile.isLoading = true;
 
-        const { error } = await supabase.auth[snap.modal.data.profile.isSigningIn ? 'signIn' : 'signUp']({
+        const { data, error } = await supabase.auth[snap.modal.data.profile.isSignIn ? 'signIn' : 'signUp']({
           email: snap.modal.data.profile.email,
           password: snap.modal.data.profile.password
         });
 
         if(error) {
           Store.modal.data.profile.error = `${error.message}!` || '';
+        } else if(data?.user?.role === 'authenticated') {
+          snap.modal.data.profile.done();
         }
       } catch(e) {
         console.error(e);
       } finally {
-        Store.modal.data.profile.email = '';
-        Store.modal.data.profile.password = '';
-        Store.modal.data.profile.error = '';
-
-        if(snap.modal.data.profile.isSigningIn) {
+        if(snap.modal.data.profile.isSignIn) {
           Store.modal.data.profile.isLoading = false;
         }
       }
     } else {
       Store.modal.data.profile.error = 'Empty login credentials!'
     }
-  }, [snap.modal.data.profile.error, snap.modal.data.profile.email, snap.modal.data.profile.password, snap.modal.data.profile.isSigningIn]);
+  }, [snap.modal.data.profile.error, snap.modal.data.profile.done, snap.modal.data.profile.email, snap.modal.data.profile.password, snap.modal.data.profile.isSignIn]);
 
   const handleOnClickChangeMode = useCallback(async () => {
     if(snap.modal.data.profile.error) {
       Store.modal.data.profile.error = null;
     }
 
-    Store.modal.data.profile.isSigningIn = !snap.modal.data.profile.isSigningIn;
-  }, [snap.modal.data.profile.isSigningIn, snap.modal.data.profile.error]);
+    Store.modal.data.profile.isSignIn = !snap.modal.data.profile.isSignIn;
+  }, [snap.modal.data.profile.isSignIn, snap.modal.data.profile.error]);
 
   const handleOnClickAbility = useCallback(() => {
     Store.modal.data.profile.isPasswordVisible = !snap.modal.data.profile.isPasswordVisible;
@@ -78,20 +76,20 @@ const Authentication = () => {
   return (
     snap.modal.data.profile.isLoading ? (
       <div className={'h-full flex flex-col justify-center text-center items-center mt-2'}>
-        <div className={`justify-self-center${snap.modal.data.profile.isSigningIn ? ' animate-spin-slow' : ''}`}>
-          {snap.modal.data.profile.isSigningIn ? (
+        <div className={`justify-self-center${snap.modal.data.profile.isSignIn ? ' animate-spin-slow' : ''}`}>
+          {snap.modal.data.profile.isSignIn ? (
             <Loader size={32} />
           ) : (
             <Inbox size={32} />
           )}
         </div>
-        <p className={'mt-4'}>{!snap.modal.data.profile.isSigningIn ? `We've sent you a confirm email!` : `This will only take a moment`}</p>
+        <p className={'mt-4'}>{!snap.modal.data.profile.isSignIn ? `We've sent you a confirm email!` : `This will only take a moment`}</p>
       </div>
     ) : (
       <>
         <div className={'flex mb-6'}>
-          <span>{snap.modal.data.profile.isSigningIn ? `Don't have an account?` : `Already have an account?`}&nbsp;</span>
-          <Link onClick={() => handleOnClickChangeMode()}>{snap.modal.data.profile.isSigningIn ? `Sign-up` : `Sign-in`}</Link>
+          <span>{snap.modal.data.profile.isSignIn ? `Don't have an account?` : `Already have an account?`}&nbsp;</span>
+          <Link onClick={() => handleOnClickChangeMode()}>{snap.modal.data.profile.isSignIn ? `Sign-up` : `Sign-in`}</Link>
         </div>
 
         {snap.modal.data.profile.error ? (
@@ -125,7 +123,7 @@ const Authentication = () => {
         </div>
 
         <Button className={'mt-6 self-end'} onClick={() => handleOnClickAuthenticate()}>
-          <span>{snap.modal.data.profile.isSigningIn ? `Sign-in` : `Sign-up`}</span>
+          <span>{snap.modal.data.profile.isSignIn ? `Sign-in` : `Sign-up`}</span>
           <LogIn size={18} />
         </Button>
       </>

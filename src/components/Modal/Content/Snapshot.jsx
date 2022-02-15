@@ -3,7 +3,7 @@ import { useSnapshot } from 'valtio';
 import { v4 as uuidv4 } from 'uuid';
 import { Save, Type, Zap } from 'react-feather';
 
-import { Button, Header, Option } from '../../Base';
+import { Button, Header } from '../../Base';
 import { Checkbox, ColorPicker, Tags, TextField } from '../../Input';
 
 import Store from '../../../Store';
@@ -93,6 +93,8 @@ const Snapshot = () => {
 
         isVisible: true,
         isDeleted: false,
+        isPrivate: true,
+
         isShowingIcons: snap.modal.data.snapshot.isShowingIcons,
         isCustomPick: snap.modal.data.snapshot.isShowingCustomPick && snap.modal.data.snapshot.pickColor.length > 0 && snap.modal.data.snapshot.pickIndex === -1,
 

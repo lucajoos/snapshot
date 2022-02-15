@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useSnapshot } from 'valtio';
 import Store from '../Store';
 import { Button, Header, Link } from './Base';
-import { AlertTriangle, Server, SkipBack } from 'react-feather';
+import { AlertTriangle, Server, Share, SkipBack } from 'react-feather';
 import mousetrap from 'mousetrap';
 
 const Confirm = () => {
@@ -10,7 +10,8 @@ const Confirm = () => {
 
   const iconsRef = useRef({
     Reset: <SkipBack size={18} />,
-    Connect: <Server size={18} />
+    Connect: <Server size={18} />,
+    Share: <Share size={18} />
   });
 
   const handleOnClose = useCallback(() => {

@@ -6,6 +6,7 @@ import ContextMenuOption from './ContextMenuOption';
 
 import Store from '../Store';
 import helpers from '../modules/helpers';
+import supabase from '../modules/supabase';
 
 const ContextMenu = () => {
   const snap = useSnapshot(Store);
@@ -19,6 +20,70 @@ const ContextMenu = () => {
   const handleOnClickCardEdit = useCallback(() => {
     helpers.cards.edit(snap.contextMenu.data);
   }, [snap.contextMenu.data]);
+
+  const handleOnClickCardShare = useCallback(() => {
+    const onAuthentication = () => {
+      const card = helpers.cards.get(snap.contextMenu.data);
+
+      const onPublic = () => {
+        console.log('public')
+        Store.modal.data.share.id = snap.contextMenu.data;
+        Store.modal.content = 'Share';
+        Store.modal.isVisible = true;
+      };
+
+      if(!card.isPrivate) {
+        onPublic();
+      } else {
+        Store.confirm.type = 'Share';
+        Store.confirm.text = 'The selected card will be publicly accessible.';
+
+        Store.confirm.resolve = (isAccepted => {
+          if(isAccepted) {
+            Store.confirm.isVisible = false;
+
+            const stack = [...Store.cards].map(current => {
+              if(current.id === snap.contextMenu.data) {
+                return Object.assign({}, current, { isPrivate: false });
+              }
+
+              return current;
+            });
+
+            supabase
+              .from('cards')
+              .update({
+                is_private: false
+              })
+              .match({
+                id: snap.contextMenu.data
+              })
+              .then(({ error }) => {
+                if(error) {
+                  console.error(error);
+                }
+              });
+
+            Store.cards = stack;
+            helpers.cards.save(stack);
+
+            onPublic();
+          }
+        });
+
+        Store.confirm.isVisible = true;
+      }
+    }
+
+    if(snap.session) {
+      onAuthentication()
+    } else {
+      helpers.remote.profile(() => {
+        Store.modal.isVisible = false;
+        onAuthentication();
+      });
+    }
+  }, [snap.contextMenu.data, snap.session]);
 
   const handleOnClickCardRemove = useCallback(async () => {
     await helpers.cards[
@@ -66,6 +131,7 @@ const ContextMenu = () => {
             <ContextMenuOption
               title={'Share'}
               icon={<Share size={16}/>}
+              onClick={() => handleOnClickCardShare()}
             />
             <ContextMenuOption
               title={'Edit'}

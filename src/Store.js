@@ -29,8 +29,9 @@ const Template = {
         email: '',
         password: '',
         error: null,
+        done: () => {},
         isPasswordVisible: false,
-        isSigningIn: true,
+        isSignIn: true,
         isLoading: false
       },
 
@@ -42,6 +43,12 @@ const Template = {
             supabaseAnonKey: ''
           }
         }
+      },
+
+      share: {
+        id: '',
+        url: '',
+        isPublic: false
       }
     }
   },

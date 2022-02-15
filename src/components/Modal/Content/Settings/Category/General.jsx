@@ -36,21 +36,10 @@ const General = () => {
     Store.confirm.type = 'Reset';
     Store.confirm.isVisible = true;
 
-    Store.confirm.resolve = (isAccepted => {
+    Store.confirm.resolve = (async isAccepted => {
       if(isAccepted) {
         localStorage.clear();
-
-        Object.keys(Template).forEach(key => {
-          Store[key] = Template[key];
-        });
-      }
-
-      Store.confirm.isVisible = false;
-
-      if(isAccepted) {
-        setTimeout(() => {
-          Store.modal.isVisible = false;
-        }, 150);
+        await helpers.api.do('window.close');
       }
     });
   }, []);

@@ -44,16 +44,7 @@ const App = () => {
   }, []);
 
   const handleOnClickProfile = useCallback(() => {
-    Store.modal.data.profile = {
-      email: '',
-      password: '',
-      error: null,
-      isSigningIn: true,
-      isLoading: false
-    };
-
-    Store.modal.content = 'Profile';
-    Store.modal.isVisible = true;
+    helpers.remote.profile();
   }, []);
 
   const handleOnChangeSearch = useCallback(event => {

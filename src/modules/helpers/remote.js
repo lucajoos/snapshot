@@ -34,6 +34,21 @@ const remote = {
     return r;
   },
 
+  profile: done => {
+    Store.modal.data.profile = {
+      email: '',
+      password: '',
+      error: null,
+      isSignIn: true,
+      isLoading: false
+    };
+
+    Store.modal.data.profile.done = done || (() => {});
+
+    Store.modal.content = 'Profile';
+    Store.modal.isVisible = true;
+  },
+
   synchronize: async () => {
     const snap = snapshot(Store);
 
