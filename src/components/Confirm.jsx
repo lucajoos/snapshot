@@ -1,8 +1,9 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useSnapshot } from 'valtio';
 import Store from '../Store';
 import { Button, Header, Link } from './Base';
-import { AlertTriangle, Save, Server, SkipBack } from 'react-feather';
+import { AlertTriangle, Server, SkipBack } from 'react-feather';
+import mousetrap from 'mousetrap';
 
 const Confirm = () => {
   const snap = useSnapshot(Store);
@@ -18,7 +19,16 @@ const Confirm = () => {
 
   const resolve = useCallback(isAccepted => {
     snap.confirm.resolve(isAccepted);
-  }, [snap.confirm]);
+  }, [snap.confirm.resolve]);
+
+  useEffect(() => {
+    mousetrap.unbind('enter');
+    mousetrap.bind('enter', () => {
+      if(snap.confirm.isVisible) {
+        snap.confirm.resolve(true);
+      }
+    });
+  }, [snap.confirm.resolve, snap.confirm.isVisible])
 
   return (
     <div className={`fixed top-0 right-0 left-0 bottom-0 z-30 grid transition-all ${snap.confirm.isVisible ? 'opacity-100 pointer-events-auto' : 'pointer-events-none opacity-0'}`}>
