@@ -49,8 +49,10 @@ const Template = {
     x: 0,
     y: 0,
     height: 0,
+
     data: '',
     type: '',
+
     isFlipped: false,
     isVisible: false,
     isPreventingDefault: import.meta.env.MODE === 'production'
