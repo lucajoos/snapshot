@@ -63,12 +63,36 @@ const remote = {
       });
 
       let stack = [];
+      let current = 0;
 
-      for (const card of Object.values(merge)) {
+      for (
+        const card of
+        Object.values(merge)
+          .sort((a, b) => a.index - b.index)
+          .sort((a, b) => new Date(a.editedAt) - new Date(b.editedAt))
+      ) {
         const { source, isInRemote } = card;
 
         delete card.isInRemote;
         delete card.source;
+
+        if(card.isVisible) {
+          card.index = current;
+
+          supabase
+            .from('cards')
+            .update({
+              index: current
+            })
+            .match({ id: card.id })
+            .then(({error}) => {
+              if(error) {
+                console.error(error);
+              }
+            });
+
+          current++;
+        }
 
         if(source === 'local') {
           if(isInRemote) {
