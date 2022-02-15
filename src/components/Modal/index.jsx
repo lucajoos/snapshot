@@ -16,7 +16,7 @@ const Modal = () => {
 
   return (
     <div className={`fixed top-0 right-0 left-0 bottom-0 z-10 grid transition-all ${snap.modal.isVisible ? 'opacity-100 pointer-events-auto' : 'pointer-events-none opacity-0'}`}>
-      <div className={`transition-all absolute top-0 right-0 left-0 bottom-0 bg-black opacity-${snap.confirm.isVisible ? '30' : '60'}`} onClick={() => handleOnClose()} onContextMenu={() => handleOnClose()}/>
+      <div className={`transition-all absolute top-0 right-0 left-0 bottom-0 bg-black ${snap.confirm.isVisible ? 'opacity-30' : 'opacity-60'}`} onClick={() => handleOnClose()} onContextMenu={() => handleOnClose()}/>
 
       <div className={'absolute z-20 rounded-md bg-background-default justify-self-center self-center p-10 w-[calc(450px-4rem)] max-w-[calc(450px-4rem)]'}>
         <div className={'absolute top-8 right-8 cursor-pointer'} onClick={() => handleOnClose()}>
