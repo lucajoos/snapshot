@@ -73,6 +73,16 @@ window.addEventListener('load', () => {
           emit(id, event, response);
           break;
         }
+        case 'storage.get': {
+          console.log(data)
+          chrome.storage.local.get([data], result => {
+            emit(id, event, result[data]);
+          });
+          break;
+        }
+        case 'storage.set': {
+          chrome.storage.local.set(data);
+        }
       }
     }, false);
 

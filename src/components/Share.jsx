@@ -1,17 +1,37 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { Header } from './Base';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const Share = () => {
   const params = useParams();
   const navigate = useNavigate();
 
+  const [isExtensionInstalled, setIsExtensionInstalled] = useState(false);
+
   const handleOnClickWeb = useCallback(() => {
     navigate(`/?id=${params.id}`);
   }, []);
 
+  const handleOnClickExtension = useCallback(() => {
+    window.postMessage({ 
+      type: 'snapshot:load', 
+      data: params.id
+    }, '*');
+  }, []);
+
   useEffect(() => {
-    console.log(params.id)
+    window.addEventListener('message', event => {
+      if (event.source !== window) {
+        return false;
+      }
+
+      const { type } = event.data;
+      if(type === 'snapshot:pong') {
+        setIsExtensionInstalled(true);
+      }
+    });
+
+    window.postMessage({type: 'snapshot:ping'}, '*');
   }, []);
 
   return (
@@ -19,9 +39,13 @@ const Share = () => {
       <div className={'p-10 bg-gray-200 rounded cursor-pointer'} onClick={() => handleOnClickWeb()}>
         <Header>Open Here</Header>
       </div>
-      <div className={'p-10 bg-gray-200 rounded cursor-pointer'}>
-        <Header>Extension</Header>
-      </div>
+      {
+        isExtensionInstalled && (
+          <div className={'p-10 bg-gray-200 rounded cursor-pointer'} onClick={() => handleOnClickExtension()}>
+            <Header>Extension</Header>
+          </div>
+        )
+      }
     </div>
   )
 };

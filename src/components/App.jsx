@@ -172,9 +172,7 @@ const App = () => {
       }
     }
 
-    if(params.get('id')?.length > 0) {
-      const id = params.get('id');
-
+    const load = async (id) => {
       const { data, error } = await supabase
         .from('cards')
         .select()
@@ -224,6 +222,23 @@ const App = () => {
           }
         }
       }
+    }
+
+    if(import.meta.env.VITE_APP_ENVIRONMENT === 'extension') {
+      const data = await helpers.api.do('storage.get', 'load');
+
+      if(data) {
+        console.log(data)
+        data.forEach(id => {
+          load(id);
+        });
+
+        helpers.api.do('storage.set', {
+          load: []
+        }, { isWaiting: false });
+      }
+    } else if(params.get('id')?.length > 0) {
+      await load(params.get('id'));
     }
 
     return () => confetti.clear();
