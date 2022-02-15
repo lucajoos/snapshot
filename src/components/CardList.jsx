@@ -39,73 +39,68 @@ const CardList = () => {
     helpers.cards.save(stack);
   }, [ snap.cards, snap.session, snap.settings.sync.isSynchronizing ]);
 
-  return (
+  return snap.cards.filter(card => card.isVisible).length === 0 ? (
+    <div className={'text-gray-300 h-full flex flex-col justify-center text-center items-center'}>
+      <div className={'justify-self-center'}>
+        <Archive size={200} />
+      </div>
+      <div className={'mt-4'}>
+        <Header>It's a bit empty here.</Header>
+      </div>
+    </div>
+  ) : (
     <div className={'h-full overflow-y-scroll'}>
-      {
-      snap.cards.filter(card => card.isVisible).length === 0 ? (
-        <div className={'text-gray-300 h-full flex flex-col justify-center text-center items-center'}>
-          <div className={'justify-self-center'}>
-            <Archive size={200} />
-          </div>
-          <div className={'mt-4'}>
-            <Header>It's a bit empty here.</Header>
-          </div>
-        </div>
-      ) : (
-        <>
-          <DragDropContext onDragEnd={ event => handleOnDragEnd(event) }>
-            <Droppable droppableId={ 'cards' } direction={ 'vertical' }>
-              {
-                droppableProvided => (
-                  <div
-                    { ...droppableProvided.droppableProps }
-                    ref={ droppableProvided.innerRef }
-                    className={'grid'}
-                  >
-                    {
-                      snap.cards.filter(card => card.isVisible).sort((a, b) => a.index - b.index).map(card => {
-                        let isVisible = snap.search.length === 0;
+      <DragDropContext onDragEnd={ event => handleOnDragEnd(event) }>
+        <Droppable droppableId={ 'cards' } direction={ 'vertical' }>
+          {
+            droppableProvided => (
+              <div
+                { ...droppableProvided.droppableProps }
+                ref={ droppableProvided.innerRef }
+                className={'grid'}
+              >
+                {
+                  snap.cards.filter(card => card.isVisible).sort((a, b) => a.index - b.index).map(card => {
+                    let isVisible = snap.search.length === 0;
 
-                        if(!isVisible) {
-                          const search = snap.search.toUpperCase();
-                          let isInTags = false;
+                    if(!isVisible) {
+                      const search = snap.search.toUpperCase();
+                      let isInTags = false;
 
-                          card.tags.forEach(tag => {
-                            if(tag.toUpperCase().includes(search)) {
-                              isInTags = true;
-                            }
-                          });
-
-                          isVisible = isInTags || card.value.toUpperCase().includes(search);
+                      card.tags.forEach(tag => {
+                        if(tag.toUpperCase().includes(search)) {
+                          isInTags = true;
                         }
+                      });
 
-                        return (
-                          <Draggable key={ card.id } draggableId={ card.id } index={ card.index }>
-                            {
-                              draggableProvided => (
-                                <div
-                                  ref={ draggableProvided.innerRef } { ...draggableProvided.draggableProps } { ...draggableProvided.dragHandleProps }
-                                >
-                                  <Card
-                                    card={card}
-                                    className={!isVisible ? 'hidden' : ''}
-                                  />
-                                </div>
-                              )
-                            }
-                          </Draggable>
-                        )
-                      })
+                      isVisible = isInTags || card.value.toUpperCase().includes(search);
                     }
-                    { droppableProvided.placeholder }
-                  </div>
-                )
-              }
-            </Droppable>
-          </DragDropContext>
-        </>
-      )
-    }</div>
+
+                    return (
+                      <Draggable key={ card.id } draggableId={ card.id } index={ card.index }>
+                        {
+                          draggableProvided => (
+                            <div
+                              ref={ draggableProvided.innerRef } { ...draggableProvided.draggableProps } { ...draggableProvided.dragHandleProps }
+                            >
+                              <Card
+                                card={card}
+                                className={!isVisible ? 'hidden' : ''}
+                              />
+                            </div>
+                          )
+                        }
+                      </Draggable>
+                    )
+                  })
+                }
+                { droppableProvided.placeholder }
+              </div>
+            )
+          }
+        </Droppable>
+      </DragDropContext>
+    </div>
   )
 };
 
