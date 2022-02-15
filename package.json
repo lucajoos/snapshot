@@ -1,7 +1,6 @@
 {
   "scripts": {
     "dev": "cross-env NODE_ENV='development' node resolve.js && vite dev",
-    "stage": "cross-env NODE_ENV='staging' node resolve.js && vite build --mode staging",
     "build": "cross-env NODE_ENV='production' node resolve.js && license-report --output=html > ./public/licenses.html && vite build",
     "preview": "vite preview",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
@@ -17,6 +16,7 @@
     "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^17.0.2",
     "react-feather": "^2.0.9",
+    "react-router-dom": "6",
     "uuid": "^8.3.2",
     "valtio": "^1.2.7"
   },

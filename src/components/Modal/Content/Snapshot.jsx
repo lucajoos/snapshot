@@ -81,6 +81,7 @@ const Snapshot = () => {
 
       const card = {
         id,
+        foreignId: null,
         index: snap.cards.filter(card => card.isVisible).length,
         value: snap.modal.data.snapshot.value?.length === 0 ? `Snapshot #${ snap.cards.filter(card => card.isVisible).length + 1 }` : snap.modal.data.snapshot.value,
         tags: snap.modal.data.snapshot.tags,
@@ -94,6 +95,7 @@ const Snapshot = () => {
         isVisible: true,
         isDeleted: false,
         isPrivate: true,
+        isForeign: false,
 
         isShowingIcons: snap.modal.data.snapshot.isShowingIcons,
         isCustomPick: snap.modal.data.snapshot.isShowingCustomPick && snap.modal.data.snapshot.pickColor.length > 0 && snap.modal.data.snapshot.pickIndex === -1,

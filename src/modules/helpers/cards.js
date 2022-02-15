@@ -34,6 +34,13 @@ const cards = {
     return cards;
   },
 
+  push: card => {
+    Store.favicons[card.id] = {};
+    const stack = [...Store.cards, card];
+    Store.cards = stack;
+    return stack;
+  },
+
   load: stack => {
     const snap = snapshot(Store);
     if(stack ? typeof stack !== 'object' : true) return false;
@@ -72,12 +79,12 @@ const cards = {
     localStorage.setItem('cards', JSON.stringify(object));
   },
 
-  get: id => {
+  get: (id, options={ isForeign: false }) => {
     const snap = snapshot(Store);
     let card = null;
 
     snap.cards.forEach(current => {
-      if(current.id === id) {
+      if(options.isForeign ? (current.foreignId === id) : (current.id === id)) {
         card = current;
       }
     });

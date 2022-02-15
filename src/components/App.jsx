@@ -10,11 +10,11 @@ import Modal from './Modal';
 import { Button } from './Base';
 import { TextField } from './Input';
 import ContextMenu from './ContextMenu';
-import Profile from './Modal/Content/Profile';
 import Confirm from './Confirm';
 
 import helpers from '../modules/helpers';
 import supabase from '../modules/supabase';
+import { v4 as uuidv4 } from 'uuid';
 
 const App = () => {
   const snap = useSnapshot(Store);
@@ -87,6 +87,11 @@ const App = () => {
   useEffect(async () => {
     const date = new Date();
     const day = date.getDate();
+    const params = new URLSearchParams(window.location.search);
+    const isFullscreen = params.get('fullscreen') === 'true';
+    const isAuthenticated = !!supabase.auth.session();
+
+    Store.isFullscreen = isFullscreen;
 
     const confetti = new ConfettiGenerator({
       target: 'confetti',
@@ -100,8 +105,6 @@ const App = () => {
 
     // Load settings & import cards
     const settings = helpers.settings.load(localStorage.getItem('settings'));
-    const isFullscreen = new URLSearchParams(window.location.search).get('fullscreen') === 'true';
-    Store.isFullscreen = isFullscreen;
 
     if(settings.behavior.isFullscreen && !isFullscreen) {
       await helpers.api.do('tabs.create', {
@@ -122,7 +125,7 @@ const App = () => {
     }
 
     // Synchronize
-    if(snap.session) {
+    if(isAuthenticated) {
       await helpers.remote.synchronize();
 
       if(settings.sync.isRealtime) {
@@ -166,6 +169,60 @@ const App = () => {
             helpers.cards.save(cards);
           })
           .subscribe();
+      }
+    }
+
+    if(params.get('id')?.length > 0) {
+      const id = params.get('id');
+
+      const { data, error } = await supabase
+        .from('cards')
+        .select()
+        .eq('id', id)
+        .single();
+
+      if(error) {
+        console.error(error);
+      } else if(data) {
+        const card = helpers.remote.snakeCaseToCamelCase(data);
+
+        if(
+          !helpers.cards.get(card.id) &&
+          !helpers.cards.get(card.id, { isForeign: true}) && (
+            isAuthenticated ? (
+              supabase.auth.user().id !== card.userId
+            ) : true
+          )
+        ) {
+          card.foreignId = card.id;
+          card.id = uuidv4();
+          card.createdAt = new Date().toISOString();
+          card.editedAt = new Date().toISOString();
+
+          card.isForeign = true;
+          card.isPrivate = true;
+
+          delete card.insertedAt;
+          delete card.userId;
+
+          const stack = helpers.cards.push(card);
+          helpers.cards.save(stack);
+
+          if(isAuthenticated) {
+            supabase
+              .from('cards')
+              .insert([
+                helpers.remote.camelCaseToSnakeCase(card)
+              ], {
+                returning: 'minimal'
+              })
+              .then(({ error }) => {
+                if(error) {
+                  console.error(error);
+                }
+              });
+          }
+        }
       }
     }
 
