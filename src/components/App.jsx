@@ -188,10 +188,14 @@ const App = () => {
         console.error(error);
       } else if(data) {
         const card = helpers.remote.snakeCaseToCamelCase(data);
+        const foreign = helpers.cards.get(card.id, { isForeign: true});
 
-        if(
-          !helpers.cards.get(card.id) &&
-          !helpers.cards.get(card.id, { isForeign: true}) && (
+        if(foreign ? (!foreign.isVisible && !foreign.isDeleted) : false) {
+          Store.modal.content = 'Settings';
+          Store.modal.data.settings.category = 'Archive';
+          Store.modal.isVisible = true;
+        } else if(
+          !helpers.cards.get(card.id) && (
             isAuthenticated ? (
               supabase.auth.user().id !== card.userId
             ) : true

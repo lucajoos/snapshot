@@ -245,6 +245,9 @@ const cards = {
       isDeleted: true,
       isShowingIcons: false,
       isCustomPick: false,
+      isPrivate: true,
+
+      foreignId: null,
 
       urls: [],
       favicons: []
