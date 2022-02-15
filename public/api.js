@@ -3,11 +3,35 @@ window.addEventListener('load', () => {
     const iframe = document.querySelector('html > body > iframe');
     const isFullscreen = new URLSearchParams(window.location.search).get('fullscreen') === 'true';
 
+    let options = {
+      width: '',
+      height: '',
+      display: 'none'
+    };
+
+    const style = () => {
+      let string = '';
+      Object.keys(options).forEach(key => {
+        const value = options[key];
+        if(value ? value.length > 0 : false) {
+          string = `${string}${key}:${value};`;
+        }
+      });
+      iframe.setAttribute('style', string);
+    }
+
     if(isFullscreen) {
-      iframe.setAttribute('style', 'width:100vw;height:100vh;');
+      options.width = '100vw';
+      options.height = '100vh';
+      style();
     }
 
     iframe.setAttribute('src', (window.__MODE__ === 'production' || window.__MODE__ === 'staging') ? `./index.html${isFullscreen ? '?fullscreen=true' : ''}` : `http://localhost:3000${isFullscreen ? '?fullscreen=true' : ''}`);
+
+    iframe.addEventListener('load', () => {
+     options.display = '';
+     style();
+    });
 
     const emit = (id, event, data) => {
       iframe.contentWindow.postMessage({
