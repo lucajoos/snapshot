@@ -40,10 +40,15 @@ const General = () => {
     Store.confirm.resolve = (async isAccepted => {
       if(isAccepted) {
         localStorage.clear();
-        await helpers.api.do('window.close');
+
+        if(snap.environment === 'extension') {
+          await helpers.api.do('window.close');
+        } else {
+          location.reload();
+        }
       }
     });
-  }, []);
+  }, [snap.environment]);
 
   const handleOnClickAboutLicenses = useCallback(async () => {
     console.log(snap.environment)
