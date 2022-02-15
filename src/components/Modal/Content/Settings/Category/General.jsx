@@ -3,6 +3,7 @@ import helpers from '../../../../../modules/helpers';
 import { Link, Option, Section } from '../../../../Base';
 import { Download, Maximize, SkipBack, Upload } from 'react-feather';
 import Store, { Template } from '../../../../../Store';
+import settings from '../../../../../modules/helpers/settings';
 
 const General = () => {
   const importRef = useRef(null);
@@ -47,7 +48,9 @@ const General = () => {
       Store.confirm.isVisible = false;
 
       if(isAccepted) {
-        Store.modal.isVisible = false;
+        setTimeout(() => {
+          Store.modal.isVisible = false;
+        }, 150);
       }
     });
   }, []);
