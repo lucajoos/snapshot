@@ -7,8 +7,6 @@ import { useCallback } from 'react';
 import moment from 'moment';
 
 const Overview = () => {
-  const snap = useSnapshot(Store);
-
   const handleOnClickSignOut = useCallback(async () => {
     supabase.auth.signOut().catch(e => {
       console.error(e);
