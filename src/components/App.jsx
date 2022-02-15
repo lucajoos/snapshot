@@ -85,6 +85,7 @@ const App = () => {
 
   // Effects
   useEffect(async () => {
+    const environment = import.meta.env.VITE_APP_ENVIRONMENT;
     const date = new Date();
     const day = date.getDate();
     const params = new URLSearchParams(window.location.search);
@@ -92,6 +93,10 @@ const App = () => {
     const isAuthenticated = !!supabase.auth.session();
 
     Store.isFullscreen = isFullscreen;
+
+    if(environment !== 'extension') {
+      window.history.pushState({}, document.title, window.location.href.split('?')[0])
+    }
 
     const confetti = new ConfettiGenerator({
       target: 'confetti',
@@ -224,11 +229,10 @@ const App = () => {
       }
     }
 
-    if(import.meta.env.VITE_APP_ENVIRONMENT === 'extension') {
+    if(environment === 'extension') {
       const data = await helpers.api.do('storage.get', 'load');
 
-      if(data) {
-        console.log(data)
+      if(typeof data === 'object') {
         data.forEach(id => {
           load(id);
         });
@@ -239,6 +243,7 @@ const App = () => {
       }
     } else if(params.get('id')?.length > 0) {
       await load(params.get('id'));
+      params.delete('id')
     }
 
     return () => confetti.clear();
