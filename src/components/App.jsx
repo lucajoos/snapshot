@@ -199,6 +199,7 @@ const App = () => {
         ) {
           card.foreignId = card.id;
           card.id = uuidv4();
+          card.index = [...Store.cards].filter(current => current.isVisible).length;
           card.createdAt = new Date().toISOString();
           card.editedAt = new Date().toISOString();
 
@@ -209,6 +210,7 @@ const App = () => {
           delete card.userId;
 
           const stack = helpers.cards.push(card);
+          Store.isScrolling = true;
           helpers.cards.save(stack);
 
           if(isAuthenticated) {
