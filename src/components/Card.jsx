@@ -40,9 +40,9 @@ const Card = ({ card, className, isArchived=false }) => {
 
   const handleOnClick = useCallback(async event => {
     if (event.target === containerRef.current && !isArchived) {
-      await helpers.cards.open(card.id);
+      await helpers.cards.open(card.id, snap.settings.behaviour.cards.isOpeningInWindow);
     }
-  }, [ card ]);
+  }, [ card, snap.settings.behaviour.cards.isOpeningInWindow ]);
 
   // Effects
   useEffect(() => {

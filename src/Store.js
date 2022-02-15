@@ -68,8 +68,12 @@ const Template = {
     },
 
     behaviour: {
-      isDeletingPermanently: false,
-      isFullscreen: false
+      isFullscreen: false,
+
+      cards: {
+        isDeletingPermanently: false,
+        isOpeningInWindow: false
+      }
     }
   },
 
