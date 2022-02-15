@@ -57,7 +57,7 @@ const General = () => {
         url: await helpers.api.do('runtime.getURL', 'licenses.html')
       }, { isWaiting: false });
     } else {
-      window.open(`${import.meta.env.VITE_APP_HOST}/licenses.html`, '_blank');
+      window.open(`${snap.settings.sync.advanced.applicationUrl.length === 0 ? import.meta.env.VITE_APP_APPLICATION_URL : snap.settings.sync.advanced.applicationUrl}/licenses.html`, '_blank');
     }
   }, [snap.environment]);
 

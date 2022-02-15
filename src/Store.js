@@ -39,6 +39,10 @@ const Template = {
         category: null,
         sync: {
           advanced: {
+            applicationUrl: ''
+          },
+
+          supabase: {
             supabaseUrl: '',
             supabaseAnonKey: ''
           }
@@ -76,6 +80,10 @@ const Template = {
       isRealtime: true,
 
       advanced: {
+        applicationUrl: ''
+      },
+
+      supabase: {
         supabaseUrl: '',
         supabaseAnonKey: ''
       }
