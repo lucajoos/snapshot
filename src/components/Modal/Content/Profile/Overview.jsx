@@ -1,8 +1,6 @@
 import supabase from '../../../../modules/supabase';
 import { Button } from '../../../Base';
 import { LogOut } from 'react-feather';
-import { useSnapshot } from 'valtio';
-import Store from '../../../../Store';
 import { useCallback } from 'react';
 import moment from 'moment';
 

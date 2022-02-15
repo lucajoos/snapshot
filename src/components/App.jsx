@@ -10,11 +10,11 @@ import Modal from './Modal';
 import { Button } from './Base';
 import { TextField } from './Input';
 import ContextMenu from './ContextMenu';
+import Profile from './Modal/Content/Profile';
+import Confirm from './Confirm';
 
 import helpers from '../modules/helpers';
 import supabase from '../modules/supabase';
-import Profile from './Modal/Content/Profile';
-import Confirm from './Confirm';
 
 const App = () => {
   const snap = useSnapshot(Store);

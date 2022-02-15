@@ -90,24 +90,23 @@ const Card = ({ card, className, isArchived=false }) => {
                       }
 
                       return (
-                        <div key={ index }>
-                          <Icon
-                            src={ favicon }
-                            alt={ '' }
-                            isVisible={ snap.favicons[card.id][index] }
-                            onLoad={() => {
-                              if(
-                                card.favicons.length <= 3 ||
-                                faviconsRendered < 2
-                              ) {
-                                Store.favicons[card.id][index] = true;
-                              }
-                            }}
-                            onError={() => {
-                              Store.favicons[card.id][index] = false;
-                            }}
-                          />
-                        </div>
+                        <Icon
+                          src={ favicon }
+                          alt={ '' }
+                          isVisible={ snap.favicons[card.id][index] }
+                          key={index}
+                          onLoad={() => {
+                            if(
+                              card.favicons.length <= 3 ||
+                              faviconsRendered < 2
+                            ) {
+                              Store.favicons[card.id][index] = true;
+                            }
+                          }}
+                          onError={() => {
+                            Store.favicons[card.id][index] = false;
+                          }}
+                        />
                       );
                     })
                   }
