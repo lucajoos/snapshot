@@ -12,7 +12,7 @@ const Settings = () => {
 
   const iconsRef = useRef({
     General: <Globe />,
-    Preferences: <Box />,
+    Behavior: <Box />,
     Sync: <RefreshCw />,
     Archive: <Archive />
   })
@@ -32,7 +32,7 @@ const Settings = () => {
       <div className={'flex gap-2 flex-col'}>
         <Option.Category title='General' icon={iconsRef.current['General']} onClick={title => handleOnClickCategory(title)} />
         <hr />
-        <Option.Category title='Preferences' icon={iconsRef.current['Preferences']} onClick={title => handleOnClickCategory(title)} />
+        <Option.Category title='Behavior' icon={iconsRef.current['Behavior']} onClick={title => handleOnClickCategory(title)} />
         <hr />
         <Option.Category title='Sync' icon={iconsRef.current['Sync']} onClick={title => handleOnClickCategory(title)} />
         <hr />

@@ -5,7 +5,7 @@ import Store from '../../../../../Store';
 import { ExternalLink, Maximize, Trash } from 'react-feather';
 import helpers from '../../../../../modules/helpers';
 
-const Preferences = () => {
+const Behavior = () => {
   const snap = useSnapshot(Store);
 
   const handleOnChangeDeletePermanently = useCallback(() => {
@@ -32,22 +32,30 @@ const Preferences = () => {
   return (
     <>
       <div className={'flex flex-col gap-6'}>
-        <Option.Switch
-          title={'Always Fullscreen'}
-          icon={<Maximize />}
-          onChange={() => handleOnChangeFullscreen()}
-          value={snap.settings.behaviour.isFullscreen}
-        />
+        {
+          snap.environment === 'extension' && (
+            <Option.Switch
+              title={'Always Fullscreen'}
+              icon={<Maximize />}
+              onChange={() => handleOnChangeFullscreen()}
+              value={snap.settings.behaviour.isFullscreen}
+            />
+          )
+        }
 
         <div>
           <Section>Cards</Section>
           <div className={'flex flex-col gap-2'}>
-            <Option.Switch
-              title={'Open in Window'}
-              icon={<ExternalLink />}
-              onChange={() => handleOnChangeOpenInWindow()}
-              value={snap.settings.behaviour.cards.isOpeningInWindow}
-            />
+            {
+              snap.environment === 'extension' && (
+                <Option.Switch
+                  title={'Open in Window'}
+                  icon={<ExternalLink />}
+                  onChange={() => handleOnChangeOpenInWindow()}
+                  value={snap.settings.behaviour.cards.isOpeningInWindow}
+                />
+              )
+            }
             <Option.Switch
               title={'Delete Permanently'}
               icon={<Trash />}
@@ -61,4 +69,4 @@ const Preferences = () => {
   )
 };
 
-export default Preferences;
+export default Behavior;

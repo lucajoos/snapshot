@@ -62,7 +62,7 @@ const Card = ({ card, className, isArchived=false }) => {
       <div
         onClick={ e => handleOnClick(e) }
         style={{ backgroundColor: theme?.startsWith('#') && theme }}
-        className={ `card p-5 select-none w-full rounded-lg text-text-default relative${!theme?.startsWith('#') ? ` bg-${theme}-default` : ''}${isArchived ? ' isArchived' : ' cursor-pointer'}` }
+        className={ `card p-5 select-none w-full rounded-lg text-text-default relative${!theme?.startsWith('#') ? ` bg-${theme}-default` : ''}${!isArchived && snap.environment === 'extension' ? ' cursor-pointer' : ''}${isArchived ? ' isArchived' : ''}` }
         ref={ containerRef }
         id={card.id}
       >

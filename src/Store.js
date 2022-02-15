@@ -94,6 +94,7 @@ const Template = {
     resolve: () => {},
   },
 
+  environment: import.meta.env.VITE_APP_ENVIRONMENT,
   session: supabase.auth.session(),
 };
 

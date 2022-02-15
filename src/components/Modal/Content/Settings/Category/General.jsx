@@ -2,10 +2,11 @@ import React, { useCallback, useRef } from 'react';
 import helpers from '../../../../../modules/helpers';
 import { Link, Option, Section } from '../../../../Base';
 import { Download, Maximize, SkipBack, Upload } from 'react-feather';
-import Store, { Template } from '../../../../../Store';
-import settings from '../../../../../modules/helpers/settings';
+import Store from '../../../../../Store';
+import { useSnapshot } from 'valtio';
 
 const General = () => {
+  const snap = useSnapshot(Store);
   const importRef = useRef(null);
 
   const handleOnClickFullscreen = useCallback(async () => {
@@ -45,14 +46,23 @@ const General = () => {
   }, []);
 
   const handleOnClickAboutLicenses = useCallback(async () => {
-    await helpers.api.do('tabs.create', {
-      url: await helpers.api.do('runtime.getURL', 'licenses.html')
-    }, { isWaiting: false });
-  }, []);
+    console.log(snap.environment)
+    if(snap.environment === 'extension') {
+      await helpers.api.do('tabs.create', {
+        url: await helpers.api.do('runtime.getURL', 'licenses.html')
+      }, { isWaiting: false });
+    } else {
+      window.open(`${import.meta.env.VITE_APP_HOST}/licenses.html`, '_blank');
+    }
+  }, [snap.environment]);
 
   return (
     <div className={'flex flex-col gap-6'}>
-      <Option.Category title={'Open Fullscreen'} icon={<Maximize />} onClick={() => handleOnClickFullscreen()}/>
+      {
+        snap.environment === 'extension' && (
+          <Option.Category title={'Open Fullscreen'} icon={<Maximize />} onClick={() => handleOnClickFullscreen()}/>
+        )
+      }
 
       <div>
         <Section>Advanced</Section>

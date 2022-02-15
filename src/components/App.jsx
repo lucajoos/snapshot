@@ -198,12 +198,16 @@ const App = () => {
 
         <CardList />
 
-        <div className={ 'flex justify-end items-center mt-4' }>
-          <Button onClick={ () => handleOnClickSnapshot() } className={'self-end'}>
-            <span>Snapshot</span>
-            <Zap size={ 18 } />
-          </Button>
-        </div>
+        {
+          snap.environment === 'extension' && (
+            <div className={ 'flex justify-end items-center mt-4' }>
+              <Button onClick={ () => handleOnClickSnapshot() } className={'self-end'}>
+                <span>Snapshot</span>
+                <Zap size={ 18 } />
+              </Button>
+            </div>
+          )
+        }
       </div>
     </div>
   );

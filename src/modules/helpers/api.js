@@ -1,38 +1,44 @@
 import { v4 as uuidv4 } from 'uuid';
+import { snapshot } from 'valtio';
+import Store from '../../Store';
 
 const api = {
   do: (event='', data={}, options={}) => {
-    return new Promise((resolve, reject) => {
-      if(event.length === 0) {
-        reject('No event specified')
-        return false;
-      }
+    const snap = snapshot(Store);
 
-      const id = uuidv4();
-      options = Object.assign({ isWaiting: true }, options);
+    if(snap.environment === 'extension') {
+      return new Promise((resolve, reject) => {
+        if(event.length === 0) {
+          reject('No event specified');
+          return false;
+        }
 
-      window.parent.postMessage({
-        event,
-        data,
-        id
-      }, '*');
+        const id = uuidv4();
+        options = Object.assign({ isWaiting: true }, options);
 
-      if(options.isWaiting) {
-        const handler = e => {
-          const { id:responseId='', event:responseEvent='', data:responseData={} } = e.data;
+        window.parent.postMessage({
+          event,
+          data,
+          id
+        }, '*');
 
-          if(id === responseId && event === responseEvent) {
-            resolve(responseData);
-          }
+        if(options.isWaiting) {
+          const handler = e => {
+            const { id:responseId='', event:responseEvent='', data:responseData={} } = e.data;
 
-          window.removeEventListener('message', handler);
-        };
+            if(id === responseId && event === responseEvent) {
+              resolve(responseData);
+            }
 
-        window.addEventListener('message', handler);
-      } else {
-        resolve();
-      }
-    });
+            window.removeEventListener('message', handler);
+          };
+
+          window.addEventListener('message', handler);
+        } else {
+          resolve();
+        }
+      });
+    }
   }
 };
 

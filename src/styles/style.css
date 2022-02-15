@@ -38,9 +38,6 @@
 }
 
 body {
-    width: 450px;
-    height: 600px;
-
     font-size: 16px;
 
     @apply text-text-default;

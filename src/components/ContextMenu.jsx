@@ -117,17 +117,23 @@ const ContextMenu = () => {
       {
         snap.contextMenu.type === 'card' && (
           <>
-            <ContextMenuOption
-              title={'Open'}
-              icon={<ExternalLink size={16}/>}
-              onClick={() => handleOnClickCardOpen(false)}
-            />
-            <ContextMenuOption
-              title={'Open in Window'}
-              icon={<ExternalLink size={16}/>}
-              onClick={() => handleOnClickCardOpen(true)}
-            />
-            <hr className={'my-1'}/>
+            {
+              snap.environment === 'extension' && (
+                <>
+                  <ContextMenuOption
+                    title={'Open'}
+                    icon={<ExternalLink size={16}/>}
+                    onClick={() => handleOnClickCardOpen(false)}
+                  />
+                  <ContextMenuOption
+                    title={'Open in Window'}
+                    icon={<ExternalLink size={16}/>}
+                    onClick={() => handleOnClickCardOpen(true)}
+                  />
+                  <hr className={'my-1'}/>
+                </>
+              )
+            }
             <ContextMenuOption
               title={'Share'}
               icon={<Share size={16}/>}
