@@ -32,7 +32,7 @@ const Sync = () => {
       snap.modal.data.settings.sync.advanced.supabaseUrl.length > 0 &&
       snap.modal.data.settings.sync.advanced.supabaseAnonKey.length > 0
     ) {
-      Store.confirm.text = 'A connection to this third-party server will be established';
+      Store.confirm.text = 'A connection to this third-party server will be established.';
       Store.confirm.type = 'Connect';
       Store.confirm.isVisible = true;
 
