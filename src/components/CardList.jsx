@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useSnapshot } from 'valtio';
 import { Archive } from 'react-feather';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
@@ -12,6 +12,7 @@ import supabase from '../modules/supabase';
 
 const CardList = () => {
   const snap = useSnapshot(Store);
+  const containerRef = useRef(null);
 
   const handleOnDragEnd = useCallback(event => {
     if (!event.destination) return;
@@ -39,6 +40,13 @@ const CardList = () => {
     helpers.cards.save(stack);
   }, [ snap.cards, snap.session, snap.settings.sync.isSynchronizing ]);
 
+  useEffect(() => {
+    if(snap.isScrolling) {
+      containerRef.current.scrollBy({top: containerRef.current.scrollHeight, left: 0, behavior: 'smooth'});
+      Store.isScrolling = false;
+    }
+  }, [snap.isScrolling]);
+
   return snap.cards.filter(card => card.isVisible).length === 0 ? (
     <div className={'text-gray-300 h-full flex flex-col justify-center text-center items-center'}>
       <div className={'justify-self-center'}>
@@ -49,7 +57,7 @@ const CardList = () => {
       </div>
     </div>
   ) : (
-    <div className={'h-full overflow-y-scroll'}>
+    <div className={'h-full overflow-y-scroll'} ref={containerRef}>
       <DragDropContext onDragEnd={ event => handleOnDragEnd(event) }>
         <Droppable droppableId={ 'cards' } direction={ 'vertical' }>
           {

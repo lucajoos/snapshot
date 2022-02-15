@@ -120,6 +120,7 @@ const Snapshot = () => {
     }
 
     Store.cards = cards;
+    Store.isScrolling = true;
     helpers.cards.save(cards);
   }, [snap.cards, snap.modal, snap.session, snap.settings.sync.isSynchronizing])
 

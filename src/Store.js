@@ -7,6 +7,7 @@ const Template = {
   search: '',
 
   isFullscreen: false,
+  isScrolling: false,
 
   modal: {
     isVisible: false,
