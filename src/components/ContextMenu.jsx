@@ -26,7 +26,6 @@ const ContextMenu = () => {
       const card = helpers.cards.get(snap.contextMenu.data);
 
       const onPublic = () => {
-        console.log('public')
         Store.modal.data.share.id = snap.contextMenu.data;
         Store.modal.content = 'Share';
         Store.modal.isVisible = true;
@@ -87,9 +86,9 @@ const ContextMenu = () => {
 
   const handleOnClickCardRemove = useCallback(async () => {
     await helpers.cards[
-      snap.settings.behaviour.isDeletingPermanently ? 'delete' : 'remove'
+      snap.settings.behavior.cards.isDeletingPermanently ? 'delete' : 'remove'
     ](snap.contextMenu.data);
-  }, [snap.contextMenu.data, snap.settings.behaviour.isDeletingPermanently]);
+  }, [snap.contextMenu.data, snap.settings.behavior.cards.isDeletingPermanently]);
 
   const handleOnClickCardRestore = useCallback(async () => {
     await helpers.cards.restore(snap.contextMenu.data);
@@ -117,23 +116,21 @@ const ContextMenu = () => {
       {
         snap.contextMenu.type === 'card' && (
           <>
+            <ContextMenuOption
+              title={'Open'}
+              icon={<ExternalLink size={16}/>}
+              onClick={() => handleOnClickCardOpen(false)}
+            />
             {
               snap.environment === 'extension' && (
-                <>
-                  <ContextMenuOption
-                    title={'Open'}
-                    icon={<ExternalLink size={16}/>}
-                    onClick={() => handleOnClickCardOpen(false)}
-                  />
-                  <ContextMenuOption
-                    title={'Open in Window'}
-                    icon={<ExternalLink size={16}/>}
-                    onClick={() => handleOnClickCardOpen(true)}
-                  />
-                  <hr className={'my-1'}/>
-                </>
+                <ContextMenuOption
+                  title={'Open in Window'}
+                  icon={<ExternalLink size={16}/>}
+                  onClick={() => handleOnClickCardOpen(true)}
+                />
               )
             }
+            <hr className={'my-1'}/>
             <ContextMenuOption
               title={'Share'}
               icon={<Share size={16}/>}
@@ -146,7 +143,7 @@ const ContextMenu = () => {
             />
             <hr className={'my-1'}/>
             <ContextMenuOption
-              title={snap.settings.behaviour.isDeletingPermanently ? 'Delete' : 'Remove'}
+              title={snap.settings.behavior.cards.isDeletingPermanently ? 'Delete' : 'Remove'}
               color={'text-red-500'}
               icon={<Trash size={16}/>}
               onClick={() => handleOnClickCardRemove()}

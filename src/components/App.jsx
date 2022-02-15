@@ -103,7 +103,7 @@ const App = () => {
     const isFullscreen = new URLSearchParams(window.location.search).get('fullscreen') === 'true';
     Store.isFullscreen = isFullscreen;
 
-    if(settings.behaviour.isFullscreen && !isFullscreen) {
+    if(settings.behavior.isFullscreen && !isFullscreen) {
       await helpers.api.do('tabs.create', {
         url: await helpers.api.do('runtime.getURL', 'app.html?fullscreen=true')
       }, { isWaiting: false });

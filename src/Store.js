@@ -49,6 +49,10 @@ const Template = {
         id: '',
         url: '',
         isPublic: false
+      },
+
+      tabs: {
+        card: null
       }
     }
   },
@@ -77,7 +81,7 @@ const Template = {
       }
     },
 
-    behaviour: {
+    behavior: {
       isFullscreen: false,
 
       cards: {

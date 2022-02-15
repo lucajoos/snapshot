@@ -41,9 +41,9 @@ const Card = ({ card, className, isArchived=false }) => {
 
   const handleOnClick = useCallback(async event => {
     if (event.target === containerRef.current && !isArchived) {
-      await helpers.cards.open(card.id, snap.settings.behaviour.cards.isOpeningInWindow);
+      await helpers.cards.open(card.id, snap.settings.behavior.cards.isOpeningInWindow);
     }
-  }, [ card, snap.settings.behaviour.cards.isOpeningInWindow ]);
+  }, [ card, snap.settings.behavior.cards.isOpeningInWindow ]);
 
   // Effects
   useEffect(() => {
@@ -62,7 +62,7 @@ const Card = ({ card, className, isArchived=false }) => {
       <div
         onClick={ e => handleOnClick(e) }
         style={{ backgroundColor: theme?.startsWith('#') && theme }}
-        className={ `card p-5 select-none w-full rounded-lg text-text-default relative${!theme?.startsWith('#') ? ` bg-${theme}-default` : ''}${!isArchived && snap.environment === 'extension' ? ' cursor-pointer' : ''}${isArchived ? ' isArchived' : ''}` }
+        className={ `card p-5 select-none w-full rounded-lg text-text-default relative${!theme?.startsWith('#') ? ` bg-${theme}-default` : ''}${isArchived ? ' isArchived' : ' cursor-pointer'}` }
         ref={ containerRef }
         id={card.id}
       >

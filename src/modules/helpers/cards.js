@@ -291,25 +291,32 @@ const cards = {
   },
 
   open: async (id, isWindow) => {
+    const snap = snapshot(Store);
     const current = cards.get(id);
 
-    if (isWindow) {
-      const {tabs, id: windowId} = await helpers.api.do('windows.create', {});
+    if(snap.environment === 'extension') {
+      if (isWindow) {
+        const {tabs, id: windowId} = await helpers.api.do('windows.create', {});
 
-      for(const url of current.urls) {
-        await helpers.api.do('tabs.create', {
-          url,
-          windowId
-        }, { isWaiting: false });
+        for(const url of current.urls) {
+          await helpers.api.do('tabs.create', {
+            url,
+            windowId
+          }, { isWaiting: false });
+        }
+
+        await helpers.api.do('tabs.remove', tabs[0].id, { isWaiting: false });
+      } else {
+        for(const url of current.urls) {
+          await helpers.api.do('tabs.create', {
+            url
+          }, { isWaiting: false });
+        }
       }
-
-      await helpers.api.do('tabs.remove', tabs[0].id, { isWaiting: false });
     } else {
-      for(const url of current.urls) {
-        await helpers.api.do('tabs.create', {
-          url
-        }, { isWaiting: false });
-      }
+      current.urls.forEach(url => {
+        window.open(url, '_blank');
+      });
     }
   }
 };
