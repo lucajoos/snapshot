@@ -43,6 +43,10 @@ const Authentication = () => {
       } catch(e) {
         console.error(e);
       } finally {
+        Store.modal.data.profile.email = '';
+        Store.modal.data.profile.password = '';
+        Store.modal.data.profile.error = '';
+
         if(snap.modal.data.profile.isSigningIn) {
           Store.modal.data.profile.isLoading = false;
         }
