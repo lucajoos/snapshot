@@ -35,6 +35,8 @@ const Authentication = () => {
         const { data, error } = await supabase.auth[snap.modal.data.profile.isSignIn ? 'signIn' : 'signUp']({
           email: snap.modal.data.profile.email,
           password: snap.modal.data.profile.password
+        }, {
+          redirectTo: `${snap.settings.sync.advanced.applicationUrl.length === 0 ? import.meta.env.VITE_APP_APPLICATION_URL : snap.settings.sync.advanced.applicationUrl}/confirmed`
         });
 
         if(error) {
@@ -52,7 +54,7 @@ const Authentication = () => {
     } else {
       Store.modal.data.profile.error = 'Empty login credentials!'
     }
-  }, [snap.modal.data.profile.error, snap.modal.data.profile.done, snap.modal.data.profile.email, snap.modal.data.profile.password, snap.modal.data.profile.isSignIn]);
+  }, [snap.settings.sync.advanced.applicationUrl, snap.modal.data.profile.error, snap.modal.data.profile.done, snap.modal.data.profile.email, snap.modal.data.profile.password, snap.modal.data.profile.isSignIn]);
 
   const handleOnClickChangeMode = useCallback(async () => {
     if(snap.modal.data.profile.error) {
