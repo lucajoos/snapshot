@@ -38,7 +38,7 @@ const Template = {
       settings: {
         category: null,
         sync: {
-          supabase: {
+          advanced: {
             supabaseUrl: '',
             supabaseAnonKey: ''
           }
@@ -75,7 +75,7 @@ const Template = {
       isSynchronizing: true,
       isRealtime: true,
 
-      supabase: {
+      advanced: {
         supabaseUrl: '',
         supabaseAnonKey: ''
       }

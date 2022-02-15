@@ -20,17 +20,17 @@ const Sync = () => {
   }, [snap.settings.sync.isRealtime]);
 
   const handleOnChangeSupabaseUrl = useCallback(event => {
-    Store.modal.data.settings.sync.supabase.supabaseUrl = event.target.value;
+    Store.modal.data.settings.sync.advanced.supabaseUrl = event.target.value;
   }, []);
 
   const handleOnChangeSupabaseAnonKey = useCallback(event => {
-    Store.modal.data.settings.sync.supabase.supabaseAnonKey = event.target.value;
+    Store.modal.data.settings.sync.advanced.supabaseAnonKey = event.target.value;
   }, []);
 
   const handleOnClickSupabaseSave = useCallback(async () => {
     if(
-      snap.modal.data.settings.sync.supabase.supabaseUrl.length > 0 &&
-      snap.modal.data.settings.sync.supabase.supabaseAnonKey.length > 0
+      snap.modal.data.settings.sync.advanced.supabaseUrl.length > 0 &&
+      snap.modal.data.settings.sync.advanced.supabaseAnonKey.length > 0
     ) {
       Store.confirm.text = 'A connection to this third-party server will be established.';
       Store.confirm.type = 'Connect';
@@ -38,8 +38,8 @@ const Sync = () => {
 
       Store.confirm.resolve = (async isAccepted => {
         if(isAccepted) {
-          Store.settings.sync.supabase.supabaseUrl = snap.modal.data.settings.sync.supabase.supabaseUrl;
-          Store.settings.sync.supabase.supabaseAnonKey = snap.modal.data.settings.sync.supabase.supabaseAnonKey;
+          Store.settings.sync.advanced.supabaseUrl = snap.modal.data.settings.sync.advanced.supabaseUrl;
+          Store.settings.sync.advanced.supabaseAnonKey = snap.modal.data.settings.sync.advanced.supabaseAnonKey;
 
           helpers.settings.save();
           await helpers.api.do('window.close');
@@ -48,12 +48,12 @@ const Sync = () => {
         }
       });
     }
-  }, [snap.modal.data.settings.sync.supabase.supabaseUrl, snap.modal.data.settings.sync.supabase.supabaseAnonKey]);
+  }, [snap.modal.data.settings.sync.advanced.supabaseUrl, snap.modal.data.settings.sync.advanced.supabaseAnonKey]);
 
   const handleOnClickSupabaseReset = useCallback(async () => {
     if(
-      snap.settings.sync.supabase.supabaseUrl.length > 0 &&
-      snap.settings.sync.supabase.supabaseAnonKey.length > 0
+      snap.settings.sync.advanced.supabaseUrl.length > 0 &&
+      snap.settings.sync.advanced.supabaseAnonKey.length > 0
     ) {
       Store.confirm.text = 'The connection to the official server will be re-established.';
       Store.confirm.type = 'Connect';
@@ -61,8 +61,8 @@ const Sync = () => {
 
       Store.confirm.resolve = (async isAccepted => {
         if(isAccepted) {
-          Store.settings.sync.supabase.supabaseUrl = '';
-          Store.settings.sync.supabase.supabaseAnonKey = '';
+          Store.settings.sync.advanced.supabaseUrl = '';
+          Store.settings.sync.advanced.supabaseAnonKey = '';
 
           helpers.settings.save();
           await helpers.api.do('window.close');
@@ -71,14 +71,14 @@ const Sync = () => {
         }
       });
     }
-  }, [snap.settings.sync.supabase.supabaseUrl, snap.settings.sync.supabase.supabaseAnonKey]);
+  }, [snap.settings.sync.advanced.supabaseUrl, snap.settings.sync.advanced.supabaseAnonKey]);
 
   useEffect(() => {
     if(snap.modal.isVisible && snap.modal.content === 'Settings' && snap.modal.data.settings.category === 'Sync') {
-       Store.modal.data.settings.sync.supabase.supabaseUrl = snap.settings.sync.supabase.supabaseUrl;
-       Store.modal.data.settings.sync.supabase.supabaseAnonKey = snap.settings.sync.supabase.supabaseAnonKey;
+       Store.modal.data.settings.sync.advanced.supabaseUrl = snap.settings.sync.advanced.supabaseUrl;
+       Store.modal.data.settings.sync.advanced.supabaseAnonKey = snap.settings.sync.advanced.supabaseAnonKey;
     }
-  }, [snap.modal.isVisible, snap.modal.content, snap.modal.data.settings.category, snap.settings.sync.supabase.supabaseUrl, snap.settings.sync.supabase.supabaseAnonKey]);
+  }, [snap.modal.isVisible, snap.modal.content, snap.modal.data.settings.category, snap.settings.sync.advanced.supabaseUrl, snap.settings.sync.advanced.supabaseAnonKey]);
 
   return (
     <div className={'flex flex-col gap-6'}>
@@ -99,17 +99,17 @@ const Sync = () => {
       </div>
 
       <div>
-        <Section>Supabase</Section>
+        <Section>Advanced</Section>
         <div className={'flex flex-col gap-4'}>
           <TextField
-            value={snap.modal.data.settings.sync.supabase.supabaseUrl}
+            value={snap.modal.data.settings.sync.advanced.supabaseUrl}
             placeholder={'Supabase URL'}
             onChange={event => handleOnChangeSupabaseUrl(event)}
             icon={<Link2 size={18} />}
           />
 
           <TextField
-            value={snap.modal.data.settings.sync.supabase.supabaseAnonKey}
+            value={snap.modal.data.settings.sync.advanced.supabaseAnonKey}
             placeholder={'Supabase Anon Key'}
             onChange={event => handleOnChangeSupabaseAnonKey(event)}
             icon={<Key size={18} />}
