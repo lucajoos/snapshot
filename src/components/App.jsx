@@ -232,7 +232,7 @@ const App = () => {
     if(environment === 'extension') {
       const data = await helpers.api.do('storage.get', 'load');
 
-      if(typeof data === 'object') {
+      if(typeof data === 'object' ? Array.isArray(data) : false) {
         data.forEach(id => {
           load(id);
         });
