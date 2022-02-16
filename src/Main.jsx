@@ -7,12 +7,16 @@ import Share from './components/Share';
 import Confirmation from './components/Confirmation';
 
 ReactDOM.render(
+  import.meta.env.VITE_APP_ENVIRONMENT === 'extension' ? (
+    <App />
+  ) : (
     <BrowserRouter>
-        <Routes>
-            <Route path={'/'} element={<App />} />
-            <Route path={'/share/:id'} element={<Share />} />
-            <Route path={'/confirmation'} element={<Confirmation />} />
-        </Routes>
-    </BrowserRouter>,
+      <Routes>
+        <Route path={'/'} element={<App />} />
+        <Route path={'/share/:id'} element={<Share />} />
+        <Route path={'/confirmation'} element={<Confirmation />} />
+      </Routes>
+    </BrowserRouter>
+  ),
   document.getElementById('root'),
 );
