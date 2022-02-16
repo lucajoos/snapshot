@@ -4,15 +4,19 @@ import App from './components/App.jsx';
 import './styles/style.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Share from './components/Share';
-import Confirmed from './components/Confirmed';
+import Confirmation from './components/Confirmation';
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Routes>
-      <Route path={'/'} element={<App />} />
-      <Route path={'/share/:id'} element={<Share />} />
-      <Route path={'/dialogueed'} element={<Confirmed />} />
-    </Routes>
-  </BrowserRouter>,
+  import.meta.env.VITE_APP_ENVIRONMENT === 'extension' ? (
+    <App />
+  ) : (
+    <BrowserRouter>
+      <Routes>
+        <Route path={'/'} element={<App />} />
+        <Route path={'/share/:id'} element={<Share />} />
+        <Route path={'/confirmation'} element={<Confirmation />} />
+      </Routes>
+    </BrowserRouter>
+  ),
   document.getElementById('root'),
 );
