@@ -286,19 +286,36 @@ const cards = {
     }
   },
 
+  tabs: id => {
+    const card = cards.get(id);
+
+    Store.modal.data.tabs.tabs = card.urls.map((url, index) => {
+      return {
+        url,
+        favicon: card.favicons[index],
+        title: card.titles[index]
+      }
+    });
+
+    Store.modal.data.tabs.id = id;
+
+    Store.modal.content = 'Tabs';
+    Store.modal.isVisible = true;
+  },
+
   edit: id => {
-    const current = cards.get(id);
+    const card = cards.get(id);
 
     Store.modal.data.snapshot = {
-      id: current.id,
-      value: current.value,
-      tags: current.tags,
-      pickColor: current.pickColor,
-      pickIndex: current.pickIndex,
-      pickCustom: current.pickCustom,
-      isShowingIcons: current.isShowingIcons,
+      id: card.id,
+      value: card.value,
+      tags: card.tags,
+      pickColor: card.pickColor,
+      pickIndex: card.pickIndex,
+      pickCustom: card.pickCustom,
+      isShowingIcons: card.isShowingIcons,
       isUpdatingTabs: false,
-      isShowingCustomPick: current.isCustomPick,
+      isShowingCustomPick: card.isCustomPick,
     };
 
     Store.modal.content = 'Snapshot';

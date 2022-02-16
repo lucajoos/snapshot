@@ -56,7 +56,8 @@ const Template = {
       },
 
       tabs: {
-        card: null
+        tabs: [],
+        id: ''
       }
     }
   },

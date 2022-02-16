@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useSnapshot } from 'valtio';
-import { Code, Edit2, ExternalLink, RotateCcw, Share, Trash } from 'react-feather';
+import { Code, Edit2, ExternalLink, Grid, RotateCcw, Share, Trash } from 'react-feather';
 
 import ContextMenuOption from './ContextMenuOption';
 
@@ -19,6 +19,10 @@ const ContextMenu = () => {
 
   const handleOnClickCardEdit = useCallback(() => {
     helpers.cards.edit(snap.contextMenu.data);
+  }, [snap.contextMenu.data]);
+
+  const handleOnClickCardTabs = useCallback(() => {
+    helpers.cards.tabs(snap.contextMenu.data);
   }, [snap.contextMenu.data]);
 
   const handleOnClickCardShare = useCallback(() => {
@@ -135,6 +139,11 @@ const ContextMenu = () => {
               title={'Share'}
               icon={<Share size={16}/>}
               onClick={() => handleOnClickCardShare()}
+            />
+            <ContextMenuOption
+              title={'Tabs'}
+              icon={<Grid size={16}/>}
+              onClick={() => handleOnClickCardTabs()}
             />
             <ContextMenuOption
               title={'Edit'}

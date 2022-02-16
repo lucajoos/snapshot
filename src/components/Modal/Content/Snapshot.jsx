@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useSnapshot } from 'valtio';
 import { v4 as uuidv4 } from 'uuid';
-import { Save, Type, Zap } from 'react-feather';
+import { Edit, Edit2, Grid, PenTool, Save, Type, Zap } from 'react-feather';
 
-import { Button, Header } from '../../Base';
+import { Button, Header, Link } from '../../Base';
 import { Checkbox, ColorPicker, Tags, TextField } from '../../Input';
 
 import Store from '../../../Store';
@@ -30,10 +30,12 @@ const Snapshot = () => {
 
     let urls = [];
     let favicons = [];
+    let titles = [];
 
     tabs?.forEach(tab => {
       urls.push(tab.url);
       favicons.push(tab.favIconUrl);
+      titles.push(tab.title);
     });
 
     if(snap.modal.data.snapshot.id ? snap.modal.data.snapshot.id.length > 0 : false) {
@@ -54,6 +56,7 @@ const Snapshot = () => {
 
             urls: snap.modal.data.snapshot.isUpdatingTabs ? urls : card.urls,
             favicons: snap.modal.data.snapshot.isUpdatingTabs ? favicons : card.favicons,
+            titles: snap.modal.data.snapshot.isUpdatingTabs ? titles : card.titles,
           };
 
           cards[cards.indexOf(card)] = Object.assign(card, update);
@@ -101,7 +104,8 @@ const Snapshot = () => {
         isCustomPick: snap.modal.data.snapshot.isShowingCustomPick && snap.modal.data.snapshot.pickColor.length > 0 && snap.modal.data.snapshot.pickIndex === -1,
 
         urls,
-        favicons
+        favicons,
+        titles
       };
 
       cards.push(card);
