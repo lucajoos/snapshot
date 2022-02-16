@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSnapshot } from 'valtio';
 import moment from 'moment';
 import Color from 'color';
-import { Clock, MoreHorizontal } from 'react-feather';
+import { Clock, MoreHorizontal, Rss } from 'react-feather';
 
 import Icon from './Icon';
 
@@ -68,7 +68,12 @@ const Card = ({ card, className, isArchived=false }) => {
       >
         <div className={ 'grid gap-1 pointer-events-none' }>
           <div className={ 'grid gap-1' }>
-            <span className={ 'font-bold' }>{ card.value }</span>
+            <div className={'flex gap-1 items-center'}>
+              {card.isForeign && (
+                <Rss size={18}/>
+              )}
+              <span className={ 'font-bold' }>{ card.value }</span>
+            </div>
 
             <div className={ 'flex items-center' }>
               <div className={ 'flex items-center' }>
