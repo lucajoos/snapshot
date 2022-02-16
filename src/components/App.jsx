@@ -194,7 +194,7 @@ const App = () => {
           Store.modal.content = 'Settings';
           Store.modal.data.settings.category = 'Archive';
           Store.modal.isVisible = true;
-        } else {
+        } else if(isAuthenticated ? card.userId !== supabase.auth.user().id : true){
           card.foreignId = card.id;
           card.id = uuidv4();
           card.index = [...Store.cards].filter(current => current.isVisible).length;
