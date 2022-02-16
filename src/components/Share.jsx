@@ -32,7 +32,9 @@ const Share = () => {
       }
     });
 
-    window.postMessage({type: 'snapshot:ping'}, '*');
+    window.addEventListener('load', () => {
+      window.postMessage({type: 'snapshot:ping'}, '*');
+    });
   }, []);
 
   return (

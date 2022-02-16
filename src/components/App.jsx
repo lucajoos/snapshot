@@ -194,13 +194,7 @@ const App = () => {
           Store.modal.content = 'Settings';
           Store.modal.data.settings.category = 'Archive';
           Store.modal.isVisible = true;
-        } else if(
-          !helpers.cards.get(card.id) && (
-            isAuthenticated ? (
-              supabase.auth.user().id !== card.userId
-            ) : true
-          )
-        ) {
+        } else {
           card.foreignId = card.id;
           card.id = uuidv4();
           card.index = [...Store.cards].filter(current => current.isVisible).length;
@@ -217,7 +211,7 @@ const App = () => {
           Store.isScrolling = true;
           helpers.cards.save(stack);
 
-          if(isAuthenticated) {
+          if (isAuthenticated) {
             supabase
               .from('cards')
               .insert([
@@ -226,7 +220,7 @@ const App = () => {
                 returning: 'minimal'
               })
               .then(({ error }) => {
-                if(error) {
+                if (error) {
                   console.error(error);
                 }
               });
