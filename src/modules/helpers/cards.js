@@ -286,6 +286,71 @@ const cards = {
     }
   },
 
+  share: id => {
+    const snap = snapshot(Store);
+
+    const onAuthentication = () => {
+      const card = helpers.cards.get(snap.contextMenu.data);
+
+      const onPublic = () => {
+        Store.modal.data.share.id = snap.contextMenu.data;
+        Store.modal.content = 'Share';
+        Store.modal.isVisible = true;
+      };
+
+      if(!card.isPrivate) {
+        onPublic();
+      } else {
+        Store.confirm.type = 'Share';
+        Store.confirm.text = 'The selected card will be publicly accessible.';
+
+        Store.confirm.resolve = (isAccepted => {
+          if(isAccepted) {
+            Store.confirm.isVisible = false;
+
+            const stack = [...Store.cards].map(current => {
+              if(current.id === snap.contextMenu.data) {
+                return Object.assign({}, current, { isPrivate: false });
+              }
+
+              return current;
+            });
+
+            supabase
+              .from('cards')
+              .update({
+                is_private: false
+              })
+              .match({
+                id: snap.contextMenu.data
+              })
+              .then(({ error }) => {
+                if(error) {
+                  console.error(error);
+                }
+              });
+
+            Store.cards = stack;
+            helpers.cards.save(stack);
+
+            onPublic();
+          }
+        });
+
+        Store.confirm.isVisible = true;
+      }
+    }
+
+    if(snap.session) {
+      onAuthentication()
+    } else {
+      helpers.remote.profile(() => {
+        Store.modal.isVisible = false;
+        onAuthentication();
+      });
+    }
+  },
+
   tabs: id => {
     const card = cards.get(id);
 
