@@ -1,6 +1,6 @@
 {
   "name": "Snapshot",
-  "description": "Save your opened tabs to re-open them whenever you like.",
+  "description": "Capture the state of your current browser window.",
   "version": "1.2.1",
   "manifest_version": 3,
   "permissions": ["tabs", "storage"],
