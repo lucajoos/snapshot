@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 :root {
+    --scrollbar-width: 6px;
+
     --color-orange-default: #FFD6A5;
     --color-orange-accent: #FFE4C2;
 
@@ -29,7 +31,7 @@
 }
 
 *::-webkit-scrollbar {
-    width: 6px;
+    width: var(--scrollbar-width);
 }
 
 *::-webkit-scrollbar-thumb {

@@ -65,7 +65,7 @@ const CardList = () => {
               <div
                 { ...droppableProvided.droppableProps }
                 ref={ droppableProvided.innerRef }
-                className={'grid'}
+                className={'flex flex-wrap gap-x-4 justify-center'}
               >
                 {
                   snap.cards.filter(card => card.isVisible).sort((a, b) => a.index - b.index).map(card => {
