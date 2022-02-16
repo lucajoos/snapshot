@@ -2,6 +2,7 @@ import { snapshot } from 'valtio';
 import Store from '../../Store';
 import supabase from '../supabase';
 import helpers from './index';
+import { v4 as uuidv4 } from 'uuid';
 
 const remote = {
   camelCaseToSnakeCase: object => {
@@ -53,17 +54,27 @@ const remote = {
     const snap = snapshot(Store);
 
     if(snap.session && snap.settings.sync.isSynchronizing) {
-      const cards = [
+      let merge = {};
+      let cards = [
         ...(
           await supabase
             .from('cards')
             .select()
             .eq('user_id', supabase.auth.user().id)
-        ).data.map(card => remote.snakeCaseToCamelCase(card)).map(card => ({ ...card, source: 'remote' })),
-        ...snap.cards.map(card => ({ ...card, source: 'local' })),
-      ]
+        ).data.map(card => {
+          return helpers.remote.snakeCaseToCamelCase({
+            ...card,
+            source: 'remote'
+          });
+        }),
 
-      const merge = {};
+        ...snap.cards.map(card => {
+          return {
+            ...card,
+            source: 'local'
+          }
+        })
+      ];
 
       cards.forEach(card => {
         if(typeof merge[card.id] === 'object') {
@@ -77,14 +88,23 @@ const remote = {
         }
       });
 
+      Object.values(merge).forEach(card => {
+        if(card.userId !== supabase.auth.user().id) {
+          merge[card.id] = Object.assign({}, card, {
+            id: uuidv4(),
+            userId: supabase.auth.user().id,
+            isInRemote: false
+          });
+        }
+      });
+
       let stack = [];
       let current = 0;
 
       for (
         const card of
         Object.values(merge)
-          .sort((a, b) => a.index - b.index)
-          .sort((a, b) => new Date(a.editedAt) - new Date(b.editedAt))
+          .sort((a, b) => a.index - b.index || new Date(a.editedAt) - new Date(b.editedAt))
       ) {
         const { source, isInRemote } = card;
 
@@ -94,17 +114,19 @@ const remote = {
         if(card.isVisible) {
           card.index = current;
 
-          supabase
-            .from('cards')
-            .update({
-              index: current
-            })
-            .match({ id: card.id })
-            .then(({error}) => {
-              if(error) {
-                console.error(error);
-              }
-            });
+          if(isInRemote) {
+            supabase
+              .from('cards')
+              .update({
+                index: current
+              })
+              .match({ id: card.id })
+              .then(({error}) => {
+                if(error) {
+                  console.error(error);
+                }
+              });
+          }
 
           current++;
         }
