@@ -1,16 +1,22 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { Header } from './Base';
+import { Alert, Box, Header } from './Base';
 import { useCallback, useEffect, useState } from 'react';
-import { Briefcase, Globe, Home, Layers } from 'react-feather';
+import { Briefcase, ChevronLeft, ChevronRight, Globe, Home, Info, Layers } from 'react-feather';
+import { B } from '../../dist/assets/vendor.ef353887';
 
 const Share = () => {
   const params = useParams();
   const navigate = useNavigate();
 
   const [isExtensionInstalled, setIsExtensionInstalled] = useState(false);
+  const [isCardImported, setIsCardImported] = useState(false);
 
-  const handleOnClickWeb = useCallback(() => {
+  const handleOnClickBrowser = useCallback(() => {
     navigate(`/?id=${params.id}`);
+  }, []);
+
+  const handleOnClickReturn = useCallback(() => {
+    navigate('/');
   }, []);
 
   const handleOnClickExtension = useCallback(() => {
@@ -18,6 +24,8 @@ const Share = () => {
       type: 'snapshot:load', 
       data: params.id
     }, '*');
+
+    setIsCardImported(true);
   }, []);
 
   useEffect(() => {
@@ -39,29 +47,25 @@ const Share = () => {
 
   return (
     <div className={'flex flex-col h-full'}>
-      <Header className={'ml-10 mt-10'}>
-        <img src='../icons/png/128x128.png' className={'h-12'}  alt={'Icon'}/>
-        <span>Snapshot</span>
-      </Header>
-      <div className={'flex flex-col justify-center items-center gap-8 h-full mb-16'}>
+      <div className={'m-10 flex gap-4 items-center cursor-pointer'} onClick={() => handleOnClickReturn()}>
+        <ChevronLeft />
+        <Header>
+          <img src='../icons/png/128x128.png' className={'h-12'} alt={'Icon'} />
+          <span>Snapshot</span>
+        </Header>
+      </div>
+      <div className={'flex flex-col justify-center items-center gap-8 h-full mb-24'}>
         <p className={'text-xl'}>Choose Application</p>
-        <div className={'flex gap-10'}>
-          <div className={'p-10 border-4 border-gray-200 rounded cursor-pointer w-[250px] max-w-[30vw]'} onClick={() => handleOnClickWeb()}>
-            <div className={'flex flex-col gap-2 items-center'}>
-              <Globe size={32}/>
-              <Header>Browser</Header>
-            </div>
+        <div>
+          {isCardImported && <Alert icon={<Info size={18} />} color={'green-default'}>Successfully imported card!</Alert>}
+          <div className={'flex flex-wrap justify-center gap-8'}>
+            <Box icon={<Globe size={32}/>} onClick={() => handleOnClickBrowser()}>Browser</Box>
+            {
+              isExtensionInstalled && (
+                <Box icon={<Layers size={32}/>} onClick={() => handleOnClickExtension()}>Extension</Box>
+              )
+            }
           </div>
-          {
-            isExtensionInstalled && (
-              <div className={'p-10 border-4 border-gray-200 rounded cursor-pointer w-[250px] max-w-[30vw]'} onClick={() => handleOnClickExtension()}>
-                <div className={'flex flex-col gap-2 items-center'}>
-                  <Layers size={32}/>
-                  <Header>Extension</Header>
-                </div>
-              </div>
-            )
-          }
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useSnapshot } from 'valtio';
 import { AlertTriangle, Eye, EyeOff, Inbox, Loader, Lock, LogIn, Mail, Phone, User } from 'react-feather';
 
-import { Button, Link } from '../../../Base';
+import { Alert, Button, Link } from '../../../Base';
 import { TextField } from '../../../Input';
 
 import Store from '../../../../Store';
@@ -95,10 +95,7 @@ const Authentication = () => {
         </div>
 
         {snap.modal.data.profile.error ? (
-          <div className={'mb-6 rounded p-3 bg-pink-default flex items-center'}>
-            <div className={'mx-2'}><AlertTriangle size={18}/></div>
-            <span>{snap.modal.data.profile.error}</span>
-          </div>
+          <Alert>{snap.modal.data.profile.error}</Alert>
         ) : ''}
 
         <div className={'flex flex-col gap-4'}>
