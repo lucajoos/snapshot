@@ -74,7 +74,6 @@ window.addEventListener('load', () => {
           break;
         }
         case 'storage.get': {
-          console.log(data)
           chrome.storage.local.get([data], result => {
             emit(id, event, result[data]);
           });

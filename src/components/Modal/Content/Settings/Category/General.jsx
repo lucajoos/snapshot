@@ -51,7 +51,6 @@ const General = () => {
   }, [snap.environment]);
 
   const handleOnClickAboutLicenses = useCallback(async () => {
-    console.log(snap.environment)
     if(snap.environment === 'extension') {
       await helpers.api.do('tabs.create', {
         url: await helpers.api.do('runtime.getURL', 'licenses.html')
