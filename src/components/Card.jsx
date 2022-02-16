@@ -62,7 +62,7 @@ const Card = ({ card, className, isArchived=false }) => {
       <div
         onClick={ e => handleOnClick(e) }
         style={{ backgroundColor: theme?.startsWith('#') && theme }}
-        className={ `card p-5 select-none rounded-lg text-text-default relative w-[calc(450px-4rem-var(--scrollbar-width))] ${!theme?.startsWith('#') ? ` bg-${theme}-default` : ''}${isArchived ? ' isArchived' : ' cursor-pointer'}` }
+        className={ `card p-5 select-none rounded-lg text-text-default relative ${!theme?.startsWith('#') ? ` bg-${theme}-default` : ''}${isArchived ? ' isArchived w-full' : ' cursor-pointer w-[calc(450px-4rem-var(--scrollbar-width))]'}` }
         ref={ containerRef }
         id={card.id}
       >
