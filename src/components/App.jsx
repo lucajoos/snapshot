@@ -258,12 +258,13 @@ const App = () => {
       <canvas id={ 'confetti' } className={ 'absolute top-0 right-0 left-0 bottom-0 pointer-events-none' } />
 
       <div className={'flex flex-col p-8 h-screen content'}>
-        <div className={'flex items-center gap-4 justify-between mb-6'}>
+        <div className={'flex items-center gap-4 justify-center mb-6'}>
           <TextField
             value={snap.search}
             placeholder={'Search'}
             onChange={event => handleOnChangeSearch(event)}
             icon={<Search size={18} />}
+            className={'max-w-[500px]'}
           />
           <div className={'cursor-pointer'} onClick={() => handleOnClickProfile()}>
             <User />
