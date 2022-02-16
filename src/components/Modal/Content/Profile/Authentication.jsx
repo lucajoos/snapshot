@@ -85,7 +85,7 @@ const Authentication = () => {
             <Inbox size={32} />
           )}
         </div>
-        <p className={'mt-4'}>{!snap.modal.data.profile.isSignIn ? `We've sent you a dialogue email!` : `This will only take a moment`}</p>
+        <p className={'mt-4'}>{!snap.modal.data.profile.isSignIn ? `We've sent you a confirmation email!` : `This will only take a moment`}</p>
       </div>
     ) : (
       <>
