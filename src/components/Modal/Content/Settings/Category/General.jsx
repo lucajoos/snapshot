@@ -33,11 +33,11 @@ const General = () => {
   }, []);
 
   const handleOnClickReset = useCallback(async () => {
-    Store.confirm.text = 'All your locally stored data will be irreversibly deleted.';
-    Store.confirm.type = 'Reset';
-    Store.confirm.isVisible = true;
+    Store.dialogue.text = 'All your locally stored data will be irreversibly deleted.';
+    Store.dialogue.type = 'Reset';
+    Store.dialogue.isVisible = true;
 
-    Store.confirm.resolve = (async isAccepted => {
+    Store.dialogue.resolve = (async isAccepted => {
       if(isAccepted) {
         localStorage.clear();
 

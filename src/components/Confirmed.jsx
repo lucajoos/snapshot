@@ -10,7 +10,7 @@ const Confirmed = () => {
       </Header>
       <div className={'flex flex-col justify-center items-center h-full mb-16 gap-4'}>
         <Mail size={32}/>
-        <p className={'text-xl'}>Your email has been successfully confirmed.</p>
+        <p className={'text-xl'}>Your email has been successfully dialogueed.</p>
       </div>
     </div>
   )

@@ -301,12 +301,12 @@ const cards = {
       if(!card.isPrivate) {
         onPublic();
       } else {
-        Store.confirm.type = 'Share';
-        Store.confirm.text = 'The selected card will be publicly accessible.';
+        Store.dialogue.type = 'Share';
+        Store.dialogue.text = 'The selected card will be publicly accessible.';
 
-        Store.confirm.resolve = (isAccepted => {
+        Store.dialogue.resolve = (isAccepted => {
           if(isAccepted) {
-            Store.confirm.isVisible = false;
+            Store.dialogue.isVisible = false;
 
             const stack = [...Store.cards].map(current => {
               if(current.id === snap.contextMenu.data) {
@@ -337,7 +337,7 @@ const cards = {
           }
         });
 
-        Store.confirm.isVisible = true;
+        Store.dialogue.isVisible = true;
       }
     }
 

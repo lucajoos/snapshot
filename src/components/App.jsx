@@ -10,7 +10,7 @@ import Modal from './Modal';
 import { Button } from './Base';
 import { TextField } from './Input';
 import ContextMenu from './ContextMenu';
-import Confirm from './Confirm';
+import Dialogue from './Dialogue';
 
 import helpers from '../modules/helpers';
 import supabase from '../modules/supabase';
@@ -255,7 +255,7 @@ const App = () => {
   return (
     <div className={ 'w-full h-full relative select-none overflow-hidden' } onContextMenu={event => handleOnContextMenu(event)} onClick={() => handleOnClick()}>
       <ContextMenu />
-      <Confirm />
+      <Dialogue />
       <Modal />
 
       <canvas id={ 'confetti' } className={ 'absolute top-0 right-0 left-0 bottom-0 pointer-events-none' } />

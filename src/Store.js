@@ -106,7 +106,7 @@ const Template = {
     }
   },
 
-  confirm: {
+  dialogue: {
     isVisible: false,
     type: '',
     text: '',

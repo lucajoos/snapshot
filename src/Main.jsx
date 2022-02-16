@@ -11,7 +11,7 @@ ReactDOM.render(
     <Routes>
       <Route path={'/'} element={<App />} />
       <Route path={'/share/:id'} element={<Share />} />
-      <Route path={'/confirmed'} element={<Confirmed />} />
+      <Route path={'/dialogueed'} element={<Confirmed />} />
     </Routes>
   </BrowserRouter>,
   document.getElementById('root'),

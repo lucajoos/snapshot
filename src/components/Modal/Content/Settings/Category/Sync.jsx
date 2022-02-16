@@ -35,11 +35,11 @@ const Sync = () => {
     if(
       snap.modal.data.settings.sync.advanced.applicationUrl.length > 0
     ) {
-      Store.confirm.text = 'A connection to this third-party server will be established.';
-      Store.confirm.type = 'Save';
-      Store.confirm.isVisible = true;
+      Store.dialogue.text = 'A connection to this third-party server will be established.';
+      Store.dialogue.type = 'Save';
+      Store.dialogue.isVisible = true;
 
-      Store.confirm.resolve = (async isAccepted => {
+      Store.dialogue.resolve = (async isAccepted => {
         if(isAccepted) {
           Store.settings.sync.advanced.applicationUrl = snap.modal.data.settings.sync.advanced.applicationUrl;
 
@@ -51,7 +51,7 @@ const Sync = () => {
             location.reload();
           }
         } else {
-          Store.confirm.isVisible = false;
+          Store.dialogue.isVisible = false;
         }
       });
     }
@@ -61,11 +61,11 @@ const Sync = () => {
     if(
       snap.settings.sync.advanced.applicationUrl.length > 0
     ) {
-      Store.confirm.text = 'The connection to the official server will be re-established.';
-      Store.confirm.type = 'Connect';
-      Store.confirm.isVisible = true;
+      Store.dialogue.text = 'The connection to the official server will be re-established.';
+      Store.dialogue.type = 'Connect';
+      Store.dialogue.isVisible = true;
 
-      Store.confirm.resolve = (async isAccepted => {
+      Store.dialogue.resolve = (async isAccepted => {
         if(isAccepted) {
           Store.settings.sync.advanced.applicationUrl = '';
 
@@ -77,7 +77,7 @@ const Sync = () => {
             location.reload();
           }
         } else {
-          Store.confirm.isVisible = false;
+          Store.dialogue.isVisible = false;
         }
       });
     }
@@ -88,11 +88,11 @@ const Sync = () => {
       snap.modal.data.settings.sync.supabase.supabaseUrl.length > 0 &&
       snap.modal.data.settings.sync.supabase.supabaseAnonKey.length > 0
     ) {
-      Store.confirm.text = 'A connection to this third-party server will be established.';
-      Store.confirm.type = 'Connect';
-      Store.confirm.isVisible = true;
+      Store.dialogue.text = 'A connection to this third-party server will be established.';
+      Store.dialogue.type = 'Connect';
+      Store.dialogue.isVisible = true;
 
-      Store.confirm.resolve = (async isAccepted => {
+      Store.dialogue.resolve = (async isAccepted => {
         if(isAccepted) {
           Store.settings.sync.supabase.supabaseUrl = snap.modal.data.settings.sync.supabase.supabaseUrl;
           Store.settings.sync.supabase.supabaseAnonKey = snap.modal.data.settings.sync.supabase.supabaseAnonKey;
@@ -105,7 +105,7 @@ const Sync = () => {
             location.reload();
           }
         } else {
-          Store.confirm.isVisible = false;
+          Store.dialogue.isVisible = false;
         }
       });
     }
@@ -116,11 +116,11 @@ const Sync = () => {
       snap.settings.sync.supabase.supabaseUrl.length > 0 &&
       snap.settings.sync.supabase.supabaseAnonKey.length > 0
     ) {
-      Store.confirm.text = 'The connection to the official server will be re-established.';
-      Store.confirm.type = 'Connect';
-      Store.confirm.isVisible = true;
+      Store.dialogue.text = 'The connection to the official server will be re-established.';
+      Store.dialogue.type = 'Connect';
+      Store.dialogue.isVisible = true;
 
-      Store.confirm.resolve = (async isAccepted => {
+      Store.dialogue.resolve = (async isAccepted => {
         if(isAccepted) {
           Store.settings.sync.supabase.supabaseUrl = '';
           Store.settings.sync.supabase.supabaseAnonKey = '';
@@ -133,7 +133,7 @@ const Sync = () => {
             location.reload();
           }
         } else {
-          Store.confirm.isVisible = false;
+          Store.dialogue.isVisible = false;
         }
       });
     }

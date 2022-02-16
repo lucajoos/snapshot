@@ -5,7 +5,7 @@ import { Button, Header, Link } from './Base';
 import { AlertTriangle, Save, Server, Share, SkipBack } from 'react-feather';
 import mousetrap from 'mousetrap';
 
-const Confirm = () => {
+const Dialogue = () => {
   const snap = useSnapshot(Store);
 
   const iconsRef = useRef({
@@ -16,37 +16,37 @@ const Confirm = () => {
   });
 
   const handleOnClose = useCallback(() => {
-    Store.confirm.isVisible = false;
+    Store.dialogue.isVisible = false;
   }, []);
 
   const resolve = useCallback(isAccepted => {
-    snap.confirm.resolve(isAccepted);
-  }, [snap.confirm.resolve]);
+    snap.dialogue.resolve(isAccepted);
+  }, [snap.dialogue.resolve]);
 
   useEffect(() => {
     mousetrap.unbind('enter');
     mousetrap.bind('enter', () => {
-      if(snap.confirm.isVisible) {
-        snap.confirm.resolve(true);
+      if(snap.dialogue.isVisible) {
+        snap.dialogue.resolve(true);
       }
     });
-  }, [snap.confirm.resolve, snap.confirm.isVisible])
+  }, [snap.dialogue.resolve, snap.dialogue.isVisible])
 
   return (
-    <div className={`fixed top-0 right-0 left-0 bottom-0 z-30 grid transition-all ${snap.confirm.isVisible ? 'opacity-100 pointer-events-auto' : 'pointer-events-none opacity-0'}`}>
+    <div className={`fixed top-0 right-0 left-0 bottom-0 z-30 grid transition-all ${snap.dialogue.isVisible ? 'opacity-100 pointer-events-auto' : 'pointer-events-none opacity-0'}`}>
       <div className={`transition-all absolute top-0 right-0 left-0 bottom-0 bg-black ${snap.modal.isVisible ? 'opacity-30' : 'opacity-60'}`} onClick={() => handleOnClose()} onContextMenu={() => handleOnClose()}/>
 
-      <div className={'absolute z-40 rounded-md bg-background-default justify-self-center self-center p-10 w-[calc(450px-8rem)] max-w-[calc(450px-8rem)]'}>
+      <div className={`absolute z-40 rounded-md bg-background-default justify-self-center self-center p-10 ${snap.environment === 'extension' && !snap.isFullscreen ? 'w-[calc(450px-4rem)]' : 'w-[475px] max-w-full'}`}>
         <div className={'flex flex-col gap-6'}>
           <Header className={'mb-2'}><AlertTriangle /> Confirm</Header>
 
-          <p className={'wrap'}>{snap.confirm.text}</p>
+          <p className={'wrap'}>{snap.dialogue.text}</p>
 
           <div className={'flex gap-4 justify-end'}>
             <Link onClick={() => resolve(false)}>Cancel</Link>
             <Button onClick={() => resolve(true)}>
-              <span>{snap.confirm.type}</span>
-              {iconsRef.current[snap.confirm.type]}
+              <span>{snap.dialogue.type}</span>
+              {iconsRef.current[snap.dialogue.type]}
             </Button>
           </div>
         </div>
@@ -55,4 +55,4 @@ const Confirm = () => {
   )
 };
 
-export default Confirm;
+export default Dialogue;

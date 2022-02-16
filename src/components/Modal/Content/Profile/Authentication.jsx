@@ -36,7 +36,7 @@ const Authentication = () => {
           email: snap.modal.data.profile.email,
           password: snap.modal.data.profile.password
         }, {
-          redirectTo: `${snap.settings.sync.advanced.applicationUrl.length === 0 ? import.meta.env.VITE_APP_APPLICATION_URL : snap.settings.sync.advanced.applicationUrl}/confirmed`
+          redirectTo: `${snap.settings.sync.advanced.applicationUrl.length === 0 ? import.meta.env.VITE_APP_APPLICATION_URL : snap.settings.sync.advanced.applicationUrl}/dialogueed`
         });
 
         if(error) {
@@ -85,7 +85,7 @@ const Authentication = () => {
             <Inbox size={32} />
           )}
         </div>
-        <p className={'mt-4'}>{!snap.modal.data.profile.isSignIn ? `We've sent you a confirm email!` : `This will only take a moment`}</p>
+        <p className={'mt-4'}>{!snap.modal.data.profile.isSignIn ? `We've sent you a dialogue email!` : `This will only take a moment`}</p>
       </div>
     ) : (
       <>
