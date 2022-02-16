@@ -57,7 +57,13 @@ const Template = {
 
       tabs: {
         tabs: [],
-        id: ''
+        id: '',
+        current: 'default',
+        create: {
+          url: '',
+          title: '',
+          favicon: ''
+        }
       }
     }
   },

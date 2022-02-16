@@ -50,7 +50,7 @@ const Tags = ({
         regex.test(value)
       ) {
         if(value.length > 0 && (maxTags > -1 ? tags.length < maxTags : true)) {
-          // Add tag
+          // Create tag
           onChange([ ...tags, value ]);
           setValue('');
           spanRef.current.textContent = '';

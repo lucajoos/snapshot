@@ -298,6 +298,7 @@ const cards = {
     });
 
     Store.modal.data.tabs.id = id;
+    Store.modal.data.tabs.current = '';
 
     Store.modal.content = 'Tabs';
     Store.modal.isVisible = true;
