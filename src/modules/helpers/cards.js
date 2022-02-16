@@ -35,7 +35,12 @@ const cards = {
   },
 
   push: card => {
-    Store.favicons[card.id] = {};
+    const snap = snapshot(Store);
+
+    if(typeof snap.favicons[card.id] !== 'object') {
+      Store.favicons[card.id] = {};
+    }
+
     const stack = [...Store.cards, card];
     Store.cards = stack;
     return stack;
@@ -46,7 +51,7 @@ const cards = {
     if(stack ? typeof stack !== 'object' : true) return false;
 
     stack.forEach(current => {
-      if(current ? !snap.favicons[current.id] : false) {
+      if(current ? typeof snap.favicons[current.id] !== 'object' : false) {
         Store.favicons[current.id] = {};
       }
     });

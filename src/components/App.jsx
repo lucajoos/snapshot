@@ -169,7 +169,10 @@ const App = () => {
               return card;
             });
 
-            Store.favicons[payload.new.id] = {};
+            if(typeof Store.favicons[payload.new.id] !== 'object') {
+              Store.favicons[payload.new.id] = {};
+            }
+
             Store.cards = cards;
             helpers.cards.save(cards);
           })
