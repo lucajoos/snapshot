@@ -2,7 +2,7 @@ import { Globe, Menu } from 'react-feather';
 import React, { useCallback, useState } from 'react';
 import Icon from '../../Icon';
 
-const Sort = ({ title='', className='', favicon='', icon=null, onClick=()=>{} }) => {
+const Sort = ({ title='', className='', favicon='', fallback=null, icon=null, onClick=()=>{} }) => {
   const [isFailedFavicon, setIsFailedFavicon] = useState(false);
 
   const onErrorFavicon = useCallback(() => {
@@ -14,9 +14,7 @@ const Sort = ({ title='', className='', favicon='', icon=null, onClick=()=>{} })
       <div className={'flex gap-2 items-center'}>
         {favicon.length > 0 && !isFailedFavicon ? (
           <Icon src={favicon} onError={() => onErrorFavicon()} />
-        ) : (
-          <Globe size={18}/>
-        )}
+        ) : fallback}
         <p>{title}</p>
       </div>
       <div className={'flex gap-2 mr-2 text-gray-400'}>

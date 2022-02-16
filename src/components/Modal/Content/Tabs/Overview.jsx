@@ -1,5 +1,5 @@
 import { Button, Header, Link, Option } from '../../../Base';
-import { ChevronLeft, Feather, File, FilePlus, Grid, Image, Link2, Plus, Save, X as Times } from 'react-feather';
+import { ChevronLeft, Feather, File, FilePlus, Globe, Grid, Image, Link2, Plus, Save, X as Times } from 'react-feather';
 import { TextField } from '../../../Input';
 import React, { useCallback } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
@@ -116,6 +116,7 @@ const Overview = () => {
                                 <Option.Sort
                                   icon={<Times size={18} />}
                                   favicon={tab.favicon}
+                                  fallback={<File size={18}/>}
                                   title={tab.title.length > 20 ? `${tab.title.substr(0, 20)}...` : tab.title}
                                   onClick={() => handleOnClickRemove(index)} />
                               </div>
