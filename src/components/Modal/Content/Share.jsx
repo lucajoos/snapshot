@@ -40,7 +40,7 @@ const Share = () => {
       </div>
 
       <div className={'flex gap-4 justify-end'}>
-        <Link onClick={() => handleOnClickCancel()} isUnderlined={false}>Cancel</Link>
+        <Link onClick={() => handleOnClickCancel()}>Cancel</Link>
         <Button onClick={() => handleOnClickCopy()}>
           <span>Copy</span>
           <Clipboard size={18} />

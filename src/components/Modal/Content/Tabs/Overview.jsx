@@ -140,7 +140,7 @@ const Overview = () => {
       <Option.Category title={'Create Tab'} icon={<Plus />} onClick={() => handleOnClickShow()} />
 
       <div className={'flex gap-4 justify-end'}>
-        <Link isUnderlined={false} onClick={() => handleOnClickCancel()}>Cancel</Link>
+        <Link onClick={() => handleOnClickCancel()}>Cancel</Link>
         <Button onClick={() => handleOnClickSave()}>
           <span>Save</span>
           <Save size={18} />

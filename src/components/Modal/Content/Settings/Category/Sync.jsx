@@ -177,7 +177,7 @@ const Sync = () => {
           />
 
           <div className={'flex mt-2 gap-4 justify-end'}>
-            <Link isUnderlined={false} onClick={() => handleOnClickApplicationUrlReset()}>Reset</Link>
+            <Link onClick={() => handleOnClickApplicationUrlReset()}>Reset</Link>
             <Button onClick={() => handleOnClickApplicationUrlSave()}>
               <span>Save</span>
               <Save size={18} />
@@ -205,7 +205,7 @@ const Sync = () => {
           />
 
           <div className={'flex mt-2 gap-4 justify-end'}>
-            <Link isUnderlined={false} onClick={() => handleOnClickSupabaseReset()}>Reset</Link>
+            <Link onClick={() => handleOnClickSupabaseReset()}>Reset</Link>
             <Button onClick={() => handleOnClickSupabaseSave()}>
               <span>Connect</span>
               <Server size={18} />

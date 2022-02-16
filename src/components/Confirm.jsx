@@ -43,7 +43,7 @@ const Confirm = () => {
           <p className={'wrap'}>{snap.confirm.text}</p>
 
           <div className={'flex gap-4 justify-end'}>
-            <Link isUnderlined={false} onClick={() => resolve(false)}>Cancel</Link>
+            <Link onClick={() => resolve(false)}>Cancel</Link>
             <Button onClick={() => resolve(true)}>
               <span>{snap.confirm.type}</span>
               {iconsRef.current[snap.confirm.type]}

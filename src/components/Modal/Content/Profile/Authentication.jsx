@@ -91,7 +91,7 @@ const Authentication = () => {
       <>
         <div className={'flex mb-6'}>
           <span>{snap.modal.data.profile.isSignIn ? `Don't have an account?` : `Already have an account?`}&nbsp;</span>
-          <Link onClick={() => handleOnClickChangeMode()}>{snap.modal.data.profile.isSignIn ? `Sign-up` : `Sign-in`}</Link>
+          <Link onClick={() => handleOnClickChangeMode()} hasUnderline={true}>{snap.modal.data.profile.isSignIn ? `Sign-up` : `Sign-in`}</Link>
         </div>
 
         {snap.modal.data.profile.error ? (
