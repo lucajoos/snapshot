@@ -1,7 +1,7 @@
 import React, { useCallback, useRef } from 'react';
 import helpers from '../../../../../modules/helpers';
 import { Link, Option, Section } from '../../../../Base';
-import { Download, Maximize, SkipBack, Upload } from 'react-feather';
+import {Download, ExternalLink, File, Globe, Maximize, SkipBack, Upload} from 'react-feather';
 import Store from '../../../../../Store';
 import { useSnapshot } from 'valtio';
 
@@ -12,6 +12,12 @@ const General = () => {
   const handleOnClickFullscreen = useCallback(async () => {
     await helpers.api.do('tabs.create', {
       url: await helpers.api.do('runtime.getURL', 'app.html?fullscreen=true')
+    }, { isWaiting: false });
+  }, []);
+
+  const handleOnClickWebsite = useCallback(async () => {
+    await helpers.api.do('tabs.create', {
+      url: import.meta.env.VITE_APP_APPLICATION_URL
     }, { isWaiting: false });
   }, []);
 
@@ -66,7 +72,10 @@ const General = () => {
     <div className={'flex flex-col gap-6'}>
       {
         snap.environment === 'extension' && (
-          <Option.Category title={'Open Fullscreen'} icon={<Maximize />} onClick={() => handleOnClickFullscreen()}/>
+          <div>
+            <Option.Category title={'Open Fullscreen'} icon={<Maximize />} onClick={() => handleOnClickFullscreen()}/>
+            <Option.Category title={'Open Website'} icon={<ExternalLink />} onClick={() => handleOnClickWebsite()}/>
+          </div>
         )
       }
 
