@@ -46,6 +46,8 @@ const General = () => {
         } else {
           location.reload();
         }
+      } else {
+        Store.dialogue.isVisible = false;
       }
     });
   }, [snap.environment]);
