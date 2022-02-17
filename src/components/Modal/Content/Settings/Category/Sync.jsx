@@ -150,12 +150,14 @@ const Sync = () => {
   return (
     <div className={'flex flex-col gap-6'}>
       <div className={'flex flex-col gap-2'}>
-        <Option.Switch
-          title={'Synchronize'}
-          icon={<Cloud />}
-          value={snap.settings.sync.isSynchronizing}
-          onChange={() => handleOnChangeIsSynchronizing()}
-        />
+        {snap.environment === 'extension' && (
+            <Option.Switch
+                title={'Synchronize'}
+                icon={<Cloud />}
+                value={snap.settings.sync.isSynchronizing}
+                onChange={() => handleOnChangeIsSynchronizing()}
+            />
+        )}
 
         <Option.Switch
           title={'Realtime'}

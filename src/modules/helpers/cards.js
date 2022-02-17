@@ -1,5 +1,5 @@
 import Store from '../../Store';
-import { snapshot } from 'valtio';
+import {snapshot, useSnapshot} from 'valtio';
 import helpers from './index';
 import supabase from '../supabase';
 
@@ -82,7 +82,11 @@ const cards = {
   },
 
   save: object => {
-    localStorage.setItem('cards', JSON.stringify(object));
+    const snap = snapshot(Store);
+
+    if(snap.environment === 'extension') {
+      localStorage.setItem('cards', JSON.stringify(object));
+    }
   },
 
   get: (id, options={ isForeign: false }) => {
