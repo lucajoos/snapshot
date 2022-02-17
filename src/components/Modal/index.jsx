@@ -2,9 +2,8 @@ import React, { useCallback } from 'react';
 import { useSnapshot } from 'valtio';
 import { X } from 'react-feather';
 
-import Content from './Content';
-
 import Store from '../../Store';
+import Content from './Content';
 
 const Modal = () => {
   const snap = useSnapshot(Store);

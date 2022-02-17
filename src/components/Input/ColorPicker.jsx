@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
-import { Check, Sliders } from 'react-feather';
 import { useSnapshot } from 'valtio';
+import { Check, Sliders } from 'react-feather';
+
 import Store from '../../Store';
 
 const ColorPicker = ({ palette = [], className='', pickIndex = -1, onPick = () => {}, }) => {

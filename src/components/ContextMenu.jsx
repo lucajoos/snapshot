@@ -2,11 +2,11 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import { useSnapshot } from 'valtio';
 import { Code, Edit2, ExternalLink, Grid, RotateCcw, Share, Trash } from 'react-feather';
 
+import Store from '../Store';
+
 import ContextMenuOption from './ContextMenuOption';
 
-import Store from '../Store';
 import helpers from '../modules/helpers';
-import supabase from '../modules/supabase';
 
 const ContextMenu = () => {
   const snap = useSnapshot(Store);

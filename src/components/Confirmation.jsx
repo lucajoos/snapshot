@@ -1,5 +1,5 @@
-import { Header } from './Base';
 import { Mail } from 'react-feather';
+import { Header } from './Base';
 
 const Confirmation = () => {
   return (

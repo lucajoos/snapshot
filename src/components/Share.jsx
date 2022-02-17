@@ -1,7 +1,8 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import { Alert, Box, Header } from './Base';
 import { useCallback, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ChevronLeft, Globe, Info, Layers } from 'react-feather';
+
+import { Alert, Box, Header } from './Base';
 
 const Share = () => {
   const params = useParams();

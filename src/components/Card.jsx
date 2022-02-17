@@ -4,9 +4,10 @@ import moment from 'moment';
 import Color from 'color';
 import { Clock, MoreHorizontal, Rss } from 'react-feather';
 
+import Store from '../Store';
+
 import Icon from './Icon';
 
-import Store from '../Store';
 import helpers from '../modules/helpers'
 
 const Card = ({ card, className, isArchived=false }) => {

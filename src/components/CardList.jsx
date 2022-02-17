@@ -3,10 +3,11 @@ import { useSnapshot } from 'valtio';
 import { Archive } from 'react-feather';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 
+import Store from '../Store';
+
 import Card from './Card';
 import { Header } from './Base';
 
-import Store from '../Store';
 import helpers from '../modules/helpers';
 import supabase from '../modules/supabase';
 

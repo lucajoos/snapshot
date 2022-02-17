@@ -1,12 +1,14 @@
-import { Button, Header, Link, Option } from '../../../Base';
-import { ChevronLeft, Feather, File, FilePlus, Globe, Grid, Image, Link2, Plus, Save, X as Times } from 'react-feather';
-import { TextField } from '../../../Input';
 import React, { useCallback } from 'react';
+import { useSnapshot } from 'valtio';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { File, Grid, Plus, Save, X as Times } from 'react-feather';
+
 import Store from '../../../../Store';
+
+import { Button, Header, Link, Option } from '../../../Base';
+
 import supabase from '../../../../modules/supabase';
 import helpers from '../../../../modules/helpers';
-import { useSnapshot } from 'valtio';
 
 const Overview = () => {
   const snap = useSnapshot(Store);

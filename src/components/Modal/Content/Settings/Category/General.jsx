@@ -1,9 +1,11 @@
 import React, { useCallback, useRef } from 'react';
-import helpers from '../../../../../modules/helpers';
-import { Link, Option, Section } from '../../../../Base';
-import {Download, ExternalLink, File, Globe, Maximize, SkipBack, Upload} from 'react-feather';
-import Store from '../../../../../Store';
 import { useSnapshot } from 'valtio';
+import {Download, ExternalLink, Maximize, SkipBack, Upload} from 'react-feather';
+
+import Store from '../../../../../Store';
+
+import { Link, Option, Section } from '../../../../Base';
+import helpers from '../../../../../modules/helpers';
 
 const General = () => {
   const snap = useSnapshot(Store);

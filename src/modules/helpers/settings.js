@@ -1,4 +1,5 @@
 import { snapshot } from 'valtio';
+
 import Store, { Template } from '../../Store';
 
 const settings = {

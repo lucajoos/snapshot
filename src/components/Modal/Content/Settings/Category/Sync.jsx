@@ -1,9 +1,12 @@
 import React, { useCallback, useEffect } from 'react';
 import { useSnapshot } from 'valtio';
-import Store from '../../../../../Store';
-import { Button, Link, Option, Section } from '../../../../Base';
 import { Cloud, GitPullRequest, Key, Link2, Save, Server } from 'react-feather';
+
+import Store from '../../../../../Store';
+
+import { Button, Link, Option, Section } from '../../../../Base';
 import { TextField } from '../../../../Input';
+
 import helpers from '../../../../../modules/helpers';
 
 const Sync = () => {

@@ -1,5 +1,6 @@
-import { v4 as uuidv4 } from 'uuid';
 import { snapshot } from 'valtio';
+import { v4 as uuidv4 } from 'uuid';
+
 import Store from '../../Store';
 
 const api = {

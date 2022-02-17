@@ -1,5 +1,5 @@
-import { AlertTriangle } from 'react-feather';
 import React from 'react';
+import { AlertTriangle } from 'react-feather';
 
 const Alert = ({ children, color='pink-default', icon=<AlertTriangle size={18}/> }) => {
   return (

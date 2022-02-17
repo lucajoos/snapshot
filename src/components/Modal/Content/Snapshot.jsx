@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useSnapshot } from 'valtio';
 import { v4 as uuidv4 } from 'uuid';
-import { Edit, Edit2, Grid, PenTool, Save, Type, Zap } from 'react-feather';
-
-import { Button, Header, Link } from '../../Base';
-import { Checkbox, ColorPicker, Tags, TextField } from '../../Input';
+import { Save, Type, Zap } from 'react-feather';
 
 import Store from '../../../Store';
+
+import { Button, Header } from '../../Base';
+import { Checkbox, ColorPicker, Tags, TextField } from '../../Input';
+
 import helpers from '../../../modules/helpers';
 import supabase from '../../../modules/supabase';
 

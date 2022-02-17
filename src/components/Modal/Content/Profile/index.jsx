@@ -1,12 +1,11 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useSnapshot } from 'valtio';
-
-import { Header } from '../../../Base';
+import { User } from 'react-feather';
 
 import Store from '../../../../Store';
 
+import { Header } from '../../../Base';
 import Authentication from './Authentication';
-import { User } from 'react-feather';
 import Overview from './Overview';
 
 const Profile = () => {

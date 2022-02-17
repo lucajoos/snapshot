@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect } from 'react';
 import { useSnapshot } from 'valtio';
-import { Search, Settings as Cob, User, Zap } from 'react-feather';
+import { v4 as uuidv4 } from 'uuid';
 import ConfettiGenerator from 'confetti-js';
+import { Search, Settings as Cob, User, Zap } from 'react-feather';
 
 import Store from '../Store';
 
@@ -14,7 +15,6 @@ import Dialogue from './Dialogue';
 
 import helpers from '../modules/helpers';
 import supabase from '../modules/supabase';
-import { v4 as uuidv4 } from 'uuid';
 
 const App = () => {
   const snap = useSnapshot(Store);

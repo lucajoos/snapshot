@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useSnapshot } from 'valtio';
-import { AlertTriangle, Eye, EyeOff, Inbox, Loader, Lock, LogIn, Mail, Phone, User } from 'react-feather';
+import { Eye, EyeOff, Inbox, Loader, Lock, LogIn, Mail } from 'react-feather';
+
+import Store from '../../../../Store';
 
 import { Alert, Button, Link } from '../../../Base';
 import { TextField } from '../../../Input';
 
-import Store from '../../../../Store';
 import supabase from '../../../../modules/supabase';
 
 const Authentication = () => {

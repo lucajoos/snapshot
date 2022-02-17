@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useSnapshot } from 'valtio';
-import Store from '../Store';
-import { Button, Header, Link } from './Base';
-import { AlertTriangle, Save, Server, Share, SkipBack } from 'react-feather';
 import mousetrap from 'mousetrap';
+import { AlertTriangle, Save, Server, Share, SkipBack } from 'react-feather';
+
+import Store from '../Store';
+
+import { Button, Header, Link } from './Base';
 
 const Dialogue = () => {
   const snap = useSnapshot(Store);

@@ -1,9 +1,11 @@
-import { Button, Header } from '../../../Base';
-import { ChevronLeft, Compass, FilePlus, Image, Link2, Plus } from 'react-feather';
-import { TextField } from '../../../Input';
 import React, { useCallback } from 'react';
 import { useSnapshot } from 'valtio';
+import { ChevronLeft, Compass, FilePlus, Image, Link2, Plus } from 'react-feather';
+
 import Store from '../../../../Store';
+
+import { Button, Header } from '../../../Base';
+import { TextField } from '../../../Input';
 
 const Create = () => {
   const snap = useSnapshot(Store);

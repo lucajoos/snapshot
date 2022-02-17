@@ -1,5 +1,6 @@
-import { Globe, Menu } from 'react-feather';
 import React, { useCallback, useState } from 'react';
+import { Menu } from 'react-feather';
+
 import Icon from '../../Icon';
 
 const Sort = ({ title='', className='', favicon='', fallback=null, icon=null, onClick=()=>{} }) => {

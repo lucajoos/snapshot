@@ -1,9 +1,10 @@
 import React, { useCallback, useRef } from 'react';
+import { useSnapshot } from 'valtio';
 import { Archive, Box, ChevronLeft, Globe, RefreshCw, Settings as Cob } from 'react-feather';
 
-import { Header, Option } from '../../../Base';
-import { useSnapshot } from 'valtio';
 import Store from '../../../../Store';
+
+import { Header, Option } from '../../../Base';
 import Category from './Category';
 
 const Settings = () => {

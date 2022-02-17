@@ -1,9 +1,12 @@
-import { Button, Header, Link } from '../../Base';
-import { Clipboard, Link2, Share as ShareIcon } from 'react-feather';
 import React, { useCallback, useEffect, useRef } from 'react';
-import { TextField } from '../../Input';
 import { useSnapshot } from 'valtio';
+import { Clipboard, Link2, Share as ShareIcon } from 'react-feather';
+
 import Store from '../../../Store';
+
+import { Button, Header, Link } from '../../Base';
+import { TextField } from '../../Input';
+
 
 const Share = () => {
   const snap = useSnapshot(Store);

@@ -1,5 +1,5 @@
-import { ChevronRight } from 'react-feather';
 import React from 'react';
+import { ChevronRight } from 'react-feather';
 
 const Category = ({ title='', icon=null, onClick=()=>{}, className=''}) => {
   return (

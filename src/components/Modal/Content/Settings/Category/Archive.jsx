@@ -1,9 +1,11 @@
 import React from 'react';
 import { useSnapshot } from 'valtio';
+import { Wind } from 'react-feather';
+
 import Store from '../../../../../Store';
+
 import Card from '../../../../Card';
 import { Header } from '../../../../Base';
-import { Wind } from 'react-feather';
 
 const Archive = () => {
   const snap = useSnapshot(Store);

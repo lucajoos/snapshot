@@ -1,5 +1,7 @@
+import {snapshot} from 'valtio';
+
 import Store from '../../Store';
-import {snapshot, useSnapshot} from 'valtio';
+
 import helpers from './index';
 import supabase from '../supabase';
 
