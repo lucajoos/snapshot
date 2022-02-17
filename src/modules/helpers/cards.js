@@ -67,6 +67,7 @@ const cards = {
     try {
       const stack = JSON.parse(content);
       cards.load(stack);
+      cards.save(stack);
     } catch (e) {
       console.error(e);
     }
