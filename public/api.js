@@ -34,7 +34,7 @@ window.addEventListener('load', () => {
     });
 
     const emit = (id, event, data) => {
-      iframe.contentWindow.postMessage({
+      iframe.contentWindow?.postMessage({
         id,
         event,
         data

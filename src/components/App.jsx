@@ -95,7 +95,7 @@ const App = () => {
     Store.isFullscreen = isFullscreen;
 
     if(environment !== 'extension') {
-      window.history.pushState({}, document.title, window.location.href.split('?')[0])
+      window.history.replaceState({}, document.title, window.location.href.split('?')[0])
     }
 
     const confetti = new ConfettiGenerator({
