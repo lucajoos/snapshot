@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useSnapshot } from 'valtio';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Edit2, ExternalLink, File, Grid, Plus, Save, X as Times } from 'react-feather';
@@ -13,6 +13,7 @@ import cards from '../../../../modules/helpers/cards';
 
 const Overview = () => {
   const snap = useSnapshot(Store);
+  const tabsRef = useRef();
 
   const handleOnDragEnd = useCallback(event => {
     let tabs = [...Store.modal.data.tabs.tabs];
@@ -113,10 +114,16 @@ const Overview = () => {
     }
   }, [snap.modal.data.tabs.isEditing]);
 
+  useEffect(() => {
+    if(snap.modal.isVisible && snap.modal.content === 'Tabs' && snap.modal.data.tabs.current === 'default') {
+      tabsRef.current.scrollTop = 0;
+    }
+  }, [snap.modal.isVisible, snap.modal.content, snap.modal.data.tabs.current])
+
   return (
     <div className={'flex flex-col gap-4'}>
       <Header><Grid /> Tabs</Header>
-      <div className={'overflow-y-scroll mt-2 max-h-[40vh]'}>
+      <div className={'overflow-y-scroll mt-2 max-h-[40vh]'} ref={tabsRef}>
         <DragDropContext onDragEnd={event => handleOnDragEnd(event)}>
           <Droppable droppableId={'tabs'} direction={'vertical'}>
             {
