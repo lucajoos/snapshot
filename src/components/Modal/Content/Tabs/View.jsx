@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useSnapshot } from 'valtio';
-import { ChevronLeft, Compass, FilePlus, FileText, Image, Link2, Plus, Save } from 'react-feather';
+import { ChevronLeft, Compass, Edit2, FilePlus, Image, Link2, Plus, Save } from 'react-feather';
 
 import Store from '../../../../Store';
 
@@ -62,7 +62,7 @@ const View = () => {
         <div className={'chevron-left transition-all cursor-pointer'} onClick={() => handleOnClickReturn()}>
           <ChevronLeft />
         </div>
-        <div className={'flex ml-2 items-center gap-2'}>{snap.modal.data.tabs.view.index >= 0 ? <FileText /> : <FilePlus />} {snap.modal.data.tabs.view.index >= 0 ? 'Edit' : 'Create'} Tab</div>
+        <div className={'flex ml-2 items-center gap-2'}>{snap.modal.data.tabs.view.index >= 0 ? <Edit2 /> : <FilePlus />} {snap.modal.data.tabs.view.index >= 0 ? 'Edit' : 'Create'} Tab</div>
       </Header>
 
       <div className={'flex flex-col gap-4'}>
