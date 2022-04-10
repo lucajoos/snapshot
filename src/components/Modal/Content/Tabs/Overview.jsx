@@ -10,7 +10,6 @@ import { Button, Header, Link, Option } from '../../../Base';
 import supabase from '../../../../modules/supabase';
 import helpers from '../../../../modules/helpers';
 import cards from '../../../../modules/helpers/cards';
-import card from '../../../Card';
 
 const Overview = () => {
   const snap = useSnapshot(Store);
