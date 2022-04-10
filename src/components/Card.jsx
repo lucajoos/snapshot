@@ -17,7 +17,7 @@ const Card = ({ card, className, isArchived=false }) => {
   const [theme, setTheme] = useState(null);
   const [themeAccent, setThemeAccent] = useState(null)
 
-  const [isHoveringMore, setIsHoveringMore] = useState(false);
+  const [isHoveringMore, setIsHoveringMore] = useState(snap.isTouchDevice);
   
   const containerRef = useRef(null);
 
@@ -32,12 +32,14 @@ const Card = ({ card, className, isArchived=false }) => {
   }, [card.pickColor, card.pickCustom, card.pickIndex, card.isCustomPick]);
 
   const handleOnClickMore = useCallback(event => {
-    Store.contextMenu.x = event.pageX - 200;
-    Store.contextMenu.y = event.pageY + 15;
+    Store.contextMenu.x = event.pageX - 10;
+    Store.contextMenu.y = event.pageY + 10;
     Store.contextMenu.type = isArchived ? 'card-isArchived' : 'card';
     Store.contextMenu.data = card.id;
-    Store.contextMenu.isFlippedY = event.pageY > window.innerHeight / 2;
-    Store.contextMenu.isFlippedX = event.pageX > window.innerWidth / 2;
+
+    Store.contextMenu.isFlippedY = event.pageY > (window.innerHeight / 2);
+    Store.contextMenu.isFlippedX = event.pageX > (window.innerWidth / 2);
+
     Store.contextMenu.isVisible = true;
   }, [card, isArchived]);
 
@@ -135,13 +137,13 @@ const Card = ({ card, className, isArchived=false }) => {
           </div>
         </div>
 
-        <div className={ `absolute top-0 bottom-0 m-auto right-5 items-center cursor-pointer card-remove flex` }>
+        <div className={ `absolute top-0 bottom-0 m-auto right-5 items-center cursor-pointer card-remove flex ${isHoveringMore ? 'opacity-100' : 'opacity-0'}` }>
           <div
-            style={{ backgroundColor: card.isCustomPick && isHoveringMore && themeAccent}}
+            style={{ backgroundColor: card.isCustomPick && themeAccent }}
             className={ `rounded p-2 mr-1 pointer-events-all transition-color ${!card.isCustomPick ? `hover:bg-${theme}-accent` : ''}` }
             onClick={ event => handleOnClickMore(event) }
             onMouseEnter={() => setIsHoveringMore(true)}
-            onMouseLeave={() => setIsHoveringMore(false)}
+            onMouseLeave={() => setIsHoveringMore(snap.isTouchDevice)}
           >
             <MoreHorizontal />
           </div>

@@ -59,15 +59,6 @@ body {
     grid-template-rows: auto 1fr auto;
 }
 
-.card > .card-remove > div {
-    @apply opacity-0;
-    transition: .15s;
-}
-
-.card:hover > .card-remove > div {
-    @apply opacity-100;
-}
-
 input:-webkit-autofill, input:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 0 1000px white inset;
     -webkit-text-fill-color: var(--color-text-default);
