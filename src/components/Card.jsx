@@ -137,7 +137,7 @@ const Card = ({ card, className, isArchived=false }) => {
           </div>
         </div>
 
-        <div className={ `absolute top-0 bottom-0 m-auto right-5 items-center cursor-pointer card-remove flex ${isHoveringMore ? 'opacity-100' : 'opacity-0'}` }>
+        <div className={ `absolute top-0 bottom-0 m-auto right-5 items-center cursor-pointer card-remove flex transition-opacity duration-150 ${isHoveringMore ? 'opacity-100' : 'opacity-0'}` }>
           <div
             style={{ backgroundColor: card.isCustomPick && themeAccent }}
             className={ `rounded p-2 mr-1 pointer-events-all transition-color ${!card.isCustomPick ? `hover:bg-${theme}-accent` : ''}` }
