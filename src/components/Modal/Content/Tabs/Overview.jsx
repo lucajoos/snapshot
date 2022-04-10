@@ -10,6 +10,7 @@ import { Button, Header, Link, Option } from '../../../Base';
 import supabase from '../../../../modules/supabase';
 import helpers from '../../../../modules/helpers';
 import cards from '../../../../modules/helpers/cards';
+import card from '../../../Card';
 
 const Overview = () => {
   const snap = useSnapshot(Store);
@@ -37,6 +38,10 @@ const Overview = () => {
       window.open(snap.modal.data.tabs.tabs[index].url, '_blank');
     }
   }, [snap.modal.data.tabs.isEditing, snap.modal.data.tabs.tabs]);
+
+  const handleOnClickOpenAll = useCallback(async () => {
+    await cards.open(snap.modal.data.tabs.id, false);
+  }, [snap.modal.data.tabs.id]);
 
   const handleOnClickSave = useCallback(() => {
     let stack = [...Store.cards];
@@ -152,22 +157,20 @@ const Overview = () => {
       { snap.modal.data.tabs.isEditing && <Option.Category title={'Create Tab'} icon={<Plus />} onClick={() => handleOnClickShow()} /> }
 
       <div className={'flex gap-4 justify-end'}>
-        {
-          snap.modal.data.tabs.isEditing ? (
-              <>
-                <Link onClick={() => handleOnClickCancel()}>Cancel</Link>
-                <Button onClick={() => handleOnClickSave()}>
-                  <span>Save</span>
-                  <Save size={18} />
-                </Button>
-              </>
-          ) : (
-              <Button onClick={() => handleOnClickCancel()}>
-                <span>Close</span>
-                <Times size={18} />
+        <>
+          <Link onClick={() => handleOnClickCancel()}>Cancel</Link>
+          {snap.modal.data.tabs.isEditing ? (
+              <Button onClick={() => handleOnClickSave()}>
+                <span>Save</span>
+                <Save size={18} />
               </Button>
-          )
-        }
+          ) : (
+              <Button onClick={() => handleOnClickOpenAll()}>
+                <span>Open All</span>
+                <ExternalLink size={18} />
+              </Button>
+          )}
+        </>
       </div>
     </div>
   );

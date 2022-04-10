@@ -15,14 +15,14 @@ const ContextMenu = () => {
   // Card callbacks
   const handleOnClickCardOpen = useCallback(async isWindow => {
     await helpers.cards.open(snap.contextMenu.data, isWindow);
-  }, [snap.contextMenu.data]);
+  }, [snap.contextMenu.data, snap.environment]);
 
   const handleOnClickCardEdit = useCallback(() => {
     helpers.cards.edit(snap.contextMenu.data);
   }, [snap.contextMenu.data]);
 
-  const handleOnClickCardTabs = useCallback(() => {
-    helpers.cards.tabs(snap.contextMenu.data, true);
+  const handleOnClickCardTabs = useCallback(isEditing => {
+    helpers.cards.tabs(snap.contextMenu.data, isEditing);
   }, [snap.contextMenu.data]);
 
   const handleOnClickCardShare = useCallback(() => {
@@ -62,9 +62,9 @@ const ContextMenu = () => {
         snap.contextMenu.type === 'card' && (
           <>
             <ContextMenuOption
-              title={'Open'}
-              icon={<ExternalLink size={16}/>}
-              onClick={() => handleOnClickCardOpen(false)}
+                title={'Open'}
+                icon={<ExternalLink size={16}/>}
+                onClick={snap.environment === 'extension' ? () => handleOnClickCardOpen(false) : () => handleOnClickCardTabs(false)}
             />
             {
               snap.environment === 'extension' && (
@@ -72,6 +72,15 @@ const ContextMenu = () => {
                   title={'Open in Window'}
                   icon={<ExternalLink size={16}/>}
                   onClick={() => handleOnClickCardOpen(true)}
+                />
+              )
+            }
+            {
+              snap.environment !== 'extension' && (
+                <ContextMenuOption
+                title={'Open All'}
+                icon={<ExternalLink size={16}/>}
+                onClick={() => handleOnClickCardOpen(false)}
                 />
               )
             }
@@ -84,7 +93,7 @@ const ContextMenu = () => {
             <ContextMenuOption
               title={'Tabs'}
               icon={<Grid size={16}/>}
-              onClick={() => handleOnClickCardTabs()}
+              onClick={() => handleOnClickCardTabs(true)}
             />
             <ContextMenuOption
               title={'Edit'}
