@@ -108,7 +108,7 @@ const Overview = () => {
   return (
     <div className={'flex flex-col gap-4'}>
       <Header><Grid /> Tabs</Header>
-      <div className={'overflow-y-scroll mt-2'}>
+      <div className={'overflow-y-scroll mt-2 max-h-[40vh]'}>
         <DragDropContext onDragEnd={event => handleOnDragEnd(event)}>
           <Droppable droppableId={'tabs'} direction={'vertical'}>
             {
