@@ -70,7 +70,7 @@ const Card = ({ card, className, isArchived=false }) => {
       <div
         onClick={ e => handleOnClick(e) }
         style={{ backgroundColor: theme?.startsWith('#') && theme }}
-        className={ `card p-5 select-none rounded-lg text-text-default relative ${!theme?.startsWith('#') ? ` bg-${theme}-default` : ''}${isArchived ? ' isArchived w-full' : ' cursor-pointer w-[calc(100vw-4rem-var(--scrollbar-width))]'}` }
+        className={ `card p-5 select-none rounded-lg text-text-default relative ${!theme?.startsWith('#') ? ` bg-${theme}-default` : ''}${isArchived ? ' isArchived w-full' : ' cursor-pointer w-[calc(450px-4rem-var(--scrollbar-width))] max-w-[calc(100vw-4rem-var(--scrollbar-width))]'}` }
         ref={ containerRef }
         id={card.id}
       >
