@@ -22,7 +22,7 @@ const ContextMenu = () => {
   }, [snap.contextMenu.data]);
 
   const handleOnClickCardTabs = useCallback(() => {
-    helpers.cards.tabs(snap.contextMenu.data);
+    helpers.cards.tabs(snap.contextMenu.data, true);
   }, [snap.contextMenu.data]);
 
   const handleOnClickCardShare = useCallback(() => {

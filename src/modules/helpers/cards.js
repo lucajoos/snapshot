@@ -358,7 +358,7 @@ const cards = {
     }
   },
 
-  tabs: id => {
+  tabs: (id, isEditing=true) => {
     const card = cards.get(id);
 
     Store.modal.data.tabs.tabs = card.urls.map((url, index) => {
@@ -371,6 +371,7 @@ const cards = {
 
     Store.modal.data.tabs.id = id;
     Store.modal.data.tabs.current = '';
+    Store.modal.data.tabs.isEditing = isEditing;
 
     Store.modal.content = 'Tabs';
     Store.modal.isVisible = true;

@@ -42,9 +42,13 @@ const Card = ({ card, className, isArchived=false }) => {
 
   const handleOnClick = useCallback(async event => {
     if (event.target === containerRef.current && !isArchived) {
-      await helpers.cards.open(card.id, snap.settings.behavior.cards.isOpeningInWindow);
+      if(snap.environment === 'extension') {
+        await helpers.cards.open(card.id, snap.settings.behavior.cards.isOpeningInWindow);
+      } else {
+        await helpers.cards.tabs(card.id, false);
+      }
     }
-  }, [ card, snap.settings.behavior.cards.isOpeningInWindow ]);
+  }, [ card, snap.settings.behavior.cards.isOpeningInWindow, snap.environment ]);
 
   // Effects
   useEffect(() => {

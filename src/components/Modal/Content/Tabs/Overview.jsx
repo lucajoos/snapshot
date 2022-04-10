@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useSnapshot } from 'valtio';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { File, Grid, Plus, Save, X as Times } from 'react-feather';
+import { ExternalLink, File, Grid, Plus, Save, X as Times } from 'react-feather';
 
 import Store from '../../../../Store';
 
@@ -9,6 +9,7 @@ import { Button, Header, Link, Option } from '../../../Base';
 
 import supabase from '../../../../modules/supabase';
 import helpers from '../../../../modules/helpers';
+import cards from '../../../../modules/helpers/cards';
 
 const Overview = () => {
   const snap = useSnapshot(Store);
@@ -30,6 +31,12 @@ const Overview = () => {
   const handleOnClickCancel = useCallback(() => {
     Store.modal.isVisible = false;
   }, []);
+
+  const handleOnClickTab = useCallback(async index => {
+    if(!snap.modal.data.tabs.isEditing) {
+      window.open(snap.modal.data.tabs.tabs[index].url, '_blank');
+    }
+  }, [snap.modal.data.tabs.isEditing, snap.modal.data.tabs.tabs]);
 
   const handleOnClickSave = useCallback(() => {
     let stack = [...Store.cards];
@@ -107,20 +114,23 @@ const Overview = () => {
                   {}
                   {
                     snap.modal.data.tabs.tabs.map((tab, index) => (
-                      <Draggable key={`${tab.url}-${index}`} draggableId={`${tab.url}-${index}`} index={index}>
+                      <Draggable key={`${tab.url}-${index}`} draggableId={`${tab.url}-${index}`} index={index} isDragDisabled={!Store.modal.data.tabs.isEditing}>
                         {
                           draggableProvided => (
                             <div
                               ref={draggableProvided.innerRef} {...draggableProvided.draggableProps} {...draggableProvided.dragHandleProps}
-                              className={'pointer-events-none'}
+                              className={snap.modal.data.tabs.isEditing ? 'pointer-events-none' : 'cursor-pointer'}
                             >
-                              <div className={'my-1'}>
+                              <div className={ 'my-1' }>
                                 <Option.Sort
-                                  icon={<Times size={18} />}
-                                  favicon={tab.favicon}
-                                  fallback={<File size={18}/>}
-                                  title={tab.title.length > 20 ? `${tab.title.substr(0, 20)}...` : tab.title}
-                                  onClick={() => handleOnClickRemove(index)} />
+                                  icon={ snap.modal.data.tabs.isEditing ? <Times size={ 18 }/> : <ExternalLink size={18} /> }
+                                  favicon={ tab.favicon }
+                                  fallback={ <File size={ 18 }/> }
+                                  title={ tab.title.length > (snap.modal.data.tabs.isEditing ? 20 : 35) ? `${ tab.title.substr(0, snap.modal.data.tabs.isEditing ? 20 : 35) }...` : tab.title }
+                                  isEditing={snap.modal.data.tabs.isEditing}
+                                  onClick={ () => handleOnClickTab(index) }
+                                  onClickIcon={ () => handleOnClickRemove(index) }
+                                />
                               </div>
 
                               <hr
@@ -139,14 +149,25 @@ const Overview = () => {
         </DragDropContext>
       </div>
 
-      <Option.Category title={'Create Tab'} icon={<Plus />} onClick={() => handleOnClickShow()} />
+      { snap.modal.data.tabs.isEditing && <Option.Category title={'Create Tab'} icon={<Plus />} onClick={() => handleOnClickShow()} /> }
 
       <div className={'flex gap-4 justify-end'}>
-        <Link onClick={() => handleOnClickCancel()}>Cancel</Link>
-        <Button onClick={() => handleOnClickSave()}>
-          <span>Save</span>
-          <Save size={18} />
-        </Button>
+        {
+          snap.modal.data.tabs.isEditing ? (
+              <>
+                <Link onClick={() => handleOnClickCancel()}>Cancel</Link>
+                <Button onClick={() => handleOnClickSave()}>
+                  <span>Save</span>
+                  <Save size={18} />
+                </Button>
+              </>
+          ) : (
+              <Button onClick={() => handleOnClickCancel()}>
+                <span>Close</span>
+                <Times size={18} />
+              </Button>
+          )
+        }
       </div>
     </div>
   );

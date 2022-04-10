@@ -59,6 +59,7 @@ const Template = {
         tabs: [],
         id: '',
         current: 'default',
+        isEditing: true,
         create: {
           url: '',
           title: '',
