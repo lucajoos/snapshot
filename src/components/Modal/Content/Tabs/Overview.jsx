@@ -38,58 +38,60 @@ const Overview = () => {
   }, [snap.modal.data.tabs.id]);
 
   const handleOnClickSave = useCallback(() => {
-    if(!snap.modal.data.tabs.isFetching) {
-      let stack = [...Store.cards];
-      let card = null;
+    if(snap.modal.data.tabs.tabs.length > 0) {
+      if(!snap.modal.data.tabs.isFetching) {
+        let stack = [...Store.cards];
+        let card = null;
 
-      stack = stack.map(current => {
-        if (current.id === snap.modal.data.tabs.id) {
-          let urls = [];
-          let favicons = [];
-          let titles = [];
+        stack = stack.map(current => {
+          if (current.id === snap.modal.data.tabs.id) {
+            let urls = [];
+            let favicons = [];
+            let titles = [];
 
-          snap.modal.data.tabs.tabs.forEach(tab => {
-            urls.push(tab.url);
-            favicons.push(tab.favicon);
-            titles.push(tab.title);
-          });
+            snap.modal.data.tabs.tabs.forEach(tab => {
+              urls.push(tab.url);
+              favicons.push(tab.favicon);
+              titles.push(tab.title);
+            });
 
-          current.urls = urls;
-          current.favicons = favicons;
-          current.titles = titles;
-          current.editedAt = new Date().toISOString();
+            current.urls = urls;
+            current.favicons = favicons;
+            current.titles = titles;
+            current.editedAt = new Date().toISOString();
 
-          card = current;
+            card = current;
+            return current;
+          }
+
           return current;
+        });
+
+        if (snap.session && snap.settings.sync.isSynchronizing && card) {
+          supabase
+              .from('cards')
+              .update([
+                helpers.remote.camelCaseToSnakeCase(card)
+              ], {
+                returning: 'minimal'
+              })
+              .match({
+                id: card.id
+              })
+              .then(({ error }) => {
+                if (error) {
+                  console.error(error);
+                }
+              });
         }
 
-        return current;
-      });
-
-      if (snap.session && snap.settings.sync.isSynchronizing && card) {
-        supabase
-            .from('cards')
-            .update([
-              helpers.remote.camelCaseToSnakeCase(card)
-            ], {
-              returning: 'minimal'
-            })
-            .match({
-              id: card.id
-            })
-            .then(({ error }) => {
-              if (error) {
-                console.error(error);
-              }
-            });
+        Store.cards = stack;
+        helpers.cards.save(stack);
       }
 
-      Store.cards = stack;
-      helpers.cards.save(stack);
+      snap.modal.data.tabs.resolve(snap.modal.data.tabs.tabs);
+      Store.modal.isVisible = false;
     }
-
-    snap.modal.data.tabs.resolve(snap.modal.data.tabs.tabs);
-    Store.modal.isVisible = false;
   }, [snap.modal.data.tabs.tabs, snap.modal.data.tabs.id, snap.modal.data.tabs.resolve, snap.session, snap.settings.sync.isSynchronizing, snap.modal.data.tabs.isFetching]);
 
   const handleOnClickView = useCallback(() => {
