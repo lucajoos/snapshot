@@ -51,12 +51,13 @@ const ContextMenu = () => {
   // Effects
   useEffect(() => {
     Store.contextMenu.height = contextMenuRef.current.offsetHeight;
+    Store.contextMenu.width = contextMenuRef.current.offsetWidth;
   }, [snap.contextMenu.type]);
 
   return (
     <div ref={contextMenuRef} className={`z-50 p-2 w-contextMenu overflow-hidden bg-background-default shadow-md rounded grid absolute ${!snap.contextMenu.isVisible ? 'hidden' : ''}`} style={{
-      top: snap.contextMenu.y - (snap.contextMenu.isFlipped ? snap.contextMenu.height - 10 : 10),
-      left: snap.contextMenu.x
+      top: snap.contextMenu.y - (snap.contextMenu.isFlippedY ? snap.contextMenu.height - 10 : 10),
+      left: snap.contextMenu.x - (snap.contextMenu.isFlippedX ? snap.contextMenu.width - 10 : 10),
     }}>
       {
         snap.contextMenu.type === 'card' && (

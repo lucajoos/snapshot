@@ -36,7 +36,8 @@ const Card = ({ card, className, isArchived=false }) => {
     Store.contextMenu.y = event.pageY + 15;
     Store.contextMenu.type = isArchived ? 'card-isArchived' : 'card';
     Store.contextMenu.data = card.id;
-    Store.contextMenu.isFlipped = event.pageY > window.innerHeight / 2;
+    Store.contextMenu.isFlippedY = event.pageY > window.innerHeight / 2;
+    Store.contextMenu.isFlippedX = event.pageX > window.innerWidth / 2;
     Store.contextMenu.isVisible = true;
   }, [card, isArchived]);
 

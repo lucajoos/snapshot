@@ -60,7 +60,8 @@ const App = () => {
     Store.contextMenu.x = event.pageX;
     Store.contextMenu.y = event.pageY;
     Store.contextMenu.data = '';
-    Store.contextMenu.isFlipped = event.pageY > window.innerHeight / 2;
+    Store.contextMenu.isFlippedY = event.pageY > window.innerHeight / 2;
+    Store.contextMenu.isFlippedX = event.pageX > window.innerWidth / 2;
 
     let element = event.target.closest('.card');
 
