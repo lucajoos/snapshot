@@ -126,7 +126,7 @@ const App = () => {
     helpers.cards.import(localStorage.getItem('cards'));
 
     // Confetti? - Confetti.
-    if (date.getMonth() === 4 && day === 30) {
+    if(date.getMonth() === 4 && day === 30 && settings.behavior.isRenderingEffects) {
       confetti.render();
     }
 

@@ -105,6 +105,7 @@ const Template = {
 
     behavior: {
       isFullscreen: false,
+      isRenderingEffects: true,
 
       cards: {
         isDeletingPermanently: false,

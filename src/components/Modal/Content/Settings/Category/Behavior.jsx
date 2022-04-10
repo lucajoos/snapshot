@@ -2,7 +2,7 @@ import { Option, Section } from '../../../../Base';
 import React, { useCallback } from 'react';
 import { useSnapshot } from 'valtio';
 import Store from '../../../../../Store';
-import { ExternalLink, Maximize, Trash } from 'react-feather';
+import { ExternalLink, Maximize, Play, Trash } from 'react-feather';
 import helpers from '../../../../../modules/helpers';
 
 const Behavior = () => {
@@ -17,6 +17,12 @@ const Behavior = () => {
     Store.settings.behavior.cards.isOpeningInWindow = !snap.settings.behavior.cards.isOpeningInWindow;
     helpers.settings.save();
   }, [snap.settings.behavior.cards.isOpeningInWindow]);
+
+  const handleOnChangeEffects = useCallback(() => {
+    Store.settings.behavior.isRenderingEffects = !snap.settings.behavior.isRenderingEffects;
+    helpers.settings.save();
+    window.location.reload();
+  }, [snap.settings.behavior.isRenderingEffects]);
 
   const handleOnChangeFullscreen = useCallback(async () => {
     Store.settings.behavior.isFullscreen = !snap.settings.behavior.isFullscreen;
@@ -42,6 +48,13 @@ const Behavior = () => {
             />
           )
         }
+
+        <Option.Switch
+            title={'Render Effects'}
+            icon={<Play />}
+            onChange={() => handleOnChangeEffects()}
+            value={snap.settings.behavior.isRenderingEffects}
+        />
 
         <div>
           <Section>Cards</Section>
