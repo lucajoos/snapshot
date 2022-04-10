@@ -5,6 +5,7 @@ import Store from '../../Store';
 import helpers from './index';
 import supabase from '../supabase';
 import { v4 as uuidv4 } from 'uuid';
+import { base64 } from 'base-64';
 
 const cards = {
   fetch: async () => {
@@ -222,7 +223,12 @@ const cards = {
   export: () => {
     const snap = snapshot(Store);
     let a = document.createElement('a');
-    a.href = 'data:json/csv;base64,' + btoa(JSON.stringify(snap.cards));
+    a.href = URL.createObjectURL(new Blob(
+        [JSON.stringify(snap.cards)],
+        {
+          type: 'application/json'
+        }
+    ))
     a.download = 'cards.json'
     a.click();
   },
