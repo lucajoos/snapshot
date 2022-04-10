@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useSnapshot } from 'valtio';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { ExternalLink, File, Grid, Plus, Save, X as Times } from 'react-feather';
+import { Edit2, ExternalLink, File, Grid, Plus, Save, X as Times } from 'react-feather';
 
 import Store from '../../../../Store';
 
@@ -22,12 +22,6 @@ const Overview = () => {
     Store.modal.data.tabs.tabs = tabs;
   }, []);
 
-  const handleOnClickRemove = useCallback(index => {
-    let tabs = [...Store.modal.data.tabs.tabs];
-    tabs.splice(index, 1);
-    Store.modal.data.tabs.tabs = tabs;
-  }, []);
-
   const handleOnClickCancel = useCallback(() => {
     Store.modal.isVisible = false;
   }, []);
@@ -35,9 +29,6 @@ const Overview = () => {
   const handleOnClickTab = useCallback(async index => {
     if(!snap.modal.data.tabs.isEditing) {
       window.open(snap.modal.data.tabs.tabs[index].url, '_blank');
-    } else {
-      Store.modal.data.tabs.view = {...snap.modal.data.tabs.tabs[index], index};
-      Store.modal.data.tabs.current = 'view';
     }
   }, [snap.modal.data.tabs.isEditing, snap.modal.data.tabs.tabs]);
 
@@ -109,6 +100,19 @@ const Overview = () => {
     Store.modal.data.tabs.current = 'view';
   }, []);
 
+  const onClickIcon = useCallback(async (index, icon) => {
+    if(snap.modal.data.tabs.isEditing) {
+      if(icon === 0) {
+        Store.modal.data.tabs.view = {...snap.modal.data.tabs.tabs[index], index};
+        Store.modal.data.tabs.current = 'view';
+      } else if(icon === 1) {
+        let tabs = [...Store.modal.data.tabs.tabs];
+        tabs.splice(index, 1);
+        Store.modal.data.tabs.tabs = tabs;
+      }
+    }
+  }, [snap.modal.data.tabs.isEditing]);
+
   return (
     <div className={'flex flex-col gap-4'}>
       <Header><Grid /> Tabs</Header>
@@ -133,13 +137,13 @@ const Overview = () => {
                             >
                               <div className={ 'my-1' }>
                                 <Option.Sort
-                                  icon={ snap.modal.data.tabs.isEditing ? <Times size={ 18 }/> : <ExternalLink size={18} /> }
+                                  icons={ snap.modal.data.tabs.isEditing ? [<Edit2 size={18} />, <Times size={ 18 }/>] : [<ExternalLink size={18} />] }
                                   favicon={ tab.favicon }
                                   fallback={ <File size={ 18 }/> }
                                   title={ tab.title.length > (snap.modal.data.tabs.isEditing ? 20 : 35) ? `${ tab.title.substr(0, snap.modal.data.tabs.isEditing ? 20 : 35) }...` : tab.title }
                                   isEditing={snap.modal.data.tabs.isEditing}
                                   onClick={ () => handleOnClickTab(index) }
-                                  onClickIcon={ () => handleOnClickRemove(index) }
+                                  onClickIcon={ icon => onClickIcon(index, icon) }
                                 />
                               </div>
 
