@@ -38,23 +38,25 @@ const Behavior = () => {
   return (
     <>
       <div className={'flex flex-col gap-6'}>
-        {
-          snap.environment === 'extension' && (
-            <Option.Switch
-              title={'Always Fullscreen'}
-              icon={<Maximize />}
-              onChange={() => handleOnChangeFullscreen()}
-              value={snap.settings.behavior.isFullscreen}
-            />
-          )
-        }
+        <div>
+          {
+              snap.environment === 'extension' && (
+                  <Option.Switch
+                      title={'Always Fullscreen'}
+                      icon={<Maximize />}
+                      onChange={() => handleOnChangeFullscreen()}
+                      value={snap.settings.behavior.isFullscreen}
+                  />
+              )
+          }
 
-        <Option.Switch
-            title={'Render Effects'}
-            icon={<Play />}
-            onChange={() => handleOnChangeEffects()}
-            value={snap.settings.behavior.isRenderingEffects}
-        />
+          <Option.Switch
+              title={'Render Effects'}
+              icon={<Play />}
+              onChange={() => handleOnChangeEffects()}
+              value={snap.settings.behavior.isRenderingEffects}
+          />
+        </div>
 
         <div>
           <Section>Cards</Section>
