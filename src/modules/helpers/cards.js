@@ -209,13 +209,18 @@ const cards = {
     }
   },
 
-  import: content => {
+  import: async content => {
     if(content ? content.length === 0 : false) return [];
+    const snap = snapshot(Store);
 
     try {
       const stack = JSON.parse(content);
       cards.load(stack);
       cards.save(stack);
+
+      if(snap.session && snap.settings.sync.isSynchronizing) {
+        await helpers.remote.synchronize();
+      }
     } catch (e) {
       console.error(e);
     }
