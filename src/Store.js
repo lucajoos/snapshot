@@ -57,9 +57,11 @@ const Template = {
 
       tabs: {
         tabs: [],
+        resolve: ()=>{},
         id: '',
         current: 'default',
         isEditing: true,
+        isFetching: false,
         create: {
           url: '',
           title: '',

@@ -9,7 +9,7 @@ import Create from './Create';
 const Tabs = () => {
   const snap = useSnapshot(Store);
 
-  return snap.modal.data.tabs.current.length === 0 ? (
+  return snap.modal.data.tabs.current !== 'create' ? (
     <Overview />
   ) : (
     <Create />

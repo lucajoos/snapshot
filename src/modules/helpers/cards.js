@@ -4,8 +4,152 @@ import Store from '../../Store';
 
 import helpers from './index';
 import supabase from '../supabase';
+import { v4 as uuidv4 } from 'uuid';
 
 const cards = {
+  fetch: async () => {
+    return new Promise(resolve => {
+      Store.modal.content = 'Tabs';
+
+      Store.modal.data.tabs.id = '';
+      Store.modal.data.tabs.isEditing = true;
+      Store.modal.data.tabs.isFetching = true;
+      Store.modal.data.tabs.create.favicon = '';
+      Store.modal.data.tabs.create.url = '';
+      Store.modal.data.tabs.create.title = '';
+      Store.modal.data.tabs.tabs = [];
+      Store.modal.data.tabs.current = 'default';
+
+      Store.modal.data.tabs.resolve = tabs => {
+        resolve(tabs);
+      };
+
+      Store.modal.isVisible = true;
+    });
+  },
+
+  create: async () => {
+    const snap = snapshot(Store);
+
+    // Workaround
+    const stack = [...Store.cards];
+
+    let tabs;
+
+    if(snap.environment === 'extension') {
+      tabs = await helpers.api.do('tabs.query', {
+        currentWindow: true
+      });
+    } else {
+      tabs = await cards.fetch();
+    }
+
+    if(tabs.length > 0) {
+      let urls = [];
+      let favicons = [];
+      let titles = [];
+
+      tabs?.forEach(tab => {
+        urls.push(tab.url);
+        favicons.push(tab.favIconUrl);
+        titles.push(tab.title);
+      });
+
+      if(snap.modal.data.snapshot.id ? snap.modal.data.snapshot.id.length > 0 : false) {
+        // Update Snapshot
+        for (const card of stack) {
+          if(card.id === snap.modal.data.snapshot.id) {
+            const update = {
+              value: snap.modal.data.snapshot.value?.length === 0 ? `Snapshot #${ snap.cards.filter(card => card.isVisible).length + 1 }` : snap.modal.data.snapshot.value,
+              tags: snap.modal.data.snapshot.tags,
+
+              pickColor: snap.modal.data.snapshot.pickColor,
+              pickIndex: snap.modal.data.snapshot.pickIndex,
+
+              editedAt: new Date().toISOString(),
+
+              isShowingIcons: snap.modal.data.snapshot.isShowingIcons,
+              isCustomPick: snap.modal.data.snapshot.isShowingCustomPick && snap.modal.data.snapshot.pickColor.length > 0 && snap.modal.data.snapshot.pickIndex === -1,
+
+              urls: snap.modal.data.snapshot.isUpdatingTabs ? urls : card.urls,
+              favicons: snap.modal.data.snapshot.isUpdatingTabs ? favicons : card.favicons,
+              titles: snap.modal.data.snapshot.isUpdatingTabs ? titles : card.titles,
+            };
+
+            stack[stack.indexOf(card)] = Object.assign(card, update);
+
+            if(snap.session && snap.settings.sync.isSynchronizing) {
+              supabase
+                  .from('cards')
+                  .update([
+                    helpers.remote.camelCaseToSnakeCase(update)
+                  ], {
+                    returning: 'minimal'
+                  })
+                  .match({ id: card.id })
+                  .then(({ error }) => {
+                    if(error) {
+                      console.error(error);
+                    }
+                  });
+            }
+          }
+        }
+      } else {
+        // Take Snapshot
+        const id = uuidv4();
+
+        const card = {
+          id,
+          foreignId: null,
+          index: snap.cards.filter(card => card.isVisible).length,
+          value: snap.modal.data.snapshot.value?.length === 0 ? `Snapshot #${ snap.cards.filter(card => card.isVisible).length + 1 }` : snap.modal.data.snapshot.value,
+          tags: snap.modal.data.snapshot.tags,
+
+          pickColor: snap.modal.data.snapshot.pickColor,
+          pickIndex: snap.modal.data.snapshot.pickIndex,
+
+          createdAt: new Date().toISOString(),
+          editedAt: new Date().toISOString(),
+
+          isVisible: true,
+          isDeleted: false,
+          isPrivate: true,
+          isForeign: false,
+
+          isShowingIcons: snap.modal.data.snapshot.isShowingIcons,
+          isCustomPick: snap.modal.data.snapshot.isShowingCustomPick && snap.modal.data.snapshot.pickColor.length > 0 && snap.modal.data.snapshot.pickIndex === -1,
+
+          urls,
+          favicons,
+          titles
+        };
+
+        stack.push(card);
+        Store.favicons[id] = {};
+
+        if(snap.session && snap.settings.sync.isSynchronizing) {
+          supabase
+              .from('cards')
+              .insert([
+                helpers.remote.camelCaseToSnakeCase(card)
+              ], {
+                returning: 'minimal'
+              })
+              .then(({ error }) => {
+                if(error) {
+                  console.error(error);
+                }
+              });
+        }
+      }
+
+      Store.cards = stack;
+      Store.isScrolling = true;
+      helpers.cards.save(stack);
+    }
+  },
+
   move: (event, cards, options={isUpdatingSelf: true}) => {
     if(!cards) {
       cards = [...Store.cards];
