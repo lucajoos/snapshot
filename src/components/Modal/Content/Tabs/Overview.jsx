@@ -35,6 +35,9 @@ const Overview = () => {
   const handleOnClickTab = useCallback(async index => {
     if(!snap.modal.data.tabs.isEditing) {
       window.open(snap.modal.data.tabs.tabs[index].url, '_blank');
+    } else {
+      Store.modal.data.tabs.view = {...snap.modal.data.tabs.tabs[index], index};
+      Store.modal.data.tabs.current = 'view';
     }
   }, [snap.modal.data.tabs.isEditing, snap.modal.data.tabs.tabs]);
 
@@ -97,12 +100,13 @@ const Overview = () => {
     Store.modal.isVisible = false;
   }, [snap.modal.data.tabs.tabs, snap.modal.data.tabs.id, snap.modal.data.tabs.resolve, snap.session, snap.settings.sync.isSynchronizing, snap.modal.data.tabs.isFetching]);
 
-  const handleOnClickShow = useCallback(() => {
-    Store.modal.data.tabs.create.url = '';
-    Store.modal.data.tabs.create.title = '';
-    Store.modal.data.tabs.create.favicon = '';
+  const handleOnClickView = useCallback(() => {
+    Store.modal.data.tabs.view.url = '';
+    Store.modal.data.tabs.view.title = '';
+    Store.modal.data.tabs.view.favicon = '';
+    Store.modal.data.tabs.view.index = -1;
 
-    Store.modal.data.tabs.current = 'create';
+    Store.modal.data.tabs.current = 'view';
   }, []);
 
   return (
@@ -118,7 +122,6 @@ const Overview = () => {
                   ref={droppableProvided.innerRef}
                   className={'flex flex-col'}
                 >
-                  {}
                   {
                     snap.modal.data.tabs.tabs.map((tab, index) => (
                       <Draggable key={`${tab.url}-${index}`} draggableId={`${tab.url}-${index}`} index={index} isDragDisabled={!Store.modal.data.tabs.isEditing}>
@@ -156,7 +159,7 @@ const Overview = () => {
         </DragDropContext>
       </div>
 
-      { snap.modal.data.tabs.isEditing && <Option.Category title={'Create Tab'} icon={<Plus />} onClick={() => handleOnClickShow()} /> }
+      { snap.modal.data.tabs.isEditing && <Option.Category title={'Create Tab'} icon={<Plus />} onClick={() => handleOnClickView()} /> }
 
       <div className={'flex gap-4 justify-end'}>
         <>

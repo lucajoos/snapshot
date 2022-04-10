@@ -62,10 +62,11 @@ const Template = {
         current: 'default',
         isEditing: true,
         isFetching: false,
-        create: {
+        view: {
           url: '',
           title: '',
-          favicon: ''
+          favicon: '',
+          index: -1
         }
       }
     }

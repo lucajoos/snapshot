@@ -4,15 +4,15 @@ import { useSnapshot } from 'valtio';
 import Store from '../../../../Store';
 
 import Overview from './Overview';
-import Create from './Create';
+import View from './View';
 
 const Tabs = () => {
   const snap = useSnapshot(Store);
 
-  return snap.modal.data.tabs.current !== 'create' ? (
+  return snap.modal.data.tabs.current !== 'view' ? (
     <Overview />
   ) : (
-    <Create />
+    <View />
   )
 };
 

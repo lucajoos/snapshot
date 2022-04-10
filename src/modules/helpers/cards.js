@@ -15,9 +15,10 @@ const cards = {
       Store.modal.data.tabs.id = '';
       Store.modal.data.tabs.isEditing = true;
       Store.modal.data.tabs.isFetching = true;
-      Store.modal.data.tabs.create.favicon = '';
-      Store.modal.data.tabs.create.url = '';
-      Store.modal.data.tabs.create.title = '';
+      Store.modal.data.tabs.view.favicon = '';
+      Store.modal.data.tabs.view.url = '';
+      Store.modal.data.tabs.view.title = '';
+      Store.modal.data.tabs.view.index = -1;
       Store.modal.data.tabs.tabs = [];
       Store.modal.data.tabs.current = 'default';
 
@@ -524,9 +525,9 @@ const cards = {
     Store.modal.data.tabs.isEditing = isEditing;
     Store.modal.data.tabs.isFetching = false;
 
-    Store.modal.data.tabs.create.favicon = '';
-    Store.modal.data.tabs.create.url = '';
-    Store.modal.data.tabs.create.title = '';
+    Store.modal.data.tabs.view.favicon = '';
+    Store.modal.data.tabs.view.url = '';
+    Store.modal.data.tabs.view.title = '';
 
     Store.modal.content = 'Tabs';
     Store.modal.isVisible = true;
