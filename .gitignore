@@ -1,8 +1,8 @@
 .snowpack
 node_modules
 .idea
-build.crx
-build.pem
+*.crx
+*.pem
 public/licenses.html
 *.zip
 .DS_Store
