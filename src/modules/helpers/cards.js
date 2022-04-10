@@ -214,12 +214,54 @@ const cards = {
     const snap = snapshot(Store);
 
     try {
-      const stack = JSON.parse(content);
-      cards.load(stack);
-      cards.save(stack);
+      if(content.startsWith('\'')) {
+        content = content.slice(1);
+      }
 
-      if(snap.session && snap.settings.sync.isSynchronizing) {
-        await helpers.remote.synchronize();
+      if(content.endsWith('\'')) {
+        content = content.substring(0, content.length - 1)
+      }
+
+      let stack = JSON.parse(content);
+
+      if(!Array.isArray(stack) ? Array.isArray(stack.value) : false) {
+        const colors = [ 'orange', 'pink', 'green', 'violet', 'blue' ];
+
+        stack = stack.value;
+        stack = stack.map((card, index) => ({
+          id: uuidv4(),
+          foreignId: null,
+          index: card.visible ? index : -1,
+          value: card.name.length === 0 ? `Snapshot #${ index + 1 }` : card.name,
+          tags: [],
+
+          pickColor: card.color,
+          pickIndex: colors.indexOf(card.color),
+
+          createdAt: new Date(card.meta).toISOString(),
+          editedAt: new Date(card.meta).toISOString(),
+
+          isVisible: card.visible,
+          isDeleted: false,
+          isPrivate: true,
+          isForeign: false,
+
+          isShowingIcons: card.isShowingIcons,
+          isCustomPick: false,
+
+          urls: card.urls.map(url => (url || '').length > 0 ? url : '#'),
+          favicons: card.favicons.map(icon => (icon || '').length > 0 ? icon : '#'),
+          titles: card.urls.map(url => (url || '').split('://')[1].split('/')[0])
+        }));
+      }
+
+      if(stack.length > 0) {
+        cards.load(stack);
+        cards.save(stack);
+
+        if(snap.session && snap.settings.sync.isSynchronizing) {
+          await helpers.remote.synchronize();
+        }
       }
     } catch (e) {
       console.error(e);
