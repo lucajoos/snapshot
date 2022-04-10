@@ -54,7 +54,7 @@ const ContextMenu = () => {
   }, [snap.contextMenu.type]);
 
   return (
-    <div ref={contextMenuRef} className={`z-50 p-2 w-contextMenu overflow-hidden bg-background-default drop-shadow-xl rounded grid absolute ${!snap.contextMenu.isVisible ? 'hidden' : ''}`} style={{
+    <div ref={contextMenuRef} className={`z-50 p-2 w-contextMenu overflow-hidden bg-background-default shadow-md rounded grid absolute ${!snap.contextMenu.isVisible ? 'hidden' : ''}`} style={{
       top: snap.contextMenu.y - (snap.contextMenu.isFlipped ? snap.contextMenu.height - 10 : 10),
       left: snap.contextMenu.x
     }}>
