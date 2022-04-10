@@ -19,6 +19,25 @@ const Tags = ({
 
   const spanRef = useRef();
 
+  const editTag = useCallback(index => {
+    const tag = tags[index];
+
+    setValue(tag);
+
+    spanRef.current.textContent = tag;
+
+    let range = document.createRange();
+    let selection = window.getSelection();
+
+    range.setStart(spanRef.current.childNodes[0], tag.length)
+    range.collapse(true)
+
+    selection.removeAllRanges()
+    selection.addRange(range)
+
+    handleOnRemove(index);
+  }, [tags])
+
   const handleOnInput = useCallback(event => {
     const content = event.currentTarget.textContent.trim().replace('\n', '');
 
@@ -56,10 +75,22 @@ const Tags = ({
           spanRef.current.textContent = '';
         }
       }
-    } else if (event.key === 'Backspace' && value.length === 0) {
-      // Delete last tag
-      event.preventDefault();
-      handleOnRemove(tags.length - 1);
+    } else if (event.key === 'Backspace') {
+      if(selection > -1) {
+        event.preventDefault();
+
+        // Delete selected tag
+        handleOnRemove(selection);
+
+        if(selection !== 0 || tags.length === 1) {
+          setSelection(selection - 1);
+        }
+      } else if(value.length === 0) {
+        event.preventDefault();
+
+        // Editing Mode
+        editTag(tags.length - 1)
+      }
     } else if(event.key === 'Delete') {
       if(selection > -1) {
         // Delete selected tag
@@ -91,6 +122,10 @@ const Tags = ({
     onChange(updatedTags);
   }, [ tags ]);
 
+  const handleOnClickTag = useCallback(index => {
+    editTag(index);
+  }, [tags])
+
   return (
     <div className={ `input relative${className ? ` ${className}` : ''}` }>
       <div
@@ -113,6 +148,7 @@ const Tags = ({
           {
             tags.map((tag, index) => (
               <div key={ index }
+                   onClick={() => handleOnClickTag(index)}
                    className={ `flex rounded items-center py-1 px-2 cursor-pointer bg-gray-200 ring-2 ${index === selection ? 'ring-text-default' : 'ring-transparent'}` }>
                 <span>{ tag }</span>
                 <div className={ 'ml-1 cursor-pointer self-center' } onClick={ () => handleOnRemove(index) }>
