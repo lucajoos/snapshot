@@ -79,7 +79,7 @@ serve(async (req) => {
 
                 if(href.length > 0 ? href !== '#' : '') {
                   returns.push({
-                    src: href,
+                    src: href.startsWith('/') ? `${baseUrl}${href}` : href,
                     type
                   })
                 }
