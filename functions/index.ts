@@ -13,7 +13,7 @@ await serve(async (req: Request) => {
         headers: cors
     })
 
-    switch (req.url) {
+    switch (`/${req.url.split('/').slice(3).join('/')}`) {
         case '/url':
             response = await url(req)
             break
