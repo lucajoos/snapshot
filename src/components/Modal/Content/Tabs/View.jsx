@@ -66,7 +66,7 @@ const View = () => {
 
     timeoutRef.current = setTimeout(() => {
       if(helpers.general.isValidURL(event.target.value, ['http', 'https'])) {
-        axios.post(import.meta.env.VITE_APP_EDGE_URL, event.target.value)
+        axios.post(`${import.meta.env.VITE_APP_EDGE_URL}/url`, event.target.value)
           .then(response => {
             const { error=null, title='', icons=[]} = response.data;
 
