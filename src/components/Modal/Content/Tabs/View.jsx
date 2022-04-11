@@ -66,15 +66,13 @@ const View = () => {
 
     timeoutRef.current = setTimeout(() => {
       if(helpers.general.isValidURL(event.target.value, ['http', 'https'])) {
-        axios.get(import.meta.env.VITE_APP_EDGE_URL, {
-          data: encodeURIComponent(event.target.value)
-        })
+        axios.post(import.meta.env.VITE_APP_EDGE_URL, event.target.value)
           .then(response => {
-            const { error, title, favicons} = response;
-            console.log(response.data)
-            if(!error) {
+            const { error=null, title='', icons=[]} = response.data;
+
+            if(error ? error.length === 0 : true) {
               Store.modal.data.tabs.view.title = title;
-              Store.modal.data.tabs.view.favicon = favicons.find(({src}) => src.endsWith('.png')).src || data.icons[0].src;
+              Store.modal.data.tabs.view.favicon = icons.find(({src}) => src.endsWith('.png'))?.src || icons[0].src;
             }
           });
       }
