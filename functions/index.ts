@@ -1,18 +1,23 @@
 import { serve } from 'https://deno.land/std@0.131.0/http/server.ts'
 import url from "./url.ts";
+import cors from "./cors.ts";
 
-serve(async (req) => {
+await serve(async (req: Request) => {
     if (req.method === 'OPTIONS') {
         return new Response('ok', {
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey'
-            }
+            headers: cors
         })
     }
 
-  switch (req.url) {
-      case '/url':
-          return url()
-  }
+    let response = new Response('ok', {
+        headers: cors
+    })
+
+    switch (req.url) {
+        case '/url':
+            response = await url(req)
+            break
+    }
+
+    return response
 })
