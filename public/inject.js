@@ -1,1 +1,1 @@
-window.__MODE__ = 'production';
+window.__MODE__ = 'development';

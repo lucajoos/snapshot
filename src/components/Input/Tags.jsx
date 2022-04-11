@@ -64,32 +64,38 @@ const Tags = ({
     if (event.key === 'Enter') {
       event.preventDefault();
 
-      if (
-        (isOnlyAllowingUniqueTags ? tags.indexOf(value) === -1 : true) &&
-        regex.test(value)
+      if(
+          value.length >= 0 &&
+          regex.test(value) &&
+          (isOnlyAllowingUniqueTags ? tags.indexOf(value) === -1 : true) &&
+          (value.length > 0 && (maxTags > -1 ? tags.length < maxTags : true))
       ) {
-        if(value.length > 0 && (maxTags > -1 ? tags.length < maxTags : true)) {
-          // View tag
-          onChange([ ...tags, value ]);
-          setValue('');
-          spanRef.current.textContent = '';
-        }
+        // Add tag
+        onChange([ ...tags, value ]);
+        setValue('');
+        spanRef.current.textContent = '';
+      } else if(value.length === 0 && selection > -1) {
+        // Editing Mode
+        editTag(selection);
+        setSelection(-1);
       }
     } else if (event.key === 'Backspace') {
-      if(selection > -1) {
-        event.preventDefault();
+      if(tags.length > 0) {
+        if(selection > -1) {
+          event.preventDefault();
 
-        // Delete selected tag
-        handleOnRemove(selection);
+          // Delete selected tag
+          handleOnRemove(selection);
 
-        if(selection !== 0 || tags.length === 1) {
-          setSelection(selection - 1);
+          if(selection !== 0 || tags.length === 1) {
+            setSelection(selection - 1);
+          }
+        } else if(value.length === 0) {
+          event.preventDefault();
+
+          // Editing Mode
+          editTag(tags.length - 1)
         }
-      } else if(value.length === 0) {
-        event.preventDefault();
-
-        // Editing Mode
-        editTag(tags.length - 1)
       }
     } else if(event.key === 'Delete') {
       if(selection > -1) {
