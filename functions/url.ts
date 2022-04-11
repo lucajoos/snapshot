@@ -1,5 +1,6 @@
 import { cheerio } from 'https://deno.land/x/cheerio@1.0.4/mod.ts';
 import { urlParse } from 'https://deno.land/x/url_parse/mod.ts';
+import cors from "./cors.ts";
 
 type Icon = {
     src: string,
@@ -134,8 +135,7 @@ const url = async (req: Request) => {
         {
             headers: {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey'
+                ...cors
             }
         }
     )
