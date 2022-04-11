@@ -66,7 +66,7 @@ const View = () => {
 
     timeoutRef.current = setTimeout(() => {
       if(helpers.general.isValidURL(event.target.value, ['http', 'https'])) {
-        axios.get(`${import.meta.env.VITE_APP_APPLICATION_URL}/api/url`, {
+        axios.get(import.meta.env.VITE_APP_EDGE_URL, {
           data: encodeURIComponent(event.target.value)
         })
           .then(response => {
