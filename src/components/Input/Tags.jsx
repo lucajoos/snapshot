@@ -135,7 +135,7 @@ const Tags = ({
   return (
     <div className={ `input relative${className ? ` ${className}` : ''}` }>
       <div
-        className={ 'flex border-b-2 border-gray-300 py-3 px-1 w-input flex-wrap relative items-center cursor-text' }
+        className={ `flex border-b-2 border-gray-300 py-3 px-1 w-input flex-wrap relative items-center cursor-text` }
         onClick={ () => spanRef.current?.focus() }>
 
         {
@@ -147,7 +147,7 @@ const Tags = ({
         }
         {
           tags.length === 0 && value.length === 0 && (
-            <span className={'absolute my-4 left-[calc(0.75rem+18px)]'}>{ title }</span>
+            <span className={'absolute left-[calc(0.75rem+18px)]'}>{ title }</span>
           )
         }
         <div className={'flex gap-2 items-center flex-wrap'}>
@@ -155,7 +155,7 @@ const Tags = ({
             tags.map((tag, index) => (
               <div key={ index }
                    onClick={() => handleOnClickTag(index)}
-                   className={ `flex rounded items-center py-1 px-2 cursor-pointer bg-gray-200 ring-2 ${index === selection ? 'ring-text-default' : 'ring-transparent'}` }>
+                   className={ `flex rounded items-center px-2 cursor-pointer bg-gray-200 ring-2 ${index === selection ? 'ring-text-default' : 'ring-transparent'}` }>
                 <span>{ tag }</span>
                 <div className={ 'ml-1 cursor-pointer self-center' } onClick={ () => handleOnRemove(index) }>
                   <Times size={ 14 } />
@@ -163,21 +163,21 @@ const Tags = ({
               </div>
             ))
           }
+
+          <span
+              className={`${tags.length === 0 ? 'pl-[calc(0.75rem-3px)]' : 'pl-1'}`}
+
+              onKeyDown={ event => handleOnKeyDown(event) }
+              onInput={ event => handleOnInput(event) }
+              onPaste={ event => handleOnPaste(event) }
+
+              ref={ spanRef }
+
+              contentEditable={ true }
+              spellCheck={ isSpellChecking }
+              suppressContentEditableWarning={ true }
+          />
         </div>
-
-        <span
-          className={`py-1 ${tags.length === 0 ? 'pl-[calc(0.75rem-3px)]' : 'pl-2'}`}
-
-          onKeyDown={ event => handleOnKeyDown(event) }
-          onInput={ event => handleOnInput(event) }
-          onPaste={ event => handleOnPaste(event) }
-
-          ref={ spanRef }
-
-          contentEditable={ true }
-          spellCheck={ isSpellChecking }
-          suppressContentEditableWarning={ true }
-        />
       </div>
     </div>
   );
