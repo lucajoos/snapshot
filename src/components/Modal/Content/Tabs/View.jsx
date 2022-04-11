@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { useSnapshot } from 'valtio';
 import { ChevronLeft, Compass, Edit2, FilePlus, Image, Link2, Plus, Save } from 'react-feather';
 
@@ -6,9 +6,12 @@ import Store from '../../../../Store';
 
 import { Button, Header } from '../../../Base';
 import { TextField } from '../../../Input';
+import helpers from '../../../../modules/helpers';
+import axios from 'axios';
 
 const View = () => {
   const snap = useSnapshot(Store);
+  const timeoutRef = useRef(null);
 
   const handleOnClickDone = useCallback(() => {
     if(
@@ -56,6 +59,26 @@ const View = () => {
     Store.modal.data.tabs.view.favicon = event.target.value;
   }, []);
 
+  const handleOnKeyDown = useCallback(event => {
+    if(timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout(() => {
+      if(helpers.general.isValidURL(event.target.value, ['http', 'https'])) {
+        axios.get(`${import.meta.env.VITE_APP_APPLICATION_URL}/url`, {
+          data: encodeURIComponent(event.target.value)
+        })
+          .then(({ error, title, favicons}) => {
+            if(!error) {
+              Store.modal.data.tabs.view.title = title;
+              Store.modal.data.tabs.view.favicon = favicons.find(({src}) => src.endsWith('.png')).src || data.icons[0].src;
+            }
+          });
+      }
+    }, 500);
+  }, []);
+
   return (
     <div className={'flex flex-col gap-6'}>
       <Header>
@@ -71,6 +94,7 @@ const View = () => {
           icon={<Link2 size={18} />}
           value={snap.modal.data.tabs.view.url}
           onChange={event => handleOnChangeUrl(event)}
+          onKeyDown={event => handleOnKeyDown(event)}
         />
         <TextField
           placeholder={'Title'}

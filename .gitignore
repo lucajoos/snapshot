@@ -9,3 +9,6 @@ public/licenses.html
 dist
 dist-ssr
 *.local
+# Supabase
+**/supabase/.branches
+**/supabase/.temp
