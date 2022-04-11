@@ -154,9 +154,8 @@ const Tags = ({
           {
             tags.map((tag, index) => (
               <div key={ index }
-                   onClick={() => handleOnClickTag(index)}
                    className={ `flex rounded items-center px-2 cursor-pointer bg-gray-200 ring-2 ${index === selection ? 'ring-text-default' : 'ring-transparent'}` }>
-                <span>{ tag }</span>
+                <span onClick={() => handleOnClickTag(index)}>{ tag }</span>
                 <div className={ 'ml-1 cursor-pointer self-center' } onClick={ () => handleOnRemove(index) }>
                   <Times size={ 14 } />
                 </div>
