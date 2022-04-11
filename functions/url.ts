@@ -70,7 +70,7 @@ const url = async (req: Request) => {
 
                             if(href.length > 0 ? href !== '#' : '') {
                                 returns.push({
-                                    src: href.startsWith('/') ? `${baseUrl}${href}` : href,
+                                    src: href,
                                     type
                                 })
                             }
@@ -124,7 +124,10 @@ const url = async (req: Request) => {
                 error: null,
                 url: url.toString(),
                 title: $('head > title').text() || '',
-                icons: [].concat.apply([], icons)
+                icons: ([].concat.apply([], icons)).map((icon: Icon) => ({
+                    src: (!icon.src.startsWith('https://') && !icon.src.startsWith('http://')) ? `${baseUrl}${icon.src.startsWith('/') ? '' : '/'}${icon.src}` : icon.src,
+                    type: icon.type
+                }))
             }
         }
     }
