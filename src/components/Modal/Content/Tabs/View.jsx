@@ -66,10 +66,12 @@ const View = () => {
 
     timeoutRef.current = setTimeout(() => {
       if(helpers.general.isValidURL(event.target.value, ['http', 'https'])) {
-        axios.get(`${import.meta.env.VITE_APP_APPLICATION_URL}/url`, {
+        axios.get(`${import.meta.env.VITE_APP_APPLICATION_URL}/api/url`, {
           data: encodeURIComponent(event.target.value)
         })
-          .then(({ error, title, favicons}) => {
+          .then(response => {
+            const { error, title, favicons} = response;
+            console.log(response.data)
             if(!error) {
               Store.modal.data.tabs.view.title = title;
               Store.modal.data.tabs.view.favicon = favicons.find(({src}) => src.endsWith('.png')).src || data.icons[0].src;
