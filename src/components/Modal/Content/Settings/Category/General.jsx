@@ -109,8 +109,8 @@ const General = () => {
 
       <div>
         <Section>About</Section>
-        <Link onClick={() => handleOnClickAboutLicenses()} external={true} hasUnderline={true} >Show Licenses</Link>
         <Link onClick={() => handleOnClickPrivacyStatement()} external={true} hasUnderline={true} >Privacy Statement</Link>
+        <Link onClick={() => handleOnClickAboutLicenses()} external={true} hasUnderline={true} >Show Licenses</Link>
         <p className={'mt-2'}>Snapshot v{__APP_VERSION__} ({import.meta.env.MODE})</p>
         <p>Environment ({snap.environment})</p>
         <p>React v{React.version}</p>
