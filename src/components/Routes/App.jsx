@@ -258,8 +258,6 @@ const App = () => {
     if(localStorage.getItem('cookies') === 'true') {
       await handle();
     } else {
-      Store.privacy.isVisible = true;
-
       Store.privacy.resolve = (async isAccepted => {
         if(isAccepted) {
           Store.privacy.isVisible = false;
@@ -269,6 +267,8 @@ const App = () => {
           window.location.reload();
         }
       });
+
+      Store.privacy.isVisible = true;
     }
   }, []);
 

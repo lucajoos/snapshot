@@ -12,7 +12,7 @@ const Dialogue = () => {
 
   const resolve = useCallback(isAccepted => {
     snap.privacy.resolve(isAccepted);
-  }, [snap.dialogue.resolve]);
+  }, [snap.privacy.resolve]);
 
   useEffect(() => {
     mousetrap.unbind('enter');
@@ -34,7 +34,7 @@ const Dialogue = () => {
           <p className={'wrap text-sm'}>
             <span>We and selected third parties use essential cookies or similar technologies on this website to personalize content & services.</span><br />
             <span>You can freely give, deny, or withdraw your consent at any time.</span><br />
-            <span>More information can be found in our <a href={'/privacy.html'} target={'_blank'} className={'underline'}>Privacy Statement</a>.</span><br />
+            <span>More information can be found in our <a href={'/privacy.html'} target={'_blank'} className={'underline'}>Privacy Statement</a>/<a href={'/imprint.html'} target={'_blank'} className={'underline'}>Imprint</a>.</span><br />
             <span>By clicking 'Accept', you consent to the use of said technologies.</span><br />
           </p>
 

@@ -63,25 +63,16 @@ const General = () => {
     });
   }, [snap.environment]);
 
-  const handleOnClickAboutLicenses = useCallback(async () => {
+  const handleOnClickExternal = useCallback(async path => {
     if(snap.environment === 'extension') {
       await helpers.api.do('tabs.create', {
-        url: await helpers.api.do('runtime.getURL', 'licenses.html')
+        url: await helpers.api.do('runtime.getURL', path)
       }, { isWaiting: false });
     } else {
-      window.open(`${snap.settings.sync.advanced.applicationUrl.length === 0 ? import.meta.env.VITE_APP_APPLICATION_URL : snap.settings.sync.advanced.applicationUrl}/licenses.html`, '_blank');
+      window.open(`${snap.settings.sync.advanced.applicationUrl.length === 0 ? import.meta.env.VITE_APP_APPLICATION_URL : snap.settings.sync.advanced.applicationUrl}/${path}`, '_blank');
     }
   }, [snap.environment]);
 
-  const handleOnClickPrivacyStatement = useCallback(async () => {
-    if(snap.environment === 'extension') {
-      await helpers.api.do('tabs.create', {
-        url: await helpers.api.do('runtime.getURL', 'privacy.html')
-      }, { isWaiting: false });
-    } else {
-      window.open(`${snap.settings.sync.advanced.applicationUrl.length === 0 ? import.meta.env.VITE_APP_APPLICATION_URL : snap.settings.sync.advanced.applicationUrl}/privacy.html`, '_blank');
-    }
-  }, [snap.environment]);
 
   return (
     <div className={'flex flex-col gap-6'}>
@@ -111,13 +102,14 @@ const General = () => {
         <Section>Privacy</Section>
 
         <Option.Category title={'Withdraw Preferences'} icon={<Shield />} onClick={() => handleOnClickReset()}/>
-        <Option.Category title={'Privacy Statement'} icon={<FileText />} onClick={() => handleOnClickPrivacyStatement()}/>
+        <Option.Category title={'Privacy Statement'} icon={<FileText />} onClick={() => handleOnClickExternal('privacy.html')}/>
+        <Option.Category title={'Imprint'} icon={<FileText />} onClick={() => handleOnClickExternal('imprint.html')}/>
       </div>
 
       <div>
         <Section>About</Section>
 
-        <Link onClick={() => handleOnClickAboutLicenses()} external={true} hasUnderline={true} >Show Licenses</Link>
+        <Link onClick={() => handleOnClickExternal('licenses.html')} external={true} hasUnderline={true} >Show Licenses</Link>
         <p className={'mt-2'}>Snapshot v{__APP_VERSION__} ({import.meta.env.MODE})</p>
         <p>Environment ({snap.environment})</p>
         <p>React v{React.version}</p>
