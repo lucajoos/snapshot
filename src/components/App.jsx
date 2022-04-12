@@ -123,7 +123,9 @@ const App = () => {
       await helpers.remote.synchronize();
     });
 
-    helpers.cards.import(localStorage.getItem('cards'));
+    if(localStorage.getItem('cards')) {
+      helpers.cards.import(localStorage.getItem('cards'));
+    }
 
     // Confetti? - Confetti.
     if(date.getMonth() === 4 && day === 30 && settings.behavior.isRenderingEffects) {

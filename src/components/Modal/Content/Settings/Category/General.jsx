@@ -32,7 +32,10 @@ const General = () => {
 
     if(event.target?.files?.length > 0) {
       const content = await event.target.files.item(0).text();
-      await helpers.cards.import(content);
+
+      if(content) {
+        await helpers.cards.import(content);
+      }
     }
   }, [])
 

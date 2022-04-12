@@ -210,7 +210,7 @@ const cards = {
   },
 
   import: async content => {
-    if(content ? content.length === 0 : false) return [];
+    if(content ? content.length === 0 : true) return [];
     const snap = snapshot(Store);
 
     try {
@@ -222,7 +222,13 @@ const cards = {
         content = content.substring(0, content.length - 1)
       }
 
-      let stack = JSON.parse(content);
+      let stack;
+
+      try {
+        stack = JSON.parse(content);
+      } catch(_) {
+        return [];
+      }
 
       if(!Array.isArray(stack) ? Array.isArray(stack.value) : false) {
         const colors = [ 'orange', 'pink', 'green', 'violet', 'blue' ];
