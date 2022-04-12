@@ -44,6 +44,7 @@ body {
 
     @apply text-text-default;
     @apply bg-background-default;
+    @apply overflow-x-hidden;
 }
 
 #root {

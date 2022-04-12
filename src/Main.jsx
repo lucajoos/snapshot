@@ -15,6 +15,7 @@ ReactDOM.render(
         <Route path={'/'} element={<App />} />
         <Route path={'/share/:id'} element={<Share />} />
         <Route path={'/confirmation'} element={<Confirmation />} />
+        <Route path={'/privacy'} onEnter={() => window.location.reload()} />
       </Routes>
     </BrowserRouter>
   ),

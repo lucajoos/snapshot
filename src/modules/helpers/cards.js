@@ -171,10 +171,10 @@ const cards = {
           card.index <= event.destination.index
         )
       ) {
-        // If in range mutate index
+        // If in range mutate privacy
         cards[index].index += mutation;
       } else if(options.isUpdatingSelf && (card.index === event.source.index)) {
-        // Update index of moved document to destination index
+        // Update privacy of moved document to destination privacy
         cards[index].index = event.destination.index;
       }
     });
