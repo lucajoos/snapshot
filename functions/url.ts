@@ -1,18 +1,17 @@
 import { cheerio } from 'https://deno.land/x/cheerio@1.0.4/mod.ts';
-import { urlParse } from 'https://deno.land/x/url_parse/mod.ts';
-import cors from "./cors.ts";
+import cors from './cors.ts';
 
 type Icon = {
     src: string,
     type: string
-}
+};
 
 type Response = {
     error: string | null,
     url: string | null,
     title: string | null,
     icons: Icon[]
-}
+};
 
 const url = async (req: Request) => {
     let response: Response = {
@@ -23,8 +22,8 @@ const url = async (req: Request) => {
     };
 
     if (req.body) {
-        const url = urlParse(await req.text())
-        const baseUrl = `${url.protocol}//${url.hostname}`
+        const url = new URL(await req.text());
+        const baseUrl = `${url.protocol}//${url.hostname}`;
         const content = await fetch(url.toString()).then(res => res.text());
 
         if(content) {
@@ -36,99 +35,99 @@ const url = async (req: Request) => {
                 'link[rel=\'apple-touch-startup-image\']',
                 'link[rel=\'mask-icon\']',
                 'link[rel=\'fluid-icon\']'
-            ]
+            ];
 
             const $ = cheerio.load(content, {
                 lowerCaseTags: true,
                 lowerCaseAttributeNames: true
-            })
+            });
 
-            const favicon = () => (
-                new Promise(async resolve => {
-                    let returns: Icon[] = [];
+            async function favicon(): Promise<Icon[]> {
+                const isUsingFavicon = await fetch(`${baseUrl}/favicon.ico`).then(res => (
+                    res.headers.get('content-type') === 'image/x-icon'
+                ));
 
-                    if(await fetch(`${baseUrl}/favicon.ico`).then(res => (
-                        res.headers.get('content-type') === 'image/x-icon'
-                    ))) {
-                        returns = [{
-                            src: `${baseUrl}/favicon.ico`,
-                            type: 'image/x-icon'
-                        }]
-                    }
+                if(isUsingFavicon) {
+                    return [{
+                        src: `${baseUrl}/favicon.ico`,
+                        type: 'image/x-icon'
+                    }];
+                }
 
-                    resolve(returns)
-                })
-            )
+                return [];
+            }
 
-            const link = () => (
-                new Promise(resolve => {
-                    let returns: Icon[] = [];
+            async function link(): Promise<Icon[]> {
+                const returns: Icon[] = [];
 
-                    selectors.forEach(selector => {
-                        $(selector).get().map((element: any) => {
-                            const { href='', type='' } = element.attribs;
+                selectors.forEach(selector => {
+                    $(selector).get().map((element: any) => {
+                        const {href = '', type = ''} = element.attribs;
 
-                            if(href.length > 0 ? href !== '#' : '') {
-                                returns.push({
-                                    src: href,
-                                    type
-                                })
-                            }
-                        })
-                    })
-
-                    resolve(returns)
-                })
-            )
-
-            const manifest = () => (
-                new Promise(async resolve => {
-                    let returns: Icon[] = [];
-
-                    const href = $('head > link[rel=\'manifest\']').attr('href');
-
-                    if(href) {
-                        const manifest = await fetch(new URL(href, baseUrl)).then(res => res.json());
-
-                        if(Array.isArray(manifest.icons)) {
-                            returns = manifest.icons.map((icon: any) => ({
-                                src: icon.src,
-                                type: icon.type
-                            })) || []
+                        if (href.length > 0 ? href !== '#' : '') {
+                            returns.push({
+                                src: href,
+                                type
+                            });
                         }
-                    }
-
-                    resolve(returns)
+                    })
                 })
-            )
 
-            const browserConfig = () => (
-                new Promise(resolve => {
-                    const tile = $('head > meta[name=\'msapplication-TileImage\']').attr('content');
-                    let returns: Icon[] = [];
+                return returns;
+            }
 
-                    if(tile) {
-                        returns = [{
-                            src: tile,
-                            type: 'msapplication-TileImage'
-                        }]
+            async function manifest(): Promise<Icon[]> {
+                const href = $('head > link[rel=\'manifest\']').attr('href');
+
+                if (href) {
+                    const manifest = await fetch(
+                        (new URL(href, baseUrl)).href
+                    ).then(res => res.json());
+
+                    if (Array.isArray(manifest.icons)) {
+                        return manifest.icons.map((icon: Record<string, string>) => ({
+                            src: icon.src,
+                            type: icon.type
+                        })) || [];
                     }
+                }
 
-                    resolve(returns)
-                })
-            )
+                return [];
+            }
 
-            const icons: any[] = await Promise.all([favicon(), link(), manifest(), browserConfig()]);
+            async function browserConfig(): Promise<Icon[]> {
+                const tile = $('head > meta[name=\'msapplication-TileImage\']').attr('content');
+
+                if(tile) {
+                    return [{
+                        src: tile,
+                        type: 'msapplication-TileImage'
+                    }];
+                }
+
+                return [];
+            }
+
+            const icons: any[] = await Promise.all([
+                favicon(),
+                link(),
+                manifest(),
+                browserConfig()
+            ]);
 
             response = {
                 error: null,
                 url: url.toString(),
                 title: $('head > title').text() || '',
                 icons: ([].concat.apply([], icons)).map((icon: Icon) => ({
-                    src: (!icon.src.startsWith('https://') && !icon.src.startsWith('http://')) ? `${baseUrl}${icon.src.startsWith('/') ? '' : '/'}${icon.src}` : icon.src,
+                    src: (
+                        !icon.src.startsWith('https://') && !icon.src.startsWith('http://')
+                    ) ? (
+                        (new URL(icon.src, baseUrl)).href
+                    ) : icon.src,
                     type: icon.type
                 }))
-            }
+            };
         }
     }
 
@@ -141,7 +140,7 @@ const url = async (req: Request) => {
                 ...cors
             }
         }
-    )
+    );
 }
 
 export default url;
