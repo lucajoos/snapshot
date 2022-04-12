@@ -1,6 +1,6 @@
 import { cheerio } from 'https://deno.land/x/cheerio@1.0.4/mod.ts';
 import cors from './cors.ts';
-import error from "./error.ts";
+import error from './error.ts';
 
 type Icon = {
     src: string,

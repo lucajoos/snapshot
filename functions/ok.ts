@@ -1,4 +1,4 @@
-import cors from "./cors.ts";
+import cors from './cors.ts';
 
 function ok(request: Request): Response {
     return new Response(JSON.stringify({

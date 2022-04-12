@@ -2,7 +2,7 @@ import { serve } from 'https://deno.land/std@0.131.0/http/server.ts'
 import url from './url.ts';
 import error from './error.ts';
 import auth from './auth.ts';
-import ok from "./ok.ts";
+import ok from './ok.ts';
 
 await serve(async (request: Request) => {
     if (request.method === 'OPTIONS') {
