@@ -81,6 +81,11 @@ const View = () => {
             ) : false) {
               Store.modal.data.tabs.view.title = response.data.title;
               Store.modal.data.tabs.view.favicon = response.data.icons
+                  .sort((a, b) => (
+                      a.type === 'icon' && b.type === 'icon' ? 0 : (
+                          a.type === 'icon' ? -1 : 1
+                      )
+                  ))
                   .find(({src}) => src.endsWith('.png'))?.src
                 || response.data.icons[0]?.src
                 || '';
