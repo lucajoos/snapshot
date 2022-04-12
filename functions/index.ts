@@ -1,22 +1,21 @@
 import { serve } from 'https://deno.land/std@0.131.0/http/server.ts'
-import url from "./url.ts";
-import cors from "./cors.ts";
+import url from './url.ts';
+import error from './error.ts';
+import auth from './auth.ts';
+import ok from "./ok.ts";
 
-await serve(async (req: Request) => {
-    if (req.method === 'OPTIONS') {
-        return new Response('ok', {
-            headers: cors
-        });
+await serve(async (request: Request) => {
+    if (request.method === 'OPTIONS') {
+        return ok(request);
     }
 
-    let response = new Response('ok', {
-        headers: cors
-    });
+    let response = error(request, 400, 'Not Found', 'The requested resource could not be found.');
 
-    switch (`/${req.url.split('/').slice(3).join('/')}`) {
+    switch (`/${request.url.split('/').slice(3).join('/')}`) {
+        case '/':
+            return ok(request);
         case '/url':
-            response = await url(req);
-            break;
+            return auth(request, await url(request));
     }
 
     return response;
