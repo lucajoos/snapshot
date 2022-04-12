@@ -15,6 +15,7 @@ import Dialogue from '../Dialogue.jsx';
 
 import helpers from '../../modules/helpers/index.js';
 import supabase from '../../modules/supabase.js';
+import Cookies from '../Privacy.jsx';
 
 const App = () => {
   const snap = useSnapshot(Store);
@@ -93,171 +94,188 @@ const App = () => {
     const isFullscreen = params.get('fullscreen') === 'true';
     const isAuthenticated = !!supabase.auth.session();
 
-    Store.isFullscreen = isFullscreen;
-
-    if(environment !== 'extension') {
-      window.history.replaceState({}, document.title, window.location.href.split('?')[0])
-    }
-
-    const confetti = new ConfettiGenerator({
-      target: 'confetti',
-      max: 30,
-      colors: [ [ 255, 214, 165 ], [ 255, 173, 173 ], [ 187, 255, 173 ], [ 189, 178, 255 ], [ 160, 196, 255 ] ],
-    });
-
-    if (!localStorage.getItem('cards')) {
-      helpers.cards.save(snap.cards);
-    }
-
-    // Load settings & import cards
-    const settings = helpers.settings.load(localStorage.getItem('settings'));
-
-    if(settings.behavior.isFullscreen && !isFullscreen) {
-      await helpers.api.do('tabs.create', {
-        url: await helpers.api.do('runtime.getURL', 'app.html?fullscreen=true')
-      }, { isWaiting: false });
-    }
-    
-    supabase.auth.onAuthStateChange(async (_, session) => {
-      Store.session = session;
-      await helpers.remote.synchronize();
-    });
-
-    if(localStorage.getItem('cards')) {
-      helpers.cards.import(localStorage.getItem('cards'));
-    }
-
-    // Confetti? - Confetti.
-    if(date.getMonth() === 4 && day === 30 && settings.behavior.isRenderingEffects) {
-      confetti.render();
-    }
-
-    // Synchronize
-    if(isAuthenticated) {
-      await helpers.remote.synchronize();
-
-      if(settings.sync.isRealtime) {
-        supabase
-          .from(`cards:user_id=eq.${supabase.auth.user().id}`)
-          .on('INSERT', ({ new: card }) => {
-            if(!card) return false;
-
-            const cards = [...Store.cards];
-            let isInCards = false;
-
-            cards.forEach(({ id }) => {
-              if(id === card.id) {
-                isInCards = true;
-              }
-            });
-
-            if(!isInCards) {
-              cards.push(helpers.remote.snakeCaseToCamelCase(card));
-
-              Store.favicons[card.id] = {};
-              Store.cards = cards;
-              helpers.cards.save(cards);
-            }
-          })
-          .on('UPDATE', payload => {
-            if(!payload.new || !payload.old) return false;
-
-            let cards = [...Store.cards];
-
-            cards = cards.map(card => {
-              if(card.id === payload.old.id) {
-                return helpers.remote.snakeCaseToCamelCase(payload.new);
-              }
-
-              return card;
-            });
-
-            if(typeof Store.favicons[payload.new.id] !== 'object') {
-              Store.favicons[payload.new.id] = {};
-            }
-
-            Store.cards = cards;
-            helpers.cards.save(cards);
-          })
-          .subscribe();
+    const handle = async () => {
+      if(environment !== 'extension') {
+        window.history.replaceState({}, document.title, window.location.href.split('?')[0])
       }
-    }
 
-    const load = async (id) => {
-      const { data, error } = await supabase
-        .from('cards')
-        .select()
-        .eq('id', id)
-        .single();
+      const confetti = new ConfettiGenerator({
+        target: 'confetti',
+        max: 30,
+        colors: [ [ 255, 214, 165 ], [ 255, 173, 173 ], [ 187, 255, 173 ], [ 189, 178, 255 ], [ 160, 196, 255 ] ],
+      });
 
-      if(error) {
-        console.error(error);
-      } else if(data) {
-        const card = helpers.remote.snakeCaseToCamelCase(data);
-        const foreign = helpers.cards.get(card.id, { isForeign: true});
+      if (!localStorage.getItem('cards')) {
+        helpers.cards.save(snap.cards);
+      }
 
-        if(foreign ? (!foreign.isVisible && !foreign.isDeleted) : false) {
-          Store.modal.content = 'Settings';
-          Store.modal.data.settings.category = 'Archive';
-          Store.modal.isVisible = true;
-        } else if(isAuthenticated ? card.userId !== supabase.auth.user().id : true){
-          card.foreignId = card.id;
-          card.id = uuidv4();
-          card.index = [...Store.cards].filter(current => current.isVisible).length;
-          card.createdAt = new Date().toISOString();
-          card.editedAt = new Date().toISOString();
+      // Load settings & import cards
+      const settings = helpers.settings.load(localStorage.getItem('settings'));
 
-          card.isForeign = true;
-          card.isPrivate = true;
+      if(settings.behavior.isFullscreen && !isFullscreen) {
+        await helpers.api.do('tabs.create', {
+          url: await helpers.api.do('runtime.getURL', 'app.html?fullscreen=true')
+        }, { isWaiting: false });
+      }
 
-          delete card.insertedAt;
-          delete card.userId;
+      supabase.auth.onAuthStateChange(async (_, session) => {
+        Store.session = session;
+        await helpers.remote.synchronize();
+      });
 
-          const stack = helpers.cards.push(card);
-          Store.isScrolling = true;
-          helpers.cards.save(stack);
+      if(localStorage.getItem('cards')) {
+        helpers.cards.import(localStorage.getItem('cards'));
+      }
 
-          if (isAuthenticated) {
-            supabase
-              .from('cards')
-              .insert([
-                helpers.remote.camelCaseToSnakeCase(card)
-              ], {
-                returning: 'minimal'
-              })
-              .then(({ error }) => {
-                if (error) {
-                  console.error(error);
+      // Confetti? - Confetti.
+      if(date.getMonth() === 4 && day === 30 && settings.behavior.isRenderingEffects) {
+        confetti.render();
+      }
+
+      // Synchronize
+      if(isAuthenticated) {
+        await helpers.remote.synchronize();
+
+        if(settings.sync.isRealtime) {
+          supabase
+              .from(`cards:user_id=eq.${supabase.auth.user().id}`)
+              .on('INSERT', ({ new: card }) => {
+                if(!card) return false;
+
+                const cards = [...Store.cards];
+                let isInCards = false;
+
+                cards.forEach(({ id }) => {
+                  if(id === card.id) {
+                    isInCards = true;
+                  }
+                });
+
+                if(!isInCards) {
+                  cards.push(helpers.remote.snakeCaseToCamelCase(card));
+
+                  Store.favicons[card.id] = {};
+                  Store.cards = cards;
+                  helpers.cards.save(cards);
                 }
-              });
+              })
+              .on('UPDATE', payload => {
+                if(!payload.new || !payload.old) return false;
+
+                let cards = [...Store.cards];
+
+                cards = cards.map(card => {
+                  if(card.id === payload.old.id) {
+                    return helpers.remote.snakeCaseToCamelCase(payload.new);
+                  }
+
+                  return card;
+                });
+
+                if(typeof Store.favicons[payload.new.id] !== 'object') {
+                  Store.favicons[payload.new.id] = {};
+                }
+
+                Store.cards = cards;
+                helpers.cards.save(cards);
+              })
+              .subscribe();
+        }
+      }
+
+      const load = async (id) => {
+        const { data, error } = await supabase
+            .from('cards')
+            .select()
+            .eq('id', id)
+            .single();
+
+        if(error) {
+          console.error(error);
+        } else if(data) {
+          const card = helpers.remote.snakeCaseToCamelCase(data);
+          const foreign = helpers.cards.get(card.id, { isForeign: true});
+
+          if(foreign ? (!foreign.isVisible && !foreign.isDeleted) : false) {
+            Store.modal.content = 'Settings';
+            Store.modal.data.settings.category = 'Archive';
+            Store.modal.isVisible = true;
+          } else if(isAuthenticated ? card.userId !== supabase.auth.user().id : true){
+            card.foreignId = card.id;
+            card.id = uuidv4();
+            card.index = [...Store.cards].filter(current => current.isVisible).length;
+            card.createdAt = new Date().toISOString();
+            card.editedAt = new Date().toISOString();
+
+            card.isForeign = true;
+            card.isPrivate = true;
+
+            delete card.insertedAt;
+            delete card.userId;
+
+            const stack = helpers.cards.push(card);
+            Store.isScrolling = true;
+            helpers.cards.save(stack);
+
+            if (isAuthenticated) {
+              supabase
+                  .from('cards')
+                  .insert([
+                    helpers.remote.camelCaseToSnakeCase(card)
+                  ], {
+                    returning: 'minimal'
+                  })
+                  .then(({ error }) => {
+                    if (error) {
+                      console.error(error);
+                    }
+                  });
+            }
           }
         }
       }
-    }
 
-    if(environment === 'extension') {
-      const data = await helpers.api.do('storage.get', 'load');
+      if(environment === 'extension') {
+        const data = await helpers.api.do('storage.get', 'load');
 
-      if(typeof data === 'object' ? Array.isArray(data) : false) {
-        data.forEach(id => {
-          load(id);
-        });
+        if(typeof data === 'object' ? Array.isArray(data) : false) {
+          data.forEach(id => {
+            load(id);
+          });
 
-        helpers.api.do('storage.set', {
-          load: []
-        }, { isWaiting: false });
+          helpers.api.do('storage.set', {
+            load: []
+          }, { isWaiting: false });
+        }
+      } else if(params.get('id')?.length > 0) {
+        await load(params.get('id'));
+        params.delete('id')
       }
-    } else if(params.get('id')?.length > 0) {
-      await load(params.get('id'));
-      params.delete('id')
+
+      return () => confetti.clear();
     }
 
-    return () => confetti.clear();
+    if(localStorage.getItem('cookies') === 'true') {
+      await handle();
+    } else {
+      Store.privacy.isVisible = true;
+
+      Store.privacy.resolve = (async isAccepted => {
+        if(isAccepted) {
+          Store.privacy.isVisible = false;
+          localStorage.setItem('cookies', 'true');
+          await handle();
+        } else {
+          window.location.reload();
+        }
+      });
+    }
   }, []);
 
   return (
     <div className={ 'w-full h-full relative select-none overflow-hidden' } onContextMenu={event => handleOnContextMenu(event)} onClick={() => handleOnClick()}>
       <ContextMenu />
+      <Cookies />
       <Dialogue />
       <Modal />
 
@@ -266,11 +284,11 @@ const App = () => {
       <div className={'flex flex-col p-8 h-screen content'}>
         <div className={'flex items-center gap-4 justify-center mb-6'}>
           <TextField
-            value={snap.search}
-            placeholder={'Search'}
-            onChange={event => handleOnChangeSearch(event)}
-            icon={<Search size={18} />}
-            className={'max-w-[500px]'}
+              value={snap.search}
+              placeholder={'Search'}
+              onChange={event => handleOnChangeSearch(event)}
+              icon={<Search size={18} />}
+              className={'max-w-[500px]'}
           />
           <div className={'cursor-pointer'} onClick={() => handleOnClickProfile()}>
             <User />

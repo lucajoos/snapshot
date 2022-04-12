@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import { useSnapshot } from 'valtio';
-import {Download, ExternalLink, Maximize, SkipBack, Upload} from 'react-feather';
+import { Download, ExternalLink, FileText, Maximize, Shield, SkipBack, Upload } from 'react-feather';
 
 import Store from '../../../../../Store';
 
@@ -108,8 +108,15 @@ const General = () => {
       </div>
 
       <div>
+        <Section>Privacy</Section>
+
+        <Option.Category title={'Withdraw Preferences'} icon={<Shield />} onClick={() => handleOnClickReset()}/>
+        <Option.Category title={'Privacy Statement'} icon={<FileText />} onClick={() => handleOnClickPrivacyStatement()}/>
+      </div>
+
+      <div>
         <Section>About</Section>
-        <Link onClick={() => handleOnClickPrivacyStatement()} external={true} hasUnderline={true} >Privacy Statement</Link>
+
         <Link onClick={() => handleOnClickAboutLicenses()} external={true} hasUnderline={true} >Show Licenses</Link>
         <p className={'mt-2'}>Snapshot v{__APP_VERSION__} ({import.meta.env.MODE})</p>
         <p>Environment ({snap.environment})</p>

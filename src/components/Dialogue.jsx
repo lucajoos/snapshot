@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useSnapshot } from 'valtio';
 import mousetrap from 'mousetrap';
-import { AlertTriangle, Save, Server, Share, SkipBack } from 'react-feather';
+import { AlertTriangle, Coffee, Save, Server, Share, SkipBack } from 'react-feather';
 
 import Store from '../Store';
 

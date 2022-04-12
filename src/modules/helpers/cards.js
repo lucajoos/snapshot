@@ -497,7 +497,7 @@ const cards = {
     }
   },
 
-  share: id => {
+  share: () => {
     const snap = snapshot(Store);
 
     const onAuthentication = () => {
