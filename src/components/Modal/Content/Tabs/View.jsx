@@ -66,13 +66,24 @@ const View = () => {
 
     timeoutRef.current = setTimeout(() => {
       if(helpers.general.isValidURL(event.target.value, ['http', 'https'])) {
-        axios.post(`${import.meta.env.VITE_APP_EDGE_URL}/url`, event.target.value)
+        axios.post(`${import.meta.env.VITE_APP_EDGE_URL}/url`, event.target.value, {
+          headers: {
+            'Accept': 'application/json; charset=UTF-8',
+            'Authorization': `ApiKey ${import.meta.env.VITE_APP_EDGE_API_KEY}`
+          }
+        })
           .then(response => {
-            const { error=null, title='', icons=[]} = response.data;
-
-            if(error ? error.length === 0 : true) {
-              Store.modal.data.tabs.view.title = title;
-              Store.modal.data.tabs.view.favicon = icons.find(({src}) => src.endsWith('.png'))?.src || icons[0].src;
+            if(!response.data.error ? (
+                typeof response.data.title === 'string' &&
+                typeof response.data.icons === 'object' ? (
+                    Array.isArray(response.data.icons)
+                ) : false
+            ) : false) {
+              Store.modal.data.tabs.view.title = response.data.title;
+              Store.modal.data.tabs.view.favicon = response.data.icons
+                  .find(({src}) => src.endsWith('.png'))?.src
+                || response.data.icons[0]?.src
+                || '';
             }
           });
       }
