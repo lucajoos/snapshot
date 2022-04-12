@@ -1,9 +1,6 @@
 {
   "rewrites":  [{
-    "source": "/^(?!.*privacy).*",
+    "source": "/(.*)",
     "destination": "/"
-  }, {
-    "source": "/privacy",
-    "destination": "/privacy/index.html"
   }]
 }
