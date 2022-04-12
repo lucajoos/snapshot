@@ -255,7 +255,7 @@ const App = () => {
       return () => confetti.clear();
     }
 
-    if(localStorage.getItem('cookies') === 'true') {
+    if(import.meta.env.MODE === 'development' || localStorage.getItem('cookies') === 'true') {
       await handle();
     } else {
       Store.privacy.resolve = (async isAccepted => {
