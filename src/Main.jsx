@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App.jsx';
+import App from './components/Routes/App.jsx';
 import './styles/style.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Share from './components/Share';
-import Confirmation from './components/Confirmation';
+import Share from './components/Routes/Share.jsx';
+import Confirmation from './components/Routes/Confirmation.jsx';
 
 ReactDOM.render(
   import.meta.env.VITE_APP_ENVIRONMENT === 'extension' ? (

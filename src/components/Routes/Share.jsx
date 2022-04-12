@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ChevronLeft, Globe, Info, Layers } from 'react-feather';
 
-import { Alert, Box, Header } from './Base';
+import { Alert, Box, Header } from '../Base/index.js';
 
 const Share = () => {
   const params = useParams();
@@ -50,7 +50,7 @@ const Share = () => {
       <div className={'m-10 flex gap-4 items-center cursor-pointer'} onClick={() => handleOnClickReturn()}>
         <ChevronLeft />
         <Header>
-          <img src='../icons/png/128x128.png' className={'h-12'} alt={'Icon'} />
+          <img src='../../icons/png/128x128.png' className={'h-12'} alt={'Icon'} />
           <span>Snapshot</span>
         </Header>
       </div>

@@ -4,17 +4,17 @@ import { v4 as uuidv4 } from 'uuid';
 import ConfettiGenerator from 'confetti-js';
 import { Search, Settings as Cob, User, Zap } from 'react-feather';
 
-import Store from '../Store';
+import Store from '../../Store.js';
 
-import CardList from './CardList';
-import Modal from './Modal';
-import { Button } from './Base';
-import { TextField } from './Input';
-import ContextMenu from './ContextMenu';
-import Dialogue from './Dialogue';
+import CardList from '../CardList.jsx';
+import Modal from '../Modal/index.jsx';
+import { Button } from '../Base/index.js';
+import { TextField } from '../Input/index.js';
+import ContextMenu from '../ContextMenu.jsx';
+import Dialogue from '../Dialogue.jsx';
 
-import helpers from '../modules/helpers';
-import supabase from '../modules/supabase';
+import helpers from '../../modules/helpers/index.js';
+import supabase from '../../modules/supabase.js';
 
 const App = () => {
   const snap = useSnapshot(Store);
