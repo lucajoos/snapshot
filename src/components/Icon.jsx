@@ -4,7 +4,7 @@ const Icon = ({ src='#', alt='', isVisible=true, onLoad=()=>{}, onError=()=>{}})
   const [isRendered, setIsRendered] = useState(true);
 
   useEffect(() => {
-    if(src.length === 0) {
+    if(src ? src.length === 0 : true) {
       setIsRendered(false);
       onError(new Error('No source string provided'));
     }

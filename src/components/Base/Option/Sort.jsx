@@ -13,7 +13,7 @@ const Sort = ({ title='', className='', favicon='', fallback=null, icons=[], isE
     <div
       className={`option flex items-center width-full rounded pl-4 pr-2 py-3 justify-between${className.length > 0 ? ` ${className}` : ''}`} onClick={() => onClick()}>
         <div className={'flex gap-2 items-center'}>
-            {favicon.length > 0 && !isFailedFavicon ? (
+            {(favicon ? favicon.length > 0 : false) && !isFailedFavicon ? (
               <Icon src={favicon} onError={() => onErrorFavicon()} />
             ) : fallback}
             <p>{title}</p>
