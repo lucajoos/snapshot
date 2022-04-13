@@ -10,9 +10,9 @@ const TextField = ({ type='text', placeholder='', value='', icon=null, ability=n
           </div>
         )}
         <input
-          type={type}
-          placeholder={placeholder}
-          value={value}
+          type={type || 'text'}
+          placeholder={placeholder || ''}
+          value={value || ''}
           onChange={event => onChange(event)}
           ref={nativeRef}
           className={`${icon ? 'ml-2 ' : ''}${ability ? 'mr-2 ' : ''}text-text-default w-full placeholder-text-default focus:border-text-default`}
