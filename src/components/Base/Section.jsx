@@ -27,7 +27,7 @@ const Section = ({ title = '', children, isExtendable=false, className }) => {
                     >
                         <p className={ 'font-bold text-md mt-2 mb-1' }>{ title?.toUpperCase() }</p>
                         {isExtendable && (
-                            <div className={`mr-5 transition-transform${isExtended ?  ' rotate-180' : ''}`}>
+                            <div className={`mr-5 transition-transform text-gray-400${isExtended ?  ' rotate-180' : ''}`}>
                                 <ChevronDown size={18} />
                             </div>
                         )}
