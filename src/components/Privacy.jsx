@@ -12,16 +12,7 @@ const Dialogue = () => {
 
   const resolve = useCallback(isAccepted => {
     snap.privacy.resolve(isAccepted);
-  }, [snap.privacy.resolve]);
-
-  useEffect(() => {
-    mousetrap.unbind('enter');
-    mousetrap.bind('enter', () => {
-      if(snap.privacy.isVisible) {
-        snap.privacy.resolve(true);
-      }
-    });
-  }, [snap.privacy.resolve, snap.privacy.isVisible])
+  }, [snap.privacy]);
 
   return (
     <div className={`fixed top-0 right-0 left-0 bottom-0 z-40 grid transition-all ${snap.privacy.isVisible ? 'opacity-100 pointer-events-auto' : 'pointer-events-none opacity-0'}`}>
