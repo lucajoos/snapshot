@@ -13,6 +13,7 @@ const View = () => {
   const snap = useSnapshot(Store);
   const timeoutRef = useRef(null);
   const [isFetching, setIsFetching] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
 
   const handleOnClickDone = useCallback(() => {
     if(
@@ -61,8 +62,8 @@ const View = () => {
   }, []);
 
   const handleOnKeyDown = useCallback(event => {
-    if(!isFetching) {
-      setIsFetching(true);
+    if(!isTyping) {
+      setIsTyping(true);
     }
 
     if(timeoutRef.current) {
@@ -71,6 +72,10 @@ const View = () => {
 
     timeoutRef.current = setTimeout(() => {
       if(helpers.general.isValidURL(event.target.value, ['http', 'https'])) {
+        if(!isFetching) {
+          setIsFetching(true);
+        }
+
         axios.post(`${import.meta.env.VITE_APP_EDGE_URL}/url`, event.target.value, {
           headers: {
             'Accept': 'application/json; charset=UTF-8',
@@ -98,11 +103,12 @@ const View = () => {
 
             }
 
+            setIsTyping(false);
             setIsFetching(false);
           });
       }
     }, 500);
-  }, [isFetching]);
+  }, [isFetching, isTyping]);
 
   return (
     <div className={'flex flex-col gap-6'}>
@@ -140,7 +146,7 @@ const View = () => {
         </Section>
       </div>
 
-      <Button onClick={() => handleOnClickDone()} className={'self-end'} isDisabled={isFetching || snap.modal.data.tabs.view.url.length === 0}>
+      <Button onClick={() => handleOnClickDone()} className={'self-end'} isDisabled={isTyping || isFetching || snap.modal.data.tabs.view.url.length === 0}>
         {
           isFetching ? (
               <>
