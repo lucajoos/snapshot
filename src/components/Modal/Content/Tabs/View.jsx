@@ -4,7 +4,7 @@ import { ChevronLeft, Compass, Edit2, FilePlus, Image, Link2, Plus, Save } from 
 
 import Store from '../../../../Store';
 
-import { Button, Header } from '../../../Base';
+import { Button, Header, Section } from '../../../Base';
 import { TextField } from '../../../Input';
 import helpers from '../../../../modules/helpers';
 import axios from 'axios';
@@ -112,18 +112,23 @@ const View = () => {
           onChange={event => handleOnChangeUrl(event)}
           onKeyDown={event => handleOnKeyDown(event)}
         />
-        <TextField
-          placeholder={'Title'}
-          icon={<Compass size={18} />}
-          value={snap.modal.data.tabs.view.title}
-          onChange={event => handleOnChangeTitle(event)}
-        />
-        <TextField
-          placeholder={'Favicon'}
-          icon={<Image size={18} />}
-          value={snap.modal.data.tabs.view.favicon}
-          onChange={event => handleOnChangeFavicon(event)}
-        />
+
+        <Section title={'Advanced'} isExtendable={true} isExtendedInitially={false} className={'my-4'}>
+          <div className={'flex flex-col gap-4'}>
+          <TextField
+              placeholder={'Title'}
+              icon={<Compass size={18} />}
+              value={snap.modal.data.tabs.view.title}
+              onChange={event => handleOnChangeTitle(event)}
+          />
+          <TextField
+              placeholder={'Favicon'}
+              icon={<Image size={18} />}
+              value={snap.modal.data.tabs.view.favicon}
+              onChange={event => handleOnChangeFavicon(event)}
+          />
+          </div>
+        </Section>
       </div>
 
       <Button onClick={() => handleOnClickDone()} className={'self-end'}>

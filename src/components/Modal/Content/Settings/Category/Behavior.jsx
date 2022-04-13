@@ -58,27 +58,26 @@ const Behavior = () => {
           />
         </div>
 
-        <div>
-          <Section>Cards</Section>
+        <Section title={'Cards'}>
           <div className={'flex flex-col gap-2'}>
             {
-              snap.environment === 'extension' && (
-                <Option.Switch
-                  title={'Open in Window'}
-                  icon={<ExternalLink />}
-                  onChange={() => handleOnChangeOpenInWindow()}
-                  value={snap.settings.behavior.cards.isOpeningInWindow}
-                />
-              )
+                snap.environment === 'extension' && (
+                    <Option.Switch
+                        title={'Open in Window'}
+                        icon={<ExternalLink />}
+                        onChange={() => handleOnChangeOpenInWindow()}
+                        value={snap.settings.behavior.cards.isOpeningInWindow}
+                    />
+                )
             }
             <Option.Switch
-              title={'Delete Permanently'}
-              icon={<Trash />}
-              onChange={() => handleOnChangeDeletePermanently()}
-              value={snap.settings.behavior.cards.isDeletingPermanently}
+                title={'Delete Permanently'}
+                icon={<Trash />}
+                onChange={() => handleOnChangeDeletePermanently()}
+                value={snap.settings.behavior.cards.isDeletingPermanently}
             />
           </div>
-        </div>
+        </Section>
       </div>
     </>
   )

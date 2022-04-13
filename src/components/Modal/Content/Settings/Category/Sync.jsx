@@ -170,15 +170,13 @@ const Sync = () => {
         />
       </div>
 
-      <div>
-        <Section>Advanced</Section>
-
+      <Section title={'Advanced'}>
         <div className={'flex flex-col gap-4'}>
           <TextField
-            value={snap.modal.data.settings.sync.advanced.applicationUrl}
-            placeholder={'Application URL'}
-            onChange={event => handleOnChangeApplicationUrl(event)}
-            icon={<Link2 size={18} />}
+              value={snap.modal.data.settings.sync.advanced.applicationUrl}
+              placeholder={'Application URL'}
+              onChange={event => handleOnChangeApplicationUrl(event)}
+              icon={<Link2 size={18} />}
           />
 
           <div className={'flex mt-2 gap-4 justify-end'}>
@@ -189,24 +187,23 @@ const Sync = () => {
             </Button>
           </div>
         </div>
-      </div>
+      </Section>
 
-      <div>
-        <Section>Supabase</Section>
+      <Section title={'Supabase'}>
         <div className={'flex flex-col gap-4'}>
           <TextField
-            value={snap.modal.data.settings.sync.supabase.supabaseUrl}
-            placeholder={'Supabase URL'}
-            onChange={event => handleOnChangeSupabaseUrl(event)}
-            icon={<Link2 size={18} />}
+              value={snap.modal.data.settings.sync.supabase.supabaseUrl}
+              placeholder={'Supabase URL'}
+              onChange={event => handleOnChangeSupabaseUrl(event)}
+              icon={<Link2 size={18} />}
           />
 
           <TextField
-            value={snap.modal.data.settings.sync.supabase.supabaseAnonKey}
-            placeholder={'Supabase Anon Key'}
-            onChange={event => handleOnChangeSupabaseAnonKey(event)}
-            icon={<Key size={18} />}
-            type={'password'}
+              value={snap.modal.data.settings.sync.supabase.supabaseAnonKey}
+              placeholder={'Supabase Anon Key'}
+              onChange={event => handleOnChangeSupabaseAnonKey(event)}
+              icon={<Key size={18} />}
+              type={'password'}
           />
 
           <div className={'flex mt-2 gap-4 justify-end'}>
@@ -217,7 +214,7 @@ const Sync = () => {
             </Button>
           </div>
         </div>
-      </div>
+      </Section>
     </div>
   )
 };

@@ -85,9 +85,7 @@ const General = () => {
         )
       }
 
-      <div>
-        <Section>Advanced</Section>
-
+      <Section title={'Advanced'}>
         <Option.Category title={'Import Data'} icon={<Download />} onClick={() => handleOnClickImport()}/>
         <input className={ 'hidden' } type={ 'file' } onChange={ event => handleOnChangeImport(event) } ref={importRef} />
 
@@ -96,27 +94,23 @@ const General = () => {
         <hr className={'my-2'}/>
 
         <Option.Category title={'Reset'} icon={<SkipBack />} onClick={() => handleOnClickReset()}/>
-      </div>
+      </Section>
 
-      <div>
-        <Section>Privacy</Section>
-
+      <Section title={'Privacy'}>
         <Option.Category title={'Withdraw Preferences'} icon={<Shield />} onClick={() => handleOnClickReset()}/>
 
         <hr className={'my-2'}/>
 
         <Option.Category title={'Privacy Statement'} icon={<FileText />} onClick={() => handleOnClickExternal('privacy.html')}/>
         <Option.Category title={'Imprint'} icon={<FileText />} onClick={() => handleOnClickExternal('imprint.html')}/>
-      </div>
+      </Section>
 
-      <div>
-        <Section>About</Section>
-
+      <Section title={'About'}>
         <Link onClick={() => handleOnClickExternal('licenses.html')} external={true} hasUnderline={true} >Show Licenses</Link>
         <p className={'mt-2'}>Snapshot v{__APP_VERSION__} ({import.meta.env.MODE})</p>
         <p>Environment ({snap.environment})</p>
         <p>React v{React.version}</p>
-      </div>
+      </Section>
     </div>
   )
 };
