@@ -43,7 +43,7 @@ const ColorPicker = ({ palette = [], className='', pickIndex = -1, onPick = () =
               return (
                 <div
                   className={ `w-6 h-6 mr-1 cursor-pointer transition-all rounded bg-${ color }-default` }
-                  onClick={ () => handleOnClick(index) }
+                  onClick={ () => handleOnClick(index, '') }
                   key={ color }
                 >
                   <div
@@ -60,7 +60,7 @@ const ColorPicker = ({ palette = [], className='', pickIndex = -1, onPick = () =
           className={ 'w-6 h-6 relative cursor-pointer' }
           onClick={ () => handleOnClickCustom() }
         >
-          <div className={ `text-text-default grid justify-center items-center h-full duration-50 transition-all` }>
+          <div className={ `text-text-default grid justify-center items-center h-full duration-50 transition-all text-gray-400` }>
             <Sliders size={ 20 } />
           </div>
         </div>
