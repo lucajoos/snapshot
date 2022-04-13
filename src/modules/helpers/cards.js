@@ -35,120 +35,121 @@ const cards = {
     // Workaround
     const stack = [...Store.cards];
 
-    let tabs;
+    let tabs = [];
+    let urls = [];
+    let favicons = [];
+    let titles = [];
 
-    if(snap.environment === 'extension') {
-      tabs = await helpers.api.do('tabs.query', {
-        currentWindow: true
-      });
-    } else {
-      tabs = await cards.fetch();
+    if(snap.modal.data.snapshot.isUpdatingTabs) {
+      if(snap.environment === 'extension') {
+        tabs = await helpers.api.do('tabs.query', {
+          currentWindow: true
+        });
+      } else {
+        tabs = await cards.fetch();
+      }
+
+      if(tabs.length > 0) {
+        tabs?.forEach(tab => {
+          urls.push(tab.url);
+          favicons.push(tab.favIconUrl);
+          titles.push(tab.title);
+        });
+      }
     }
 
-    if(tabs.length > 0) {
-      let urls = [];
-      let favicons = [];
-      let titles = [];
+    if(snap.modal.data.snapshot.id ? snap.modal.data.snapshot.id.length > 0 : false) {
+      // Update Snapshot
+      for (const card of stack) {
+        if(card.id === snap.modal.data.snapshot.id) {
+          const update = {
+            value: snap.modal.data.snapshot.value?.length === 0 ? `Snapshot #${ snap.cards.filter(card => card.isVisible).length + 1 }` : snap.modal.data.snapshot.value,
+            tags: snap.modal.data.snapshot.tags,
 
-      tabs?.forEach(tab => {
-        urls.push(tab.url);
-        favicons.push(tab.favIconUrl);
-        titles.push(tab.title);
-      });
+            pickColor: snap.modal.data.snapshot.pickIndex === -1 ? snap.modal.data.snapshot.pickColor : snap.palette[snap.modal.data.snapshot.pickIndex],
+            pickIndex: snap.modal.data.snapshot.pickIndex,
 
-      if(snap.modal.data.snapshot.id ? snap.modal.data.snapshot.id.length > 0 : false) {
-        // Update Snapshot
-        for (const card of stack) {
-          if(card.id === snap.modal.data.snapshot.id) {
-            const update = {
-              value: snap.modal.data.snapshot.value?.length === 0 ? `Snapshot #${ snap.cards.filter(card => card.isVisible).length + 1 }` : snap.modal.data.snapshot.value,
-              tags: snap.modal.data.snapshot.tags,
+            editedAt: new Date().toISOString(),
 
-              pickColor: snap.modal.data.snapshot.pickIndex === -1 ? snap.modal.data.snapshot.pickColor : snap.palette[snap.modal.data.snapshot.pickIndex],
-              pickIndex: snap.modal.data.snapshot.pickIndex,
+            isShowingIcons: snap.modal.data.snapshot.isShowingIcons,
+            isCustomPick: snap.modal.data.snapshot.isShowingCustomPick && snap.modal.data.snapshot.pickColor.length > 0 && snap.modal.data.snapshot.pickIndex === -1,
 
-              editedAt: new Date().toISOString(),
+            urls: snap.modal.data.snapshot.isUpdatingTabs ? urls : card.urls,
+            favicons: snap.modal.data.snapshot.isUpdatingTabs ? favicons : card.favicons,
+            titles: snap.modal.data.snapshot.isUpdatingTabs ? titles : card.titles,
+          };
 
-              isShowingIcons: snap.modal.data.snapshot.isShowingIcons,
-              isCustomPick: snap.modal.data.snapshot.isShowingCustomPick && snap.modal.data.snapshot.pickColor.length > 0 && snap.modal.data.snapshot.pickIndex === -1,
+          stack[stack.indexOf(card)] = Object.assign(card, update);
 
-              urls: snap.modal.data.snapshot.isUpdatingTabs ? urls : card.urls,
-              favicons: snap.modal.data.snapshot.isUpdatingTabs ? favicons : card.favicons,
-              titles: snap.modal.data.snapshot.isUpdatingTabs ? titles : card.titles,
-            };
-
-            stack[stack.indexOf(card)] = Object.assign(card, update);
-
-            if(snap.session && snap.settings.sync.isSynchronizing) {
-              supabase
-                  .from('cards')
-                  .update([
-                    helpers.remote.camelCaseToSnakeCase(update)
-                  ], {
-                    returning: 'minimal'
-                  })
-                  .match({ id: card.id })
-                  .then(({ error }) => {
-                    if(error) {
-                      console.error(error);
-                    }
-                  });
-            }
+          if(snap.session && snap.settings.sync.isSynchronizing) {
+            supabase
+                .from('cards')
+                .update([
+                  helpers.remote.camelCaseToSnakeCase(update)
+                ], {
+                  returning: 'minimal'
+                })
+                .match({ id: card.id })
+                .then(({ error }) => {
+                  if(error) {
+                    console.error(error);
+                  }
+                });
           }
         }
-      } else {
-        // Take Snapshot
-        const id = uuidv4();
+      }
+    } else if(tabs.length > 0) {
+      // Take Snapshot
+      const id = uuidv4();
 
-        const card = {
-          id,
-          foreignId: null,
-          index: snap.cards.filter(card => card.isVisible).length,
-          value: snap.modal.data.snapshot.value?.length === 0 ? `Snapshot #${ snap.cards.filter(card => card.isVisible).length + 1 }` : snap.modal.data.snapshot.value,
-          tags: snap.modal.data.snapshot.tags,
+      const card = {
+        id,
+        foreignId: null,
+        index: snap.cards.filter(card => card.isVisible).length,
+        value: snap.modal.data.snapshot.value?.length === 0 ? `Snapshot #${ snap.cards.filter(card => card.isVisible).length + 1 }` : snap.modal.data.snapshot.value,
+        tags: snap.modal.data.snapshot.tags,
 
-          pickColor: snap.modal.data.snapshot.pickIndex === -1 ? snap.modal.data.snapshot.pickColor : snap.palette[snap.modal.data.snapshot.pickIndex],
-          pickIndex: snap.modal.data.snapshot.pickIndex,
+        pickColor: snap.modal.data.snapshot.pickIndex === -1 ? snap.modal.data.snapshot.pickColor : snap.palette[snap.modal.data.snapshot.pickIndex],
+        pickIndex: snap.modal.data.snapshot.pickIndex,
 
-          createdAt: new Date().toISOString(),
-          editedAt: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+        editedAt: new Date().toISOString(),
 
-          isVisible: true,
-          isDeleted: false,
-          isPrivate: true,
-          isForeign: false,
+        isVisible: true,
+        isDeleted: false,
+        isPrivate: true,
+        isForeign: false,
 
-          isShowingIcons: snap.modal.data.snapshot.isShowingIcons,
-          isCustomPick: snap.modal.data.snapshot.isShowingCustomPick && snap.modal.data.snapshot.pickColor.length > 0 && snap.modal.data.snapshot.pickIndex === -1,
+        isShowingIcons: snap.modal.data.snapshot.isShowingIcons,
+        isCustomPick: snap.modal.data.snapshot.isShowingCustomPick && snap.modal.data.snapshot.pickColor.length > 0 && snap.modal.data.snapshot.pickIndex === -1,
 
-          urls,
-          favicons,
-          titles
-        };
+        urls,
+        favicons,
+        titles
+      };
 
-        stack.push(card);
-        Store.favicons[id] = {};
+      stack.push(card);
+      Store.favicons[id] = {};
 
-        if(snap.session && snap.settings.sync.isSynchronizing) {
-          supabase
-              .from('cards')
-              .insert([
-                helpers.remote.camelCaseToSnakeCase(card)
-              ], {
-                returning: 'minimal'
-              })
-              .then(({ error }) => {
-                if(error) {
-                  console.error(error);
-                }
-              });
+      if(snap.session && snap.settings.sync.isSynchronizing) {
+        supabase
+            .from('cards')
+            .insert([
+              helpers.remote.camelCaseToSnakeCase(card)
+            ], {
+              returning: 'minimal'
+            })
+            .then(({ error }) => {
+              if(error) {
+                console.error(error);
+              }
+            });
         }
       }
 
       Store.cards = stack;
       Store.isScrolling = true;
       helpers.cards.save(stack);
-    }
   },
 
   move: (event, cards, options={isUpdatingSelf: true}) => {

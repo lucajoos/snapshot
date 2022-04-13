@@ -29,7 +29,7 @@ const App = () => {
       tags: [],
       isCustomPick: false,
       isShowingIcons: true,
-      isUpdatingTabs: false,
+      isUpdatingTabs: true,
       isShowingCustomPick: false,
       id: null
     };
