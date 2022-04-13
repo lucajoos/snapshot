@@ -5,7 +5,6 @@ import Store from '../../Store';
 import helpers from './index';
 import supabase from '../supabase';
 import { v4 as uuidv4 } from 'uuid';
-import { base64 } from 'base-64';
 
 const cards = {
   fetch: async () => {
@@ -65,7 +64,7 @@ const cards = {
               value: snap.modal.data.snapshot.value?.length === 0 ? `Snapshot #${ snap.cards.filter(card => card.isVisible).length + 1 }` : snap.modal.data.snapshot.value,
               tags: snap.modal.data.snapshot.tags,
 
-              pickColor: snap.modal.data.snapshot.pickColor,
+              pickColor: snap.modal.data.snapshot.pickIndex === -1 ? snap.modal.data.snapshot.pickColor : snap.palette[snap.modal.data.snapshot.pickIndex],
               pickIndex: snap.modal.data.snapshot.pickIndex,
 
               editedAt: new Date().toISOString(),
@@ -108,7 +107,7 @@ const cards = {
           value: snap.modal.data.snapshot.value?.length === 0 ? `Snapshot #${ snap.cards.filter(card => card.isVisible).length + 1 }` : snap.modal.data.snapshot.value,
           tags: snap.modal.data.snapshot.tags,
 
-          pickColor: snap.modal.data.snapshot.pickColor,
+          pickColor: snap.modal.data.snapshot.pickIndex === -1 ? snap.modal.data.snapshot.pickColor : snap.palette[snap.modal.data.snapshot.pickIndex],
           pickIndex: snap.modal.data.snapshot.pickIndex,
 
           createdAt: new Date().toISOString(),
@@ -231,8 +230,6 @@ const cards = {
       }
 
       if(!Array.isArray(stack) ? Array.isArray(stack.value) : false) {
-        const colors = [ 'orange', 'pink', 'green', 'violet', 'blue' ];
-
         stack = stack.value;
         stack = stack.map((card, index) => ({
           id: uuidv4(),
@@ -242,7 +239,7 @@ const cards = {
           tags: [],
 
           pickColor: card.color,
-          pickIndex: colors.indexOf(card.color),
+          pickIndex: snap.palette.indexOf(card.color),
 
           createdAt: new Date(card.meta).toISOString(),
           editedAt: new Date(card.meta).toISOString(),

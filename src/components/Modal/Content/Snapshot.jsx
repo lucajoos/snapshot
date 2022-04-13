@@ -38,16 +38,8 @@ const Snapshot = () => {
     }
   }, []);
 
-  const handleOnPick = useCallback(current => {
-    if(
-      current?.color === snap.modal.data.snapshot.pickColor
-    ) {
-      current.color = '';
-      current.index = -1;
-    }
-
-    Store.modal.data.snapshot.pickColor = current.color;
-    Store.modal.data.snapshot.pickIndex = current.index;
+  const handleOnPick = useCallback(index => {
+    Store.modal.data.snapshot.pickIndex = index === snap.modal.data.snapshot.pickIndex ? -1 : index;
   }, [snap.modal.data.snapshot.pickColor, snap.modal.data.snapshot.pickIndex]);
 
   const handleCheckboxOnChangeIcons = useCallback(() => {
@@ -119,24 +111,25 @@ const Snapshot = () => {
             <Checkbox onChange={() => handleCheckboxOnChangeIcons()} value={snap.modal.data.snapshot.isShowingIcons} />
           </div>
         </div>
-
         <ColorPicker
-          palette={['orange', 'pink', 'green', 'violet', 'blue']}
+          palette={snap.palette}
           pickIndex={snap.modal.data.snapshot.pickIndex}
-          onPick={pick => handleOnPick(pick)}
+          onPick={index => handleOnPick(index)}
           className={'mt-8'}
         />
 
-        <TextField
-          value={snap.modal.data.snapshot.pickColor}
-          placeholder={'Custom Color'}
-          onChange={event => handleOnChangeColor(event)}
-          nativeRef={colorRef}
-          className={!snap.modal.data.snapshot.isShowingCustomPick ? 'hidden' : ''}
-        />
+        <div className={`overflow-hidden transition-all duration-500 ${!snap.modal.data.snapshot.isShowingCustomPick ? 'max-h-0' : 'max-h-20'}`}>
+          <TextField
+              value={snap.modal.data.snapshot.pickColor}
+              placeholder={'Custom Color'}
+              onChange={event => handleOnChangeColor(event)}
+              nativeRef={colorRef}
+              className={'mt-4'}
+          />
+        </div>
       </div>
 
-      <Button onClick={() => handleOnReturn()} className={'self-end mt-6'}>
+      <Button onClick={() => handleOnReturn()} className={'self-end mt-8'}>
         <span>Save</span>
         <Save size={18} />
       </Button>

@@ -126,6 +126,7 @@ const Template = {
     resolve: () => {},
   },
 
+  palette: ['orange', 'pink', 'green', 'violet', 'blue'],
   isTouchDevice: ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0),
   environment: import.meta.env.VITE_APP_ENVIRONMENT,
   session: supabase.auth.session(),
