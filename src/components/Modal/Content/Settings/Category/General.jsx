@@ -75,17 +75,17 @@ const General = () => {
 
 
   return (
-    <div className={'flex flex-col gap-6'}>
+    <div className={'flex flex-col gap-4'}>
       {
-        snap.environment === 'extension' && (
-          <div>
-            <Option.Category title={'Open Fullscreen'} icon={<Maximize />} onClick={() => handleOnClickFullscreen()}/>
-            <Option.Category title={'Open Website'} icon={<ExternalLink />} onClick={() => handleOnClickWebsite()}/>
-          </div>
-        )
+          snap.environment === 'extension' && (
+              <Section>
+                <Option.Category title={'Open Fullscreen'} icon={<Maximize />} onClick={() => handleOnClickFullscreen()}/>
+                <Option.Category title={'Open Website'} icon={<ExternalLink />} onClick={() => handleOnClickWebsite()}/>
+              </Section>
+          )
       }
 
-      <Section title={'Advanced'}>
+      <Section title={'Advanced'} isExtendable={true}>
         <Option.Category title={'Import Data'} icon={<Download />} onClick={() => handleOnClickImport()}/>
         <input className={ 'hidden' } type={ 'file' } onChange={ event => handleOnChangeImport(event) } ref={importRef} />
 

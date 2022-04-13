@@ -151,26 +151,28 @@ const Sync = () => {
   }, [snap.modal.isVisible, snap.modal.content, snap.modal.data.settings.category, snap.settings.sync.advanced.applicationUrl, snap.settings.sync.supabase.supabaseUrl, snap.settings.sync.supabase.supabaseAnonKey]);
 
   return (
-    <div className={'flex flex-col gap-6'}>
-      <div className={'flex flex-col gap-2'}>
-        {snap.environment === 'extension' && (
-            <Option.Switch
-                title={'Synchronize'}
-                icon={<Cloud />}
-                value={snap.settings.sync.isSynchronizing}
-                onChange={() => handleOnChangeIsSynchronizing()}
-            />
-        )}
+    <div className={'flex flex-col gap-4'}>
+      <Section>
+        <div className={'flex flex-col gap-2'}>
+          {snap.environment === 'extension' && (
+              <Option.Switch
+                  title={'Synchronize'}
+                  icon={<Cloud />}
+                  value={snap.settings.sync.isSynchronizing}
+                  onChange={() => handleOnChangeIsSynchronizing()}
+              />
+          )}
 
-        <Option.Switch
-          title={'Realtime'}
-          icon={<GitPullRequest />}
-          value={snap.settings.sync.isRealtime}
-          onChange={() => handleOnChangeIsRealtime()}
-        />
-      </div>
+          <Option.Switch
+              title={'Realtime'}
+              icon={<GitPullRequest />}
+              value={snap.settings.sync.isRealtime}
+              onChange={() => handleOnChangeIsRealtime()}
+          />
+        </div>
+      </Section>
 
-      <Section title={'Advanced'}>
+      <Section title={'Advanced'} isExtendable={true}>
         <div className={'flex flex-col gap-4'}>
           <TextField
               value={snap.modal.data.settings.sync.advanced.applicationUrl}
@@ -189,7 +191,7 @@ const Sync = () => {
         </div>
       </Section>
 
-      <Section title={'Supabase'}>
+      <Section title={'Supabase'} isExtendable={true}>
         <div className={'flex flex-col gap-4'}>
           <TextField
               value={snap.modal.data.settings.sync.supabase.supabaseUrl}

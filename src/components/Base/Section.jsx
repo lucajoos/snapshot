@@ -19,18 +19,22 @@ const Section = ({ title = '', children, isExtendable=false, className }) => {
 
     return (
         <div className={ `mb-2${ className ? ` ${ className }` : '' }` }>
-            <div
-                className={`flex justify-between items-center ${isExtendable ? 'cursor-pointer' : 'cursor-default'}`}
-                onClick={() => handleOnClickExtend()}
-            >
-                <p className={ 'font-bold text-md mt-2 mb-1' }>{ title?.toUpperCase() }</p>
-                {isExtendable && (
-                    <div className={`mr-5 transition-transform${isExtended ?  ' rotate-180' : ''}`}>
-                        <ChevronDown size={18} />
+            {(title ? title.length > 0 : false) && (
+                <>
+                    <div
+                        className={`flex justify-between items-center ${isExtendable ? 'cursor-pointer' : 'cursor-default'}`}
+                        onClick={() => handleOnClickExtend()}
+                    >
+                        <p className={ 'font-bold text-md mt-2 mb-1' }>{ title?.toUpperCase() }</p>
+                        {isExtendable && (
+                            <div className={`mr-5 transition-transform${isExtended ?  ' rotate-180' : ''}`}>
+                                <ChevronDown size={18} />
+                            </div>
+                        )}
                     </div>
-                )}
-            </div>
-            <hr/>
+                    <hr/>
+                </>
+            )}
             <div
                 className={'mt-2 overflow-hidden duration-700 transition-all'}
                 style={{ height: height }}

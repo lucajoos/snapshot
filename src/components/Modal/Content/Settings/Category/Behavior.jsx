@@ -37,8 +37,8 @@ const Behavior = () => {
 
   return (
     <>
-      <div className={'flex flex-col gap-6'}>
-        <div>
+      <div className={'flex flex-col gap-4'}>
+        <Section>
           {
               snap.environment === 'extension' && (
                   <Option.Switch
@@ -56,7 +56,7 @@ const Behavior = () => {
               onChange={() => handleOnChangeEffects()}
               value={snap.settings.behavior.isRenderingEffects}
           />
-        </div>
+        </Section>
 
         <Section title={'Cards'}>
           <div className={'flex flex-col gap-2'}>
