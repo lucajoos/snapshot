@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { useSnapshot } from 'valtio';
-import { ChevronLeft, Compass, Edit2, FilePlus, Image, Link2, Plus, Save } from 'react-feather';
+import { ChevronLeft, Compass, Edit2, FilePlus, Image, Link2, Loader, Plus, Save } from 'react-feather';
 
 import Store from '../../../../Store';
 
@@ -141,8 +141,21 @@ const View = () => {
       </div>
 
       <Button onClick={() => handleOnClickDone()} className={'self-end'} isDisabled={isFetching || snap.modal.data.tabs.view.url.length === 0}>
-        <span>{ snap.modal.data.tabs.view.index >= 0 ? 'Save' : 'Create'}</span>
-        { snap.modal.data.tabs.view.index >= 0 ? <Save size={18} />: <Plus size={18} />}
+        {
+          isFetching ? (
+              <>
+                <span>Loading</span>
+                <div className={'animate-spin-slow'}>
+                  <Loader size={18} />
+                </div>
+              </>
+          ) : (
+              <>
+                <span>{ snap.modal.data.tabs.view.index >= 0 ? 'Save' : 'Create'}</span>
+                { snap.modal.data.tabs.view.index >= 0 ? <Save size={18} />: <Plus size={18} /> }
+              </>
+          )
+        }
       </Button>
     </div>
   )
