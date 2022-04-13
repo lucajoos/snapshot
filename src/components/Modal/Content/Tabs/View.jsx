@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useSnapshot } from 'valtio';
 import { ChevronLeft, Compass, Edit2, FilePlus, Image, Link2, Plus, Save } from 'react-feather';
 
@@ -12,6 +12,7 @@ import axios from 'axios';
 const View = () => {
   const snap = useSnapshot(Store);
   const timeoutRef = useRef(null);
+  const [isFetching, setIsFetching] = useState(false);
 
   const handleOnClickDone = useCallback(() => {
     if(
@@ -60,6 +61,10 @@ const View = () => {
   }, []);
 
   const handleOnKeyDown = useCallback(event => {
+    if(!isFetching) {
+      setIsFetching(true);
+    }
+
     if(timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
@@ -89,11 +94,15 @@ const View = () => {
                   .find(({src}) => src.endsWith('.png'))?.src
                 || response.data.icons[0]?.src
                 || '';
+
+
             }
+
+            setIsFetching(false);
           });
       }
     }, 500);
-  }, []);
+  }, [isFetching]);
 
   return (
     <div className={'flex flex-col gap-6'}>
@@ -131,7 +140,7 @@ const View = () => {
         </Section>
       </div>
 
-      <Button onClick={() => handleOnClickDone()} className={'self-end'}>
+      <Button onClick={() => handleOnClickDone()} className={'self-end'} isDisabled={isFetching || snap.modal.data.tabs.view.url.length === 0}>
         <span>{ snap.modal.data.tabs.view.index >= 0 ? 'Save' : 'Create'}</span>
         { snap.modal.data.tabs.view.index >= 0 ? <Save size={18} />: <Plus size={18} />}
       </Button>
