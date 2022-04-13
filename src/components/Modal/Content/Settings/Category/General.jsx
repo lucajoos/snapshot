@@ -97,9 +97,14 @@ const General = () => {
       </Section>
 
       <Section title={'Privacy'}>
-        <Option.Category title={'Withdraw Preferences'} icon={<Shield />} onClick={() => handleOnClickReset()}/>
-
-        <hr className={'my-2'}/>
+        {
+          snap.environment !== 'extension' && (
+            <>
+              <Option.Category title={'Withdraw Preferences'} icon={<Shield />} onClick={() => handleOnClickReset()}/>
+              <hr className={'my-2'}/>
+            </>
+          )
+        }
 
         <Option.Category title={'Privacy Statement'} icon={<FileText />} onClick={() => handleOnClickExternal('privacy.html')}/>
         <Option.Category title={'Imprint'} icon={<FileText />} onClick={() => handleOnClickExternal('imprint.html')}/>
