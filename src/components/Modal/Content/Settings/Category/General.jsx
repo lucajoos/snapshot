@@ -44,23 +44,7 @@ const General = () => {
   }, []);
 
   const handleOnClickReset = useCallback(async () => {
-    Store.dialogue.text = 'All your locally stored data will be irreversibly deleted.';
-    Store.dialogue.type = 'Reset';
-    Store.dialogue.isVisible = true;
-
-    Store.dialogue.resolve = (async isAccepted => {
-      if(isAccepted) {
-        localStorage.clear();
-
-        if(snap.environment === 'extension') {
-          await helpers.api.do('window.close');
-        } else {
-          location.reload();
-        }
-      } else {
-        Store.dialogue.isVisible = false;
-      }
-    });
+    await helpers.general.reset('All your locally stored data will be irreversibly deleted.');
   }, [snap.environment]);
 
   const handleOnClickExternal = useCallback(async path => {
