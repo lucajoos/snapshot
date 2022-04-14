@@ -45,7 +45,7 @@ const Snapshot = () => {
     Store.modal.data.snapshot.isShowingIcons = !snap.modal.data.snapshot.isShowingIcons;
   }, [snap.modal.data.snapshot.isShowingIcons]);
 
-  const handleCheckboxOnChangeTabs = useCallback(() => {
+  const handleCheckboxOnUpdateTabs = useCallback(() => {
     Store.modal.data.snapshot.isUpdatingTabs = !snap.modal.data.snapshot.isUpdatingTabs;
   }, [snap.modal.data.snapshot.isUpdatingTabs]);
 
@@ -101,8 +101,8 @@ const Snapshot = () => {
 
         <div className={'flex items-center justify-between mt-8'}>
           <div className={`flex items-center ${!isUpdate ? 'opacity-50 cursor-not-allowed' : ''}`}>
-            <span className={'mr-3'}>Capture Tabs</span>
-            <Checkbox onChange={() => handleCheckboxOnChangeTabs()} value={snap.modal.data.snapshot.isUpdatingTabs || !isUpdate} isEnabled={isUpdate} />
+            <span className={'mr-3'}>Update Tabs</span>
+            <Checkbox onChange={() => handleCheckboxOnUpdateTabs()} value={snap.modal.data.snapshot.isUpdatingTabs || !isUpdate} isEnabled={isUpdate} />
           </div>
 
           <div className={'flex items-center'}>
