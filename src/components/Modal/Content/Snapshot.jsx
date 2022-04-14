@@ -18,7 +18,6 @@ const Snapshot = () => {
   const isUpdate = snap.modal.data.snapshot.id !== null;
 
   const handleOnReturn = useCallback(async () => {
-    Store.modal.isVisible = false;
     await helpers.cards.create();
   }, [snap.cards, snap.modal, snap.session, snap.settings.sync.isSynchronizing])
 

@@ -8,9 +8,10 @@ import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
 
 const cards = {
-  fetch: async () => {
+  fetch: async tabs => {
     return new Promise(resolve => {
       Store.modal.data.tabs = _.cloneDeep(Template.modal.data.tabs);
+      Store.modal.data.tabs.tabs = tabs || [];
       Store.modal.content = 'Tabs';
       Store.modal.data.tabs.current = 'default';
 
@@ -35,20 +36,24 @@ const cards = {
 
     if(snap.modal.data.snapshot.isUpdatingTabs) {
       if(snap.environment === 'extension') {
-        tabs = await helpers.api.do('tabs.query', {
+        tabs = (await helpers.api.do('tabs.query', {
           currentWindow: true
-        });
-      } else {
-        tabs = await cards.fetch();
+        })).map(tab => _.merge(tab, {
+          favicon: tab.favIconUrl
+        }));
       }
+
+      tabs = await cards.fetch(tabs);
 
       if(tabs.length > 0) {
         tabs?.forEach(tab => {
           urls.push(tab.url);
-          favicons.push(tab.favIconUrl || tab.favicon);
+          favicons.push(tab.favicon);
           titles.push(tab.title);
         });
       }
+    } else {
+      Store.modal.isVisible = false;
     }
 
     if(snap.modal.data.snapshot.id ? snap.modal.data.snapshot.id.length > 0 : false) {
