@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSnapshot } from 'valtio';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Edit2, ExternalLink, File, Grid, Plus, Save, X as Times } from 'react-feather';
@@ -13,6 +13,7 @@ import cards from '../../../../modules/helpers/cards';
 
 const Overview = () => {
   const snap = useSnapshot(Store);
+  const [isSavable, setIsSavable] = useState(snap.modal.data.tabs.tabs.length > 0);
   const tabsRef = useRef();
 
   const handleOnDragEnd = useCallback(event => {
@@ -120,7 +121,11 @@ const Overview = () => {
     if(snap.modal.isVisible && snap.modal.content === 'Tabs' && snap.modal.data.tabs.current === 'default') {
       tabsRef.current.scrollTop = 0;
     }
-  }, [snap.modal.isVisible, snap.modal.content, snap.modal.data.tabs.current])
+  }, [snap.modal.isVisible, snap.modal.content, snap.modal.data.tabs.current]);
+
+  useEffect(() => {
+    setIsSavable(snap.modal.data.tabs.tabs.length > 0);
+  }, [snap.modal.data.tabs.tabs]);
 
   return (
     <div className={'flex flex-col gap-4'}>
@@ -178,7 +183,7 @@ const Overview = () => {
         <>
           <Link onClick={() => handleOnClickCancel()}>Cancel</Link>
           {snap.modal.data.tabs.isEditing ? (
-              <Button onClick={() => handleOnClickSave()}>
+              <Button onClick={() => handleOnClickSave()} isDisabled={!isSavable}>
                 <span>Save</span>
                 <Save size={18} />
               </Button>
