@@ -3,7 +3,7 @@ import { useSnapshot } from 'valtio';
 import mousetrap from 'mousetrap';
 import { AlertTriangle, Save, Server, Share, SkipBack } from 'react-feather';
 
-import Store from '../Store';
+import Store, { Template } from '../Store';
 
 import { Button, Header, Link } from './Base';
 
@@ -32,7 +32,14 @@ const Dialogue = () => {
         snap.dialogue.resolve(true);
       }
     });
-  }, [snap.dialogue.resolve, snap.dialogue.isVisible])
+  }, [snap.dialogue.resolve, snap.dialogue.isVisible]);
+
+  useEffect(() => {
+    // Cleanup function
+    if(!snap.dialogue.isVisible) {
+      Store.dialogue = Template.dialogue;
+    }
+  }, [snap.dialogue.isVisible]);
 
   return (
     <div className={`fixed top-0 right-0 left-0 bottom-0 z-30 grid transition-all ${snap.dialogue.isVisible ? 'opacity-100 pointer-events-auto' : 'pointer-events-none opacity-0'}`}>

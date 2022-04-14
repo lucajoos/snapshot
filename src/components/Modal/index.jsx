@@ -18,7 +18,7 @@ const Modal = () => {
     if(!snap.modal.isVisible) {
       Store.modal = Template.modal;
     }
-  }, [snap.modal.isVisible])
+  }, [snap.modal.isVisible]);
 
   return (
     <div className={`fixed top-0 right-0 left-0 bottom-0 z-10 grid transition-all ${snap.modal.isVisible ? 'opacity-100 pointer-events-auto' : 'pointer-events-none opacity-0'}`}>
