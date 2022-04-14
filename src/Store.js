@@ -20,7 +20,7 @@ const Template = {
         previousPickIndex: -1,
         tags: [],
         isShowingIcons: true,
-        isUpdatingTabs: false,
+        isUpdatingTabs: true,
         isShowingCustomPick: false,
         id: null
       },

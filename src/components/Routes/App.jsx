@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import ConfettiGenerator from 'confetti-js';
 import { Search, Settings as Cob, User, Zap } from 'react-feather';
 
-import Store from '../../Store.js';
+import Store, { Template } from '../../Store.js';
 
 import CardList from '../CardList.jsx';
 import Modal from '../Modal/index.jsx';
@@ -22,18 +22,6 @@ const App = () => {
 
   // Callbacks
   const handleOnClickSnapshot = useCallback(async () => {
-    Store.modal.data.snapshot = {
-      value: '',
-      pickColor: '',
-      pickIndex: -1,
-      tags: [],
-      isCustomPick: false,
-      isShowingIcons: true,
-      isUpdatingTabs: true,
-      isShowingCustomPick: false,
-      id: null
-    };
-
     Store.modal.content = 'Snapshot';
     Store.modal.isVisible = true;
   }, []);

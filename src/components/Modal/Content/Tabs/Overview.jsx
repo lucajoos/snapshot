@@ -3,7 +3,7 @@ import { useSnapshot } from 'valtio';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Edit2, ExternalLink, File, Grid, Plus, Save, X as Times } from 'react-feather';
 
-import Store from '../../../../Store';
+import Store, { Template } from '../../../../Store';
 
 import { Button, Header, Link, Option } from '../../../Base';
 
@@ -96,11 +96,7 @@ const Overview = () => {
   }, [snap.modal.data.tabs.tabs, snap.modal.data.tabs.id, snap.modal.data.tabs.resolve, snap.session, snap.settings.sync.isSynchronizing, snap.modal.data.tabs.isFetching]);
 
   const handleOnClickView = useCallback(() => {
-    Store.modal.data.tabs.view.url = '';
-    Store.modal.data.tabs.view.title = '';
-    Store.modal.data.tabs.view.favicon = '';
-    Store.modal.data.tabs.view.index = -1;
-
+    Store.modal.data.tabs.view = Template.modal.data.tabs.view;
     Store.modal.data.tabs.current = 'view';
   }, []);
 

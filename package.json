@@ -13,6 +13,7 @@
     "cheerio": "^1.0.0-rc.10",
     "color": "^4.1.0",
     "confetti-js": "^0.0.18",
+    "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "mousetrap": "^1.6.5",
     "react": "^17.0.2",
