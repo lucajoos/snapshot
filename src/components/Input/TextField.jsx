@@ -4,10 +4,10 @@ const TextField = ({ type='text', placeholder='', value='', icon=null, ability=n
     const [cursor, setCursor] = useState(null);
 
     useEffect(() => {
-        if(nativeRef.current) {
+        if(nativeRef.current && type === 'text') {
             nativeRef.current.setSelectionRange(cursor, cursor);
         }
-    }, [nativeRef, cursor, value]);
+    }, [nativeRef, cursor, value, type]);
 
     return (
     <div className={`input border-b border-gray-300 transition-all py-3 w-full${className.length > 0 ? ` ${className}` : ''}`}>
