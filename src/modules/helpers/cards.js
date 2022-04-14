@@ -279,11 +279,7 @@ const cards = {
   },
 
   save: object => {
-    const snap = snapshot(Store);
-
-    if(snap.environment === 'extension') {
-      localStorage.setItem('cards', JSON.stringify(object));
-    }
+    localStorage.setItem('cards', JSON.stringify(object));
   },
 
   get: (id, options={ isForeign: false }) => {
