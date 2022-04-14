@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import ConfettiGenerator from 'confetti-js';
 import { Search, Settings as Cob, User, Zap } from 'react-feather';
 
-import Store, { Template } from '../../Store.js';
+import Store from '../../Store.js';
 
 import CardList from '../CardList.jsx';
 import Modal from '../Modal/index.jsx';

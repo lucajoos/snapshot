@@ -45,7 +45,7 @@ const cards = {
       if(tabs.length > 0) {
         tabs?.forEach(tab => {
           urls.push(tab.url);
-          favicons.push(tab.favIconUrl);
+          favicons.push(tab.favIconUrl || tab.favicon);
           titles.push(tab.title);
         });
       }

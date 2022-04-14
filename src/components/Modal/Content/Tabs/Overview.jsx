@@ -62,6 +62,8 @@ const Overview = () => {
             current.titles = titles;
             current.editedAt = new Date().toISOString();
 
+            console.log(favicons)
+
             card = current;
             return current;
           }
