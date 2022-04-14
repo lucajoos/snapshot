@@ -6,7 +6,7 @@ import { AlertTriangle, Save, Server, Share, SkipBack } from 'react-feather';
 import Store, { Template } from '../Store';
 
 import { Button, Header, Link } from './Base';
-import _ from 'lodash';
+import cloneDeep from 'lodash.clonedeep';
 
 const Dialogue = () => {
   const snap = useSnapshot(Store);
@@ -39,7 +39,7 @@ const Dialogue = () => {
     // Cleanup function
     if(!snap.dialogue.isVisible) {
       setTimeout(() => {
-        Store.dialogue = _.cloneDeep(Template.dialogue);
+        Store.dialogue = cloneDeep(Template.dialogue);
       }, 150);
     }
   }, [snap.dialogue.isVisible]);

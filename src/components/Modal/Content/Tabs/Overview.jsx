@@ -10,7 +10,7 @@ import { Button, Header, Link, Option } from '../../../Base';
 import supabase from '../../../../modules/supabase';
 import helpers from '../../../../modules/helpers';
 import cards from '../../../../modules/helpers/cards';
-import _ from 'lodash';
+import cloneDeep from 'lodash.clonedeep';
 
 const Overview = () => {
   const snap = useSnapshot(Store);
@@ -99,7 +99,7 @@ const Overview = () => {
   }, [snap.modal.data.tabs.tabs, snap.modal.data.tabs.id, snap.modal.data.tabs.resolve, snap.session, snap.settings.sync.isSynchronizing, snap.modal.data.tabs.isFetching]);
 
   const handleOnClickView = useCallback(() => {
-    Store.modal.data.tabs.view = _.cloneDeep(Template.modal.data.tabs.view);
+    Store.modal.data.tabs.view = cloneDeep(Template.modal.data.tabs.view);
     Store.modal.data.tabs.current = 'view';
   }, []);
 

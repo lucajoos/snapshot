@@ -1,6 +1,6 @@
 import { proxy } from 'valtio'
 import supabase from './modules/supabase';
-import _ from 'lodash';
+import cloneDeep from 'lodash.clonedeep';
 
 const Template = {
   cards: [],
@@ -133,7 +133,7 @@ const Template = {
   session: supabase.auth.session(),
 };
 
-const Store = proxy(_.cloneDeep(Template));
+const Store = proxy(cloneDeep(Template));
 export default Store;
 
 export {

@@ -5,12 +5,13 @@ import Store, { Template } from '../../Store';
 import helpers from './index';
 import supabase from '../supabase';
 import { v4 as uuidv4 } from 'uuid';
-import _ from 'lodash';
+import cloneDeep from 'lodash.clonedeep';
+import merge from 'lodash.merge';
 
 const cards = {
   fetch: async tabs => {
     return new Promise(resolve => {
-      Store.modal.data.tabs = _.cloneDeep(Template.modal.data.tabs);
+      Store.modal.data.tabs = cloneDeep(Template.modal.data.tabs);
       Store.modal.data.tabs.tabs = tabs || [];
       Store.modal.content = 'Tabs';
       Store.modal.data.tabs.current = 'default';
@@ -38,7 +39,7 @@ const cards = {
       if(snap.environment === 'extension') {
         tabs = (await helpers.api.do('tabs.query', {
           currentWindow: true
-        })).map(tab => _.merge(tab, {
+        })).map(tab => merge(tab, {
           favicon: tab.favIconUrl
         }));
       }

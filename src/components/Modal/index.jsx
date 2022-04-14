@@ -4,7 +4,7 @@ import { X } from 'react-feather';
 
 import Store, { Template } from '../../Store';
 import Content from './Content';
-import _ from 'lodash';
+import cloneDeep from 'lodash.clonedeep';
 
 const Modal = () => {
   const snap = useSnapshot(Store);
@@ -18,7 +18,7 @@ const Modal = () => {
     // Cleanup function
     if(!snap.modal.isVisible) {
       setTimeout(() => {
-        Store.modal = _.cloneDeep(Template.modal);
+        Store.modal = cloneDeep(Template.modal);
       }, 150);
     }
   }, [snap.modal.isVisible]);
