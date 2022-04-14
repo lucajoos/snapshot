@@ -12,3 +12,4 @@ dist-ssr
 # Supabase
 **/supabase/.branches
 **/supabase/.temp
+yarn-error.log
