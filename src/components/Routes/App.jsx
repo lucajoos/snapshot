@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSnapshot } from 'valtio';
 import { v4 as uuidv4 } from 'uuid';
 import ConfettiGenerator from 'confetti-js';
@@ -75,188 +75,209 @@ const App = () => {
 
   // Effects
   useEffect(async () => {
-    const environment = import.meta.env.VITE_APP_ENVIRONMENT;
-    const date = new Date();
-    const day = date.getDate();
-    const params = new URLSearchParams(window.location.search);
-    const isFullscreen = params.get('fullscreen') === 'true';
-    const isAuthenticated = !!supabase.auth.session();
-
-    const handle = async () => {
-      if(environment !== 'extension') {
-        window.history.replaceState({}, document.title, window.location.href.split('?')[0])
-      }
-
-      const confetti = new ConfettiGenerator({
-        target: 'confetti',
-        max: 30,
-        colors: [ [ 255, 214, 165 ], [ 255, 173, 173 ], [ 187, 255, 173 ], [ 189, 178, 255 ], [ 160, 196, 255 ] ],
-      });
-
-      if (!localStorage.getItem('cards')) {
-        helpers.cards.save(snap.cards);
-      }
-
-      // Load settings & import cards
-      const settings = helpers.settings.load(localStorage.getItem('settings'));
-
-      if(settings.behavior.isFullscreen && !isFullscreen) {
-        await helpers.api.do('tabs.create', {
-          url: await helpers.api.do('runtime.getURL', 'app.html?fullscreen=true')
-        }, { isWaiting: false });
-      }
-
-      supabase.auth.onAuthStateChange(async (_, session) => {
-        Store.session = session;
-        await helpers.remote.synchronize();
-      });
-
-      if(localStorage.getItem('cards')) {
-        helpers.cards.import(localStorage.getItem('cards'));
-      }
-
-      // Confetti? - Confetti.
-      if(date.getMonth() === 4 && day === 30 && settings.behavior.isRenderingEffects) {
-        confetti.render();
-      }
-
-      // Synchronize
-      if(isAuthenticated) {
-        await helpers.remote.synchronize();
-
-        if(settings.sync.isRealtime) {
-          supabase
-              .from(`cards:user_id=eq.${supabase.auth.user().id}`)
-              .on('INSERT', ({ new: card }) => {
-                if(!card) return false;
-
-                const cards = [...Store.cards];
-                let isInCards = false;
-
-                cards.forEach(({ id }) => {
-                  if(id === card.id) {
-                    isInCards = true;
-                  }
-                });
-
-                if(!isInCards) {
-                  cards.push(helpers.remote.snakeCaseToCamelCase(card));
-
-                  Store.favicons[card.id] = {};
-                  Store.cards = cards;
-                  helpers.cards.save(cards);
-                }
-              })
-              .on('UPDATE', payload => {
-                if(!payload.new || !payload.old) return false;
-
-                let cards = [...Store.cards];
-
-                cards = cards.map(card => {
-                  if(card.id === payload.old.id) {
-                    return helpers.remote.snakeCaseToCamelCase(payload.new);
-                  }
-
-                  return card;
-                });
-
-                if(typeof Store.favicons[payload.new.id] !== 'object') {
-                  Store.favicons[payload.new.id] = {};
-                }
-
-                Store.cards = cards;
-                helpers.cards.save(cards);
-              })
-              .subscribe();
+    // Check environment variables
+    const variables = [
+      'VITE_APP_SUPABASE_URL',
+      'VITE_APP_SUPABASE_ANON_KEY',
+      'VITE_APP_EDGE_URL',
+      'VITE_APP_EDGE_API_KEY',
+      'VITE_APP_APPLICATION_URL',
+      'VITE_APP_ENVIRONMENT'
+    ]
+      .map(variable => {
+        return {
+          variable,
+          isIncluded: Object.keys(import.meta.env).includes(variable)
         }
-      }
+      })
+      .filter(current => !current.isIncluded)
 
-      const load = async (id) => {
-        const { data, error } = await supabase
-            .from('cards')
-            .select()
-            .eq('id', id)
-            .single();
+    if(variables.length > 0) {
+      throw new Error(`Missing environment variables: ${variables.map(current => current.variable).join(', ')}`);
+    } else {
+      const environment = import.meta.env.VITE_APP_ENVIRONMENT;
+      const date = new Date();
+      const day = date.getDate();
+      const params = new URLSearchParams(window.location.search);
+      const isFullscreen = params.get('fullscreen') === 'true';
+      const isAuthenticated = !!supabase.auth.session();
 
-        if(error) {
-          console.error(error);
-        } else if(data) {
-          const card = helpers.remote.snakeCaseToCamelCase(data);
-          const foreign = helpers.cards.get(card.id, { isForeign: true});
+      const handle = async () => {
+        if(environment !== 'extension') {
+          window.history.replaceState({}, document.title, window.location.href.split('?')[0])
+        }
 
-          if(foreign ? (!foreign.isVisible && !foreign.isDeleted) : false) {
-            Store.modal.content = 'Settings';
-            Store.modal.data.settings.category = 'Archive';
-            Store.modal.isVisible = true;
-          } else if(isAuthenticated ? card.userId !== supabase.auth.user().id : true){
-            card.foreignId = card.id;
-            card.id = uuidv4();
-            card.index = [...Store.cards].filter(current => current.isVisible).length;
-            card.createdAt = new Date().toISOString();
-            card.editedAt = new Date().toISOString();
+        const confetti = new ConfettiGenerator({
+          target: 'confetti',
+          max: 30,
+          colors: [ [ 255, 214, 165 ], [ 255, 173, 173 ], [ 187, 255, 173 ], [ 189, 178, 255 ], [ 160, 196, 255 ] ],
+        });
 
-            card.isForeign = true;
-            card.isPrivate = true;
+        if (!localStorage.getItem('cards')) {
+          helpers.cards.save(snap.cards);
+        }
 
-            delete card.insertedAt;
-            delete card.userId;
+        // Load settings & import cards
+        const settings = helpers.settings.load(localStorage.getItem('settings'));
 
-            const stack = helpers.cards.push(card);
-            Store.isScrolling = true;
-            helpers.cards.save(stack);
+        if(settings.behavior.isFullscreen && !isFullscreen) {
+          await helpers.api.do('tabs.create', {
+            url: await helpers.api.do('runtime.getURL', 'app.html?fullscreen=true')
+          }, { isWaiting: false });
+        }
 
-            if (isAuthenticated) {
-              supabase
-                  .from('cards')
-                  .insert([
-                    helpers.remote.camelCaseToSnakeCase(card)
-                  ], {
-                    returning: 'minimal'
-                  })
-                  .then(({ error }) => {
-                    if (error) {
-                      console.error(error);
+        supabase.auth.onAuthStateChange(async (_, session) => {
+          Store.session = session;
+          await helpers.remote.synchronize();
+        });
+
+        if(localStorage.getItem('cards')) {
+          helpers.cards.import(localStorage.getItem('cards'));
+        }
+
+        // Confetti? - Confetti.
+        if(date.getMonth() === 4 && day === 30 && settings.behavior.isRenderingEffects) {
+          confetti.render();
+        }
+
+        // Synchronize
+        if(isAuthenticated) {
+          await helpers.remote.synchronize();
+
+          if(settings.sync.isRealtime) {
+            supabase
+                .from(`cards:user_id=eq.${supabase.auth.user().id}`)
+                .on('INSERT', ({ new: card }) => {
+                  if(!card) return false;
+
+                  const cards = [...Store.cards];
+                  let isInCards = false;
+
+                  cards.forEach(({ id }) => {
+                    if(id === card.id) {
+                      isInCards = true;
                     }
                   });
+
+                  if(!isInCards) {
+                    cards.push(helpers.remote.snakeCaseToCamelCase(card));
+
+                    Store.favicons[card.id] = {};
+                    Store.cards = cards;
+                    helpers.cards.save(cards);
+                  }
+                })
+                .on('UPDATE', payload => {
+                  if(!payload.new || !payload.old) return false;
+
+                  let cards = [...Store.cards];
+
+                  cards = cards.map(card => {
+                    if(card.id === payload.old.id) {
+                      return helpers.remote.snakeCaseToCamelCase(payload.new);
+                    }
+
+                    return card;
+                  });
+
+                  if(typeof Store.favicons[payload.new.id] !== 'object') {
+                    Store.favicons[payload.new.id] = {};
+                  }
+
+                  Store.cards = cards;
+                  helpers.cards.save(cards);
+                })
+                .subscribe();
+          }
+        }
+
+        const load = async (id) => {
+          const { data, error } = await supabase
+              .from('cards')
+              .select()
+              .eq('id', id)
+              .single();
+
+          if(error) {
+            console.error(error);
+          } else if(data) {
+            const card = helpers.remote.snakeCaseToCamelCase(data);
+            const foreign = helpers.cards.get(card.id, { isForeign: true});
+
+            if(foreign ? (!foreign.isVisible && !foreign.isDeleted) : false) {
+              Store.modal.content = 'Settings';
+              Store.modal.data.settings.category = 'Archive';
+              Store.modal.isVisible = true;
+            } else if(isAuthenticated ? card.userId !== supabase.auth.user().id : true){
+              card.foreignId = card.id;
+              card.id = uuidv4();
+              card.index = [...Store.cards].filter(current => current.isVisible).length;
+              card.createdAt = new Date().toISOString();
+              card.editedAt = new Date().toISOString();
+
+              card.isForeign = true;
+              card.isPrivate = true;
+
+              delete card.insertedAt;
+              delete card.userId;
+
+              const stack = helpers.cards.push(card);
+              Store.isScrolling = true;
+              helpers.cards.save(stack);
+
+              if (isAuthenticated) {
+                supabase
+                    .from('cards')
+                    .insert([
+                      helpers.remote.camelCaseToSnakeCase(card)
+                    ], {
+                      returning: 'minimal'
+                    })
+                    .then(({ error }) => {
+                      if (error) {
+                        console.error(error);
+                      }
+                    });
+              }
             }
           }
         }
+
+        if(environment === 'extension') {
+          const data = await helpers.api.do('storage.get', 'load');
+
+          if(typeof data === 'object' ? Array.isArray(data) : false) {
+            data.forEach(id => {
+              load(id);
+            });
+
+            helpers.api.do('storage.set', {
+              load: []
+            }, { isWaiting: false });
+          }
+        } else if(params.get('id')?.length > 0) {
+          await load(params.get('id'));
+          params.delete('id')
+        }
+
+        return () => confetti.clear();
       }
 
-      if(environment === 'extension') {
-        const data = await helpers.api.do('storage.get', 'load');
+      if(import.meta.env.MODE === 'development' || localStorage.getItem('cookies') === 'true' || environment === 'extension') {
+        await handle();
+      } else {
+        Store.privacy.resolve = (async isAccepted => {
+          if(isAccepted) {
+            Store.privacy.isVisible = false;
+            localStorage.setItem('cookies', 'true');
+            await handle();
+          } else {
+            window.location.reload();
+          }
+        });
 
-        if(typeof data === 'object' ? Array.isArray(data) : false) {
-          data.forEach(id => {
-            load(id);
-          });
-
-          helpers.api.do('storage.set', {
-            load: []
-          }, { isWaiting: false });
-        }
-      } else if(params.get('id')?.length > 0) {
-        await load(params.get('id'));
-        params.delete('id')
+        Store.privacy.isVisible = true;
       }
-
-      return () => confetti.clear();
-    }
-
-    if(import.meta.env.MODE === 'development' || localStorage.getItem('cookies') === 'true' || environment === 'extension') {
-      await handle();
-    } else {
-      Store.privacy.resolve = (async isAccepted => {
-        if(isAccepted) {
-          Store.privacy.isVisible = false;
-          localStorage.setItem('cookies', 'true');
-          await handle();
-        } else {
-          window.location.reload();
-        }
-      });
-
-      Store.privacy.isVisible = true;
     }
   }, []);
 
