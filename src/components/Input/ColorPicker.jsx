@@ -37,7 +37,7 @@ const ColorPicker = ({ palette = [], className='', pickIndex = -1, onPick = () =
             palette.map((color, index) => {
               return (
                 <div
-                  className={ `w-6 h-6 mr-1 cursor-pointer transition-all rounded bg-${ color }-default` }
+                  className={ `w-6 h-6 mr-1 cursor-pointer transition-all rounded bg-${ color }-default hover:opacity-80` }
                   onClick={ () => handleOnClick(index) }
                   key={ index }
                 >
