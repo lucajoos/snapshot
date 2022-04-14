@@ -38,7 +38,9 @@ const Dialogue = () => {
   useEffect(() => {
     // Cleanup function
     if(!snap.dialogue.isVisible) {
-      Store.dialogue = _.cloneDeep(Template.dialogue);
+      setTimeout(() => {
+        Store.dialogue = _.cloneDeep(Template.dialogue);
+      }, 150);
     }
   }, [snap.dialogue.isVisible]);
 

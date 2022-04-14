@@ -17,7 +17,9 @@ const Modal = () => {
   useEffect(() => {
     // Cleanup function
     if(!snap.modal.isVisible) {
-      Store.modal = _.cloneDeep(Template.modal);
+      setTimeout(() => {
+        Store.modal = _.cloneDeep(Template.modal);
+      }, 150);
     }
   }, [snap.modal.isVisible]);
 
