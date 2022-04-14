@@ -38,14 +38,6 @@ const remote = {
   },
 
   profile: done => {
-    Store.modal.data.profile = {
-      email: '',
-      password: '',
-      error: null,
-      isSignIn: true,
-      isLoading: false
-    };
-
     Store.modal.data.profile.done = done || (() => {});
 
     Store.modal.content = 'Profile';

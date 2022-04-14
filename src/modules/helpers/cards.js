@@ -1,24 +1,17 @@
 import {snapshot} from 'valtio';
 
-import Store from '../../Store';
+import Store, { Template } from '../../Store';
 
 import helpers from './index';
 import supabase from '../supabase';
 import { v4 as uuidv4 } from 'uuid';
+import _ from 'lodash';
 
 const cards = {
   fetch: async () => {
     return new Promise(resolve => {
+      Store.modal.data.tabs = _.cloneDeep(Template.modal.data.tabs);
       Store.modal.content = 'Tabs';
-
-      Store.modal.data.tabs.id = '';
-      Store.modal.data.tabs.isEditing = true;
-      Store.modal.data.tabs.isFetching = true;
-      Store.modal.data.tabs.view.favicon = '';
-      Store.modal.data.tabs.view.url = '';
-      Store.modal.data.tabs.view.title = '';
-      Store.modal.data.tabs.view.index = -1;
-      Store.modal.data.tabs.tabs = [];
       Store.modal.data.tabs.current = 'default';
 
       Store.modal.data.tabs.resolve = tabs => {
