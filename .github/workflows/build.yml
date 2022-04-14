@@ -16,19 +16,38 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Create .env File
+      run: |
+        touch .env
+        echo VITE_APP_SUPABASE_URL=${VITE_APP_SUPABASE_URL} > .env
+        echo VITE_APP_SUPABASE_ANON_KEY=${VITE_APP_SUPABASE_ANON_KEY} > .env
+        echo VITE_APP_EDGE_URL=${VITE_APP_EDGE_URL} > .env
+        echo VITE_APP_EDGE_API_KEY=${VITE_APP_EDGE_API_KEY} > .env
+        echo VITE_APP_APPLICATION_URL=${VITE_APP_APPLICATION_URL} > .env
+        echo VITE_APP_ENVIRONMENT=${VITE_APP_ENVIRONMENT} > .env
+        cat .env
+      env: 
+        VITE_APP_SUPABASE_URL: ${{ secrets.VITE_APP_SUPABASE_URL }} 
+        VITE_APP_SUPABASE_ANON_KEY: ${{ secrets.VITE_APP_SUPABASE_ANON_KEY }} 
+        VITE_APP_EDGE_URL: ${{ secrets.VITE_APP_EDGE_URL }} 
+        VITE_APP_EDGE_API_KEY: ${{ secrets.VITE_APP_EDGE_API_KEY }} 
+        VITE_APP_APPLICATION_URL: ${{ secrets.VITE_APP_APPLICATION_URL }} 
+        VITE_APP_ENVIRONMENT: ${{ secrets.VITE_APP_ENVIRONMENT }} 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install --global yarn
-    - run: yarn
+    - name: Install Packages
+      run: yarn
     - run: yarn build
-    - uses: montudor/action-zip@v1
+    - name: Create Archive
+      uses: montudor/action-zip@v1
       with:
         args: zip -qq -r snapshot.zip dist
-    - run: ls
-    - uses: actions/upload-artifact@v3
+    - name: Upload Archive as Artifact
+      uses: actions/upload-artifact@v3
       with:
-        name: snapshot
+        name: snapshot.zip
         path: snapshot.zip
