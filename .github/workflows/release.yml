@@ -16,20 +16,20 @@ jobs:
     - name: Create .env File
       run: |
         touch .env
-        echo VITE_APP_SUPABASE_URL=${VITE_APP_SUPABASE_URL} >> .env
-        echo VITE_APP_SUPABASE_ANON_KEY=${VITE_APP_SUPABASE_ANON_KEY} >> .env
-        echo VITE_APP_EDGE_URL=${VITE_APP_EDGE_URL} >> .env
-        echo VITE_APP_EDGE_API_KEY=${VITE_APP_EDGE_API_KEY} >> .env
-        echo VITE_APP_APPLICATION_URL=${VITE_APP_APPLICATION_URL} >> .env
-        echo VITE_APP_ENVIRONMENT=${VITE_APP_ENVIRONMENT} >> .env
+        echo VITE_APP_SUPABASE_URL=${SUPABASE_URL} >> .env
+        echo VITE_APP_SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY} >> .env
+        echo VITE_APP_EDGE_URL=${EDGE_URL} >> .env
+        echo VITE_APP_EDGE_API_KEY=${EDGE_API_KEY} >> .env
+        echo VITE_APP_APPLICATION_URL=${APPLICATION_URL} >> .env
+        echo VITE_APP_ENVIRONMENT=${ENVIRONMENT} >> .env
         cat .env
       env:
-        VITE_APP_SUPABASE_URL: ${{ secrets.VITE_APP_SUPABASE_URL }}
-        VITE_APP_SUPABASE_ANON_KEY: ${{ secrets.VITE_APP_SUPABASE_ANON_KEY }}
-        VITE_APP_EDGE_URL: ${{ secrets.VITE_APP_EDGE_URL }}
-        VITE_APP_EDGE_API_KEY: ${{ secrets.VITE_APP_EDGE_API_KEY }}
-        VITE_APP_APPLICATION_URL: ${{ secrets.VITE_APP_APPLICATION_URL }}
-        VITE_APP_ENVIRONMENT: ${{ secrets.VITE_APP_ENVIRONMENT }}
+        SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+        SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        EDGE_URL: ${{ secrets.EDGE_URL }}
+        EDGE_API_KEY: ${{ secrets.EDGE_API_KEY }}
+        APPLICATION_URL: ${{ secrets.APPLICATION_URL }}
+        ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
       - name: Use Node.js 14.x
         uses: actions/setup-node@v3
         with:
