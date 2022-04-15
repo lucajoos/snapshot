@@ -46,7 +46,7 @@ jobs:
           configuration: '.github/config/changelog.json'
           ignorePreReleases: ${{ !contains(github.ref, '-') }}
         env:
-          GITHUB_TOKEN: ${{ secrets.CI_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create Archive
         uses: montudor/action-zip@v1
         with:
@@ -63,6 +63,6 @@ jobs:
         body: ${{steps.changelog.outputs.changelog}}
         prerelease: ${{ contains(github.ref, '-rc') || contains(github.ref, '-b') || contains(github.ref, '-a') }}
         files: snapshot-${{steps.changelog.outputs.toTag}}.zip
-        token: ${{ secrets.CI_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
       env:
         GITHUB_REPOSITORY: lucajoos/snapshot
