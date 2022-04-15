@@ -72,6 +72,5 @@
     "ignore"
   ],
   
-  "pr_template": "- ${{TITLE}} (#${{NUMBER}})",
-  "empty_template": "- no changes",
+  "pr_template": "- ${{TITLE}} (#${{NUMBER}})"
 }
