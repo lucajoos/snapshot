@@ -1,0 +1,68 @@
+name: Release
+
+on:
+  push:
+    branches: [ master ]
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Create .env File
+      run: |
+        touch .env
+        echo VITE_APP_SUPABASE_URL=${SUPABASE_URL} >> .env
+        echo VITE_APP_SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY} >> .env
+        echo VITE_APP_EDGE_URL=${EDGE_URL} >> .env
+        echo VITE_APP_EDGE_API_KEY=${EDGE_API_KEY} >> .env
+        echo VITE_APP_APPLICATION_URL=${APPLICATION_URL} >> .env
+        echo VITE_APP_ENVIRONMENT=${ENVIRONMENT} >> .env
+        cat .env
+      env:
+        SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+        SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        EDGE_URL: ${{ secrets.EDGE_URL }}
+        EDGE_API_KEY: ${{ secrets.EDGE_API_KEY }}
+        APPLICATION_URL: ${{ secrets.APPLICATION_URL }}
+        ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+          cache: 'npm'
+      - run: npm install --global yarn
+      - name: Install Packages
+        run: yarn install
+      - run: yarn build
+      - name: Generate Changelog
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v1
+        with:
+          configuration: '.github/config/changelog.json'
+          ignorePreReleases: ${{ !contains(github.ref, '-') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Archive
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r snapshot-${{steps.changelog.outputs.toTag}}.zip dist
+      - name: Upload Archive Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: extension-artifact
+          path: snapshot-${{steps.changelog.outputs.toTag}}.zip
+    - name: Create Release
+      uses: softprops/action-gh-release@v1
+      with:
+        name: Snapshot ${{steps.changelog.outputs.toTag}}
+        body: ${{steps.changelog.outputs.changelog}}
+        prerelease: ${{ contains(github.ref, '-rc') || contains(github.ref, '-b') || contains(github.ref, '-a') }}
+        files: snapshot-${{steps.changelog.outputs.toTag}}.zip
+        token: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        GITHUB_REPOSITORY: lucajoos/snapshot
