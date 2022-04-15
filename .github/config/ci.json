@@ -19,21 +19,9 @@
       ]
     },
     {
-      "title": "## 💎 Styles",
-      "labels": [
-        "style"
-      ]
-    },
-    {
-      "title": "## 📦 Code Refactoring",
+      "title": "## 📦 Refactoring",
       "labels": [
         "refactor"
-      ]
-    },
-    {
-      "title": "## 🚀 Performance Improvements",
-      "labels": [
-        "perf"
       ]
     },
     {
@@ -43,27 +31,9 @@
       ]
     },
     {
-      "title": "## 🛠 Builds",
-      "labels": [
-        "build"
-      ]
-    },
-    {
       "title": "## ⚙️ Continuous Integrations",
       "labels": [
         "ci"
-      ]
-    },
-    {
-      "title": "## ♻️ Chores",
-      "labels": [
-        "chore"
-      ]
-    },
-    {
-      "title": "## 🗑 Reverts",
-      "labels": [
-        "revert"
       ]
     }
   ],
