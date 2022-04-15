@@ -65,7 +65,7 @@
       "labels": [
         "revert"
       ]
-    },
+    }
   ],
   "template": "${{CHANGELOG}}\n\n<details>\n<summary>Uncategorized</summary>\n\n${{UNCATEGORIZED}}\n</details>",
   "ignore_labels": [
