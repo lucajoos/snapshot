@@ -19,12 +19,12 @@ jobs:
     - name: Create .env File
       run: |
         touch .env
-        echo VITE_APP_SUPABASE_URL=${VITE_APP_SUPABASE_URL} > .env
-        echo VITE_APP_SUPABASE_ANON_KEY=${VITE_APP_SUPABASE_ANON_KEY} > .env
-        echo VITE_APP_EDGE_URL=${VITE_APP_EDGE_URL} > .env
-        echo VITE_APP_EDGE_API_KEY=${VITE_APP_EDGE_API_KEY} > .env
-        echo VITE_APP_APPLICATION_URL=${VITE_APP_APPLICATION_URL} > .env
-        echo VITE_APP_ENVIRONMENT=${VITE_APP_ENVIRONMENT} > .env
+        echo VITE_APP_SUPABASE_URL=${VITE_APP_SUPABASE_URL} >> .env
+        echo VITE_APP_SUPABASE_ANON_KEY=${VITE_APP_SUPABASE_ANON_KEY} >> .env
+        echo VITE_APP_EDGE_URL=${VITE_APP_EDGE_URL} >> .env
+        echo VITE_APP_EDGE_API_KEY=${VITE_APP_EDGE_API_KEY} >> .env
+        echo VITE_APP_APPLICATION_URL=${VITE_APP_APPLICATION_URL} >> .env
+        echo VITE_APP_ENVIRONMENT=${VITE_APP_ENVIRONMENT} >> .env
         cat .env
       env: 
         VITE_APP_SUPABASE_URL: ${{ secrets.VITE_APP_SUPABASE_URL }} 
