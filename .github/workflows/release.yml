@@ -30,32 +30,32 @@ jobs:
           EDGE_API_KEY: ${{ secrets.EDGE_API_KEY }}
           APPLICATION_URL: ${{ secrets.APPLICATION_URL }}
           ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
-        - name: Use Node.js 14.x
-          uses: actions/setup-node@v3
-          with:
-            node-version: 14.x
-            cache: 'npm'
-        - run: npm install --global yarn
-        - name: Install Packages
-          run: yarn install
-        - run: yarn build
-        - name: Generate Changelog
-          id: changelog
-          uses: mikepenz/release-changelog-builder-action@v1
-          with:
-            configuration: '.github/config/changelog.json'
-            ignorePreReleases: ${{ !contains(github.ref, '-') }}
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        - name: Create Archive
-          uses: montudor/action-zip@v1
-          with:
-            args: zip -qq -r snapshot-${{steps.changelog.outputs.toTag}}.zip dist
-        - name: Upload Archive Artifact
-          uses: actions/upload-artifact@v3
-          with:
-            name: extension-artifact
-            path: snapshot-${{steps.changelog.outputs.toTag}}.zip
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+          cache: 'npm'
+      - run: npm install --global yarn
+      - name: Install Packages
+        run: yarn install
+      - run: yarn build
+      - name: Generate Changelog
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v1
+        with:
+          configuration: '.github/config/changelog.json'
+          ignorePreReleases: ${{ !contains(github.ref, '-') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Archive
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r snapshot-${{steps.changelog.outputs.toTag}}.zip dist
+      - name: Upload Archive Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: extension-artifact
+          path: snapshot-${{steps.changelog.outputs.toTag}}.zip
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
