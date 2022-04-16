@@ -1,4 +1,4 @@
-# Snapshot v2.2.4
+# Snapshot v2.2.5
 ## Available Scripts
 
 ### yarn dev
