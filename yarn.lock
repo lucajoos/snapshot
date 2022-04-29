@@ -373,9 +373,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lucajoos/automation@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@lucajoos/automation@npm:1.1.0::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40lucajoos%2Fautomation%2F1.1.0%2F15f2fc671b46802ccf90de44c63c5e82656cf9aa9c47ec3e740ebe4a7cdd4bdc"
+"@lucajoos/automation@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@lucajoos/automation@npm:1.1.1::__archiveUrl=https%3A%2F%2Fnpm.pkg.github.com%2Fdownload%2F%40lucajoos%2Fautomation%2F1.1.1%2F9626cf7460d78e46d8d5035a85c3c215f899cfa9b63a934d530cc779631508d7"
   dependencies:
     chalk: ^5.0.1
     command-exists: ^1.2.9
@@ -391,7 +391,7 @@ __metadata:
     vorpal: ^1.12.0
   bin:
     automation: ./src/index.mjs
-  checksum: 0caf306068210504352237fb15f01d67a1925802185b4fdbc947ef3ba77480dd6c0423b883c8e7ef5792abb188de30f3256be799749a8f605f6403db4410d21f
+  checksum: d46e069f895d952ea589f52102dce567f4a28012d678fcc96173e44dff0b99466c303d66b84772b797d2e504e7fca5300bcd1c879a9c786cd1abba4776035557
   languageName: node
   linkType: hard
 
@@ -4160,7 +4160,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "snapshot@workspace:."
   dependencies:
-    "@lucajoos/automation": ^1.1.0
+    "@lucajoos/automation": ^1.1.1
     "@supabase/supabase-js": ^1.30.0
     "@vercel/node": ^1.14.0
     "@vitejs/plugin-react": ^1.0.7
