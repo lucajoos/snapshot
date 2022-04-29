@@ -14,3 +14,4 @@ dist-ssr
 **/supabase/.temp
 yarn-error.log
 public/manifest.json
+.yarn/
