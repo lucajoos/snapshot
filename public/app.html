@@ -13,9 +13,12 @@
     html, body {
       margin: 0;
       padding: 0;
+      overflow: hidden;
+    }
+
+    html > body:not(.fullscreen) {
       width: 450px;
       height: 600px;
-      overflow: hidden;
     }
 
     html > body > iframe {

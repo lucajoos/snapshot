@@ -2,11 +2,11 @@
   "repository": "lucajoos/snapshot",
   "url": "https://github.com/lucajoos/snapshot",
   "version": "1.0.2",
-  "issue": -1,
+  "issue": 18,
   "branch": {
-    "ref": "development",
-    "name": "develop",
-    "id": "1e01be35-1558-491a-8771-4dbd57b45311"
+    "ref": "#18",
+    "name": "fix/fix-extension-fullscreen-rendering-bug",
+    "id": "056301fc-8687-4cc2-b697-0b2bfc0fee88"
   },
   "issues": [
     {
@@ -169,6 +169,11 @@
       "ref": "development",
       "name": "develop",
       "id": "1e01be35-1558-491a-8771-4dbd57b45311"
+    },
+    {
+      "ref": "#18",
+      "name": "fix/fix-extension-fullscreen-rendering-bug",
+      "id": "056301fc-8687-4cc2-b697-0b2bfc0fee88"
     }
   ],
   "commits": {},
