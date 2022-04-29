@@ -3,6 +3,10 @@ window.addEventListener('load', () => {
     const iframe = document.querySelector('html > body > iframe');
     const isFullscreen = new URLSearchParams(window.location.search).get('fullscreen') === 'true';
 
+    if(isFullscreen && !document.body.classList.contains('fullscreen')) {
+      document.body.classList.add('fullscreen');
+    }
+
     let options = {
       width: '',
       height: '',
