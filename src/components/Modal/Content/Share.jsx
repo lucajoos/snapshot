@@ -39,7 +39,7 @@ const Share = () => {
       <p>Anyone with this link will be able to access this card.</p>
 
       <div className={'flex flex-col gap-2'}>
-        <TextField nativeRef={urlRef} placeholder={'Share URL'} icon={<Link2 />} value={`${snap.settings.sync.advanced.applicationUrl.length === 0 ? import.meta.env.VITE_APP_APPLICATION_URL : snap.settings.sync.advanced.applicationUrl}/share/${snap.modal.data.share.id}`}/>
+        <TextField nativeRef={urlRef} placeholder={'Share URL'} icon={<Link2 />} value={`${snap.settings.sync.advanced.applicationUrl.length === 0 ? import.meta.env.VITE_APP_APPLICATION_URL : snap.settings.sync.advanced.applicationUrl}/s/${snap.modal.data.share.id}`}/>
       </div>
 
       <div className={'flex gap-4 justify-end'}>

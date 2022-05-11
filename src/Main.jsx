@@ -13,7 +13,7 @@ ReactDOM.render(
     <BrowserRouter>
       <Routes>
         <Route path={'/'} element={<App />} />
-        <Route path={'/share/:id'} element={<Share />} />
+        <Route path={'/s/:id'} element={<Share />} />
         <Route path={'/confirmation'} element={<Confirmation />} />
       </Routes>
     </BrowserRouter>
