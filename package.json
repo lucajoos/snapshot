@@ -40,7 +40,7 @@
   },
   "name": "snapshot",
   "description": "Capture the state of your current browser window.",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lucajoos/snapshot.git"
